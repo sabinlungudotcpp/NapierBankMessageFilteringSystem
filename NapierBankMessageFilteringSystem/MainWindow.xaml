@@ -11,10 +11,11 @@
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="65" Margin="63,312,0,0" TextWrapping="Wrap" Text="Header" VerticalAlignment="Top" Width="171" RenderTransformOrigin="0.494,-0.049"/>
-        <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="63,281,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
-        <Label Content="Message Text" Grid.Column="1" HorizontalAlignment="Left" Margin="63,401,0,0" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="75" Margin="63,432,0,0" TextWrapping="Wrap" Text="Message Text: " VerticalAlignment="Top" Width="186"/>
+        <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="65" Margin="10,278,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171" RenderTransformOrigin="0.494,-0.049"/>
+        <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
+        <Label Content="Message Text" Grid.Column="1" HorizontalAlignment="Left" Margin="10,371,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="75" Margin="10,402,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="186"/>
+        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="10,499,0,0" VerticalAlignment="Top" Width="98"/>
 
     </Grid>
 </Window>
