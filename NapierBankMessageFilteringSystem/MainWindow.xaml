@@ -13,9 +13,9 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="23" Margin="547,347,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" RenderTransformOrigin="0.494,-0.049"/>
         <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="547,321,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
-        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="547,405,0,0" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="60" Margin="547,431,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
-        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="547,516,0,0" VerticalAlignment="Top" Width="98"/>
+        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="547,392,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="60" Margin="547,423,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
+        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="547,506,0,0" VerticalAlignment="Top" Width="98"/>
         <ListBox HorizontalAlignment="Left" Height="60" Margin="57,208,0,0" VerticalAlignment="Top" Width="178" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2"/>
         <Button Content="Read File" Name="readFileBtn" HorizontalAlignment="Left" Margin="57,289,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="23"/>
         <Label Content="URL Quarantine List
@@ -27,6 +27,12 @@
         <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="73" Margin="350,76,0,0" VerticalAlignment="Top" Width="152"/>
         <Label Content="Trending List" Grid.Column="1" HorizontalAlignment="Left" Margin="547,45,0,0" VerticalAlignment="Top"/>
         <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="73" Margin="547,76,0,0" VerticalAlignment="Top" Width="147"/>
+        <Label Content="Message ID" Grid.Column="1" HorizontalAlignment="Left" Margin="232,208,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="232,239,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Sender" Grid.Column="1" HorizontalAlignment="Left" Margin="232,271,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="232,302,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Text" Grid.Column="1" HorizontalAlignment="Left" Margin="232,344,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="232,375,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="145"/>
 
     </Grid>
 </Window>
