@@ -39,7 +39,15 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
+                if(isBodyValid())
+                {
+                    this.messageBody = value;
+                }
 
+                else if(!isBodyValid())
+                {
+                    throw new ArgumentException("The body text must be > 0 characters.");
+                }
             }
 
             get
@@ -48,9 +56,14 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             }
         }
 
-        public bool isIdValid() // Determines if the Message ID is valid or not
+        private bool isIdValid() // Determines if the Message ID is valid or not
         {
-            return messageID.Length == 10 && int.TryParse(messageID.Remove(0, 1), out _);
+            return messageID.Length == 10 && int.TryParse(messageID.Remove(0, 1), out int k); // Returns true or false if the length of the ID is 10 characters and the rest 9 are numbers and letters
+        }
+
+        private bool isBodyValid() // Determines if the body of the message is valid or not
+        {
+            return messageBody.Length > 0;
         }
 
 
