@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="23" Margin="10,332,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" RenderTransformOrigin="0.494,-0.049"/>
         <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
-        <Label Content="Message Text" Grid.Column="1" HorizontalAlignment="Left" Margin="10,376,0,0" VerticalAlignment="Top"/>
+        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="10,376,0,0" VerticalAlignment="Top"/>
         <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="60" Margin="10,402,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
         <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="10,484,0,0" VerticalAlignment="Top" Width="98"/>
         <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="242,402,0,0" VerticalAlignment="Top" Width="207" RenderTransformOrigin="0.49,0.301"/>
