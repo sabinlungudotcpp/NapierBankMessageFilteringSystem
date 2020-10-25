@@ -60,7 +60,15 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
+                if(isSmsTextValid())
+                {
+                    value = this.smsText; // Set the SMS text to its value property
+                }
 
+                else if(!isSmsTextValid())
+                {
+                    throw new ArgumentException("The SMS text must have more than 0 characters and a maximum of 140");
+                }
             }
 
             get
@@ -78,5 +86,12 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             return this.countryCode.StartsWith("+");
         }
+
+        private bool isSmsTextValid() // Determines if the SMS text is valid
+        {
+            return this.smsText.Length > 0 && this.smsText.Length <= 140; // Text should be between 0 and 140 characters long.
+        }
+
+
     }
 }
