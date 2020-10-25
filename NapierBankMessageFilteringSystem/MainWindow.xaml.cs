@@ -25,5 +25,10 @@ namespace NapierBankMessageFilteringSystem
         {
             InitializeComponent();
         }
+
+        private void readFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

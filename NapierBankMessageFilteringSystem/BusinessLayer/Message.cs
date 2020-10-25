@@ -23,7 +23,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                     this.messageID = value.ToUpper(); // Set the message ID to uppercase if it's valid
                 }
 
-                else
+                else if(!isIdValid())
                 {
                     throw new ArgumentException("Message ID is invalid. It must start with S, E or T");
                 }
@@ -65,7 +65,5 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             return messageBody.Length > 0;
         }
-
-
     }
 }
