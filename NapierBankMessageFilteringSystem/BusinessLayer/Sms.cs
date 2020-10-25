@@ -39,7 +39,15 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
+                if(isCountryCodeValid())
+                {
+                    value = this.countryCode; // Set the country code to its value property
+                }
 
+                else if(!isCountryCodeValid())
+                {
+                    throw new ArgumentException("SMS country code must start with +");
+                }
             }
 
             get
@@ -48,9 +56,27 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             }
         }
 
+        public string SmsText
+        {
+            set
+            {
+
+            }
+
+            get
+            {
+                return this.smsText; // Return the SMS text
+            }
+        }
+
         private bool isSenderValid()
         {
             return Regex.IsMatch(this.sender, regexMatcher); // Returns true or false if the sender matches the regular expressions
+        }
+
+        private bool isCountryCodeValid() // Determines if the country code is valid
+        {
+            return this.countryCode.StartsWith("+");
         }
     }
 }
