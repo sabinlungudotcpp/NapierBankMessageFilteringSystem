@@ -31,18 +31,44 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
                 isFileRead = true; // File is read successfully
             }
-
-            foreach(string def in listOfDefinitions)
-            {
-                MessageBox.Show(def.ToString());
-            }
         }
 
-        public string replaceMessage(string sentence)
+        public string replaceMessage(string sentence) // Replaces the definition with the actual word
         {
-            return "";
+            char splitToken = ' ';
+            
+            try
+            {
+                foreach (string definitionWord in sentence.Split(splitToken)) // For every definition in the sentence
+                {
+                   
+                 foreach(string abbreviation in abbreviationsList) // And for every abbreviation in the list
+                   {
+                        if(definitionWord.Equals(abbreviation) && listOfDefinitions.Count > 0 && abbreviationsList.Count > 0)
+                        {
+                            int indexOfDefinition = abbreviationsList.IndexOf(abbreviation);
+                            string allDefinitions = listOfDefinitions[indexOfDefinition];
+                            string replacedAbbreviations = abbreviation + " <" + allDefinitions + " >"; // Replaces the abberviations with all the 
+
+                            int newIndex = sentence.IndexOf(definitionWord);
+
+                            string newSentence = sentence.Replace(definitionWord, replacedAbbreviations);
+                            sentence = newSentence;
+
+                            foundAbbreviation = true;
+                        }
+                   }
+
+                }
+            }
+
+            catch
+            {
+                return sentence;
+            }
+
+            return sentence;
+
         }
-
-
     }
 }

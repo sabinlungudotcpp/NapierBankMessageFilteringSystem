@@ -15,7 +15,7 @@
         <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="547,321,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
         <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="547,392,0,0" VerticalAlignment="Top"/>
         <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="60" Margin="547,423,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
-        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="547,506,0,0" VerticalAlignment="Top" Width="98"/>
+        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="547,506,0,0" VerticalAlignment="Top" Width="98" Click="processMsgButton_Click"/>
         <ListBox HorizontalAlignment="Left" Height="139" Margin="36,199,0,0" VerticalAlignment="Top" Width="245" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2"/>
         <Button Content="Read File" Name="readFileBtn" HorizontalAlignment="Left" Margin="36,361,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="23" Click="readFileBtn_Click"/>
         <Label Content="URL Quarantine List

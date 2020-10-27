@@ -36,9 +36,8 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                     throw new Exception("E-mail address is not in the correct format. Please re-enter");
                 }
             }
-           
-
-            get
+          
+           get
             {
                 return this.emailSender;
             }

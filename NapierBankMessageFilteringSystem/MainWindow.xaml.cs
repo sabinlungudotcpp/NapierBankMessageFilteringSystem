@@ -1,4 +1,5 @@
-﻿using NapierBankMessageFilteringSystem.DataLayer;
+﻿using NapierBankMessageFilteringSystem.BusinessLayer;
+using NapierBankMessageFilteringSystem.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,14 @@ namespace NapierBankMessageFilteringSystem
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Abbreviations abbreviations = new Abbreviations();
+        public Sms sms = new Sms();
+        public Email email = new Email();
+        public Tweet tweets = new Tweet();
+
+        private List<string> incidentList = new List<string>();
+        private List<string> quarantineList = new List<string>(); // Declares a new list to store the URLs that are quarantined
+
        
         public MainWindow()
         {
@@ -29,11 +38,14 @@ namespace NapierBankMessageFilteringSystem
 
         private void readFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            Abbreviations abb = new Abbreviations();
 
-            abb.readFile();
         }
 
-        
+        private void processMsgButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+
     }
 }
