@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace NapierBankMessageFilteringSystem.DataLayer
 {
@@ -56,6 +52,13 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                             sentence = newSentence;
 
                             foundAbbreviation = true;
+                        }
+
+                        else if(!definitionWord.Equals(abbreviation))
+                        {
+                            foundAbbreviation = false;
+                            throw new Exception("Could not find abbreviation");
+
                         }
                    }
 
