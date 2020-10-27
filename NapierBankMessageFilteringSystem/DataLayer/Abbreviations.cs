@@ -48,9 +48,9 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                             string allDefinitions = listOfDefinitions[indexOfDefinition];
                             string replacedAbbreviations = abbreviation + " <" + allDefinitions + " >"; // Replaces the abberviations with all the 
 
-                            int newIndex = sentence.IndexOf(definitionWord);
+                            int newIndex = sentence.IndexOf(definitionWord); // Get the index of the definition
 
-                            string newSentence = sentence.Replace(definitionWord, replacedAbbreviations);
+                            string newSentence = sentence.Replace(definitionWord, replacedAbbreviations); // Replace the abbreviation with the definition
                             sentence = newSentence;
 
                             foundAbbreviation = true;
@@ -62,8 +62,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                             throw new Exception("Could not find abbreviation");
 
                         }
-                   }
-
+                     }
                 }
             }
 
