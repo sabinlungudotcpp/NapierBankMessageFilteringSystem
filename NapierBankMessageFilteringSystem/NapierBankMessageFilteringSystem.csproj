@@ -67,6 +67,8 @@
     <Compile Include="BusinessLayer\Message.cs" />
     <Compile Include="BusinessLayer\Sms.cs" />
     <Compile Include="BusinessLayer\Tweet.cs" />
+    <Compile Include="DataLayer\Abbreviations.cs" />
+    <Compile Include="DataLayer\SaveFile.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -98,8 +100,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataLayer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
