@@ -10,8 +10,8 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
     public class Email : Message
     {
         private string emailSender; // The E-mail Sender
-        private string subject;
-        private string emailText;
+        private string subject; // The E-mail Subject
+        private string emailText; // E-mail Text
 
         public Email() // Default constructor
         {
@@ -78,7 +78,23 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
+                try
+                {
+                    if(isEmailTxtValid())
+                    {
+                        this.emailText = value;
+                    }
+
+                    else if(!isEmailTxtValid())
+                    {
+                        throw new ArgumentException("E-mail text is not valid. Please re-enter");
+                    }
+                } 
                 
+                catch
+                {
+                    throw new Exception("E-mail Text must be a maximum of 1028 characters. Please re-enter");
+                }
             }
 
             get
@@ -97,6 +113,9 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             return this.subject.Length > 0 && this.subject.Length <= 20 && this.subject != null;
         }
 
-
+        private bool isEmailTextValid()
+        {
+            return this.emailText != null && this.emailText.Length > 0 && this.emailText.Length <= 1028;
+        }
     }
 }
