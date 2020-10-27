@@ -63,8 +63,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessLayer\Email.cs" />
     <Compile Include="BusinessLayer\Message.cs" />
     <Compile Include="BusinessLayer\Sms.cs" />
+    <Compile Include="BusinessLayer\Tweet.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
