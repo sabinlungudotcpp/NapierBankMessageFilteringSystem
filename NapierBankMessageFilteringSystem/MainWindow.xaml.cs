@@ -7,13 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace NapierBankMessageFilteringSystem
 {
@@ -23,6 +17,8 @@ namespace NapierBankMessageFilteringSystem
     public partial class MainWindow : Window
     {
         public Abbreviations abbreviations = new Abbreviations();
+        private Message message = new Message(); // New message instance
+
         public Sms sms = new Sms(); // New SMS instance
         public Email email = new Email();
         public Tweet tweets = new Tweet();
@@ -37,11 +33,16 @@ namespace NapierBankMessageFilteringSystem
             InitializeComponent();
         }
 
-        private void processMsgButton_Click(object sender, RoutedEventArgs e)
+        private void processMsgButton_Click(object sender, RoutedEventArgs e) // Process Message ID & Body manually
         {
-            if (msgHeaderTxtBox.Text.Equals("") && msgTextBox.Text.Equals(""))
+            try
             {
-                MessageBox.Show("Message must have a valid Sender & message body");
+
+            } 
+            
+            catch
+            {
+                throw new Exception("An error has occurred");
             }
         }
 
@@ -50,7 +51,20 @@ namespace NapierBankMessageFilteringSystem
 
         }
 
-        
+        private void sanitiseSms(Message message) // Routine to sanitise SMS messages
+        {
+            
+        }
+
+        private void sanitiseEmail(Message message) // Routine to sanitise Email messages
+        {
+
+        }
+
+        private void sanitiseTweets(Message message)
+        {
+
+        }
 
 
     }
