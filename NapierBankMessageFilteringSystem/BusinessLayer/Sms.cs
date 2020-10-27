@@ -14,6 +14,11 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string countryCode; // The SMS country code
         private string smsText; // The SMS text
 
+        public Sms()
+        {
+
+        }
+
         public string Sender
         {
             set
@@ -91,7 +96,5 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             return this.smsText.Length > 0 && this.smsText.Length <= 140; // Text should be between 0 and 140 characters long.
         }
-
-
     }
 }

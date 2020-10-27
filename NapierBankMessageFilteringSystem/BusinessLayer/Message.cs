@@ -14,6 +14,11 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string messageID;
         private string messageBody;
 
+        public Message()
+        {
+
+        }
+
         public string MessageID
         {
             set

@@ -103,7 +103,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             }
         }
 
-        private bool isEmailSenderValid()
+        private bool isEmailSenderValid() // Determines if the e-mail sender is valid or not
         {
             return this.emailSender.Length > 0 && this.emailSender != null; // Returns true or false if the length is > 0 and the e-mail sender field is not left empty
         }
@@ -113,7 +113,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             return this.subject.Length > 0 && this.subject.Length <= 20 && this.subject != null;
         }
 
-        private bool isEmailTextValid()
+        private bool isEmailTxtValid() // Determines if the e-mail text is valid or not
         {
             return this.emailText != null && this.emailText.Length > 0 && this.emailText.Length <= 1028;
         }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace NapierBankMessageFilteringSystem.BusinessLayer
 {
-    class Tweet
+    public class Tweet : Message // Tweet class inherits from Messages class
     {
+
     }
 }
