@@ -11,7 +11,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
         public List<string> listOfDefinitions = new List<string>();
         public List<string> abbreviationsList = new List<string>();
 
-        private bool foundAbbreviation = false;
+        private bool foundAbbreviation = false; // Determines if an abbreviation has been found
         private bool isFileRead = false;
         private string textWordsFile = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem/textwords.csv";
 
@@ -54,13 +54,6 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                             sentence = newSentence;
 
                             foundAbbreviation = true;
-                        }
-
-                        else if(!definitionWord.Equals(abbreviation))
-                        {
-                            foundAbbreviation = false;
-                            throw new Exception("Could not find abbreviation");
-
                         }
                      }
                 }

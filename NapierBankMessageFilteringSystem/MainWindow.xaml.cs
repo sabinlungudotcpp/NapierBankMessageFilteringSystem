@@ -4,10 +4,6 @@ using NapierBankMessageFilteringSystem.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -31,7 +27,6 @@ namespace NapierBankMessageFilteringSystem
         private Dictionary<string, string> SIR = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
 
-       
         public MainWindow()
         {
             InitializeComponent();
@@ -48,12 +43,9 @@ namespace NapierBankMessageFilteringSystem
                 string messageHeader = msgHeaderTxtBox.Text.ToUpper();
                 string messageBody = msgTextBox.Text;
 
-                message.messageID = messageHeader;
-                message.messageBody = messageBody; // The message body
-
                 if(messageHeader.StartsWith(messageTypes[0])) // If the message header starts with an upper case S
                 {
-                    sanitiseSms(message); // Sanitise SMS messages 
+                    sanitiseSms(message);
                 }
 
                 else if(messageHeader.StartsWith(messageTypes[1]))
@@ -68,7 +60,7 @@ namespace NapierBankMessageFilteringSystem
 
                 else
                 {
-                    MessageBox.Show("Please enter a valid message");
+                    MessageBox.Show("Please fill in both boxes");
                 }
             } 
             
@@ -84,16 +76,18 @@ namespace NapierBankMessageFilteringSystem
             {
                 var filePath = string.Empty;
                 var fileContent = string.Empty;
+                bool isFileValid = false;
 
                 OpenFileDialog fileDialog = new OpenFileDialog();
                 fileDialog.RestoreDirectory = true;
 
-                if(fileDialog.ShowDialog() == true)
+                if(fileDialog.ShowDialog() == true && fileDialog != null)
                 {
                     filePath = Path.GetExtension(fileDialog.FileName);
 
-                    if(filePath.Equals(".txt"))
+                    if(filePath.Equals(".txt")) // If the file path is .txt
                     {
+                        isFileValid = true;
                         string fileData = File.ReadAllText(fileDialog.FileName);
 
                         foreach(string lines in File.ReadAllLines(fileDialog.FileName))
@@ -104,6 +98,12 @@ namespace NapierBankMessageFilteringSystem
                     }
 
                     else if(!filePath.Equals(".txt") || !filePath.Equals(".json"))
+                    {
+                        isFileValid = false;
+                        MessageBox.Show("Please choose a .txt file or .json");
+                    }
+
+                    else
                     {
                         MessageBox.Show("Invalid file type");
                     }
@@ -118,14 +118,26 @@ namespace NapierBankMessageFilteringSystem
 
         private void messageListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
 
+            } 
+            
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
+            }
         }
 
         private void sanitiseSms(Message message) // Routine to sanitise SMS messages
         {
            try
             {
-              
+               
+                abbreviations.readFile(); // Read the file
+                messageID.Text = "Message ID : " + sms.messageID;
+                messageSender.Text = "Message Sender : " + sms.CountryCode + ' ' + sms.Sender;
+                messageText.Text = "Message Text : " + abbreviations.replaceMessage(msgTextBox.Text).ToString();
 
             } 
             
@@ -137,7 +149,15 @@ namespace NapierBankMessageFilteringSystem
 
         private void sanitiseEmail(Message message) // Routine to sanitise Email messages
         {
+            try
+            {
 
+            } 
+            
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
+            }
         }
 
         private void sanitiseTweets(Message message)

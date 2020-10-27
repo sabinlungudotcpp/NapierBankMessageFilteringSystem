@@ -30,9 +30,6 @@
         <TextBox Grid.Column="1" Name="messageID" HorizontalAlignment="Left" Height="73" Margin="220,182,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
         <TextBox Grid.Column="1" Name="messageSender" HorizontalAlignment="Left" Height="74" Margin="220,287,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
         <TextBox Grid.Column="1" Name="messageText" HorizontalAlignment="Left" Height="73" Margin="220,396,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
-        <Label Content="Message ID :" Name="messageIdLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="222,205,0,0" VerticalAlignment="Top"/>
-        <Label Content="Message Sender :" Name="messageSenderLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="220,314,0,0" VerticalAlignment="Top"/>
-        <Label Content="Message Text :" Name = "messageTextLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="221,420,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
