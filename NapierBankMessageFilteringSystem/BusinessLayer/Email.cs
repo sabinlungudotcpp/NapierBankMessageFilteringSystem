@@ -48,6 +48,23 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
+                try
+                {
+                    if(isSubjectValid())
+                    {
+                        this.subject = value;
+                    }
+
+                    else if(!isSubjectValid())
+                    {
+                        throw new ArgumentException("Subject exceeds 20 characters. Please re-enter!");
+                    }
+                }
+
+                catch
+                {
+                    throw new Exception("Subject exceeds 20 characters. Please re-enter");
+                }
 
             }
 
@@ -73,6 +90,11 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private bool isEmailSenderValid()
         {
             return this.emailSender.Length > 0 && this.emailSender != null; // Returns true or false if the length is > 0 and the e-mail sender field is not left empty
+        }
+
+        private bool isSubjectValid()
+        {
+            return this.subject.Length > 0 && this.subject.Length <= 20 && this.subject != null;
         }
 
 
