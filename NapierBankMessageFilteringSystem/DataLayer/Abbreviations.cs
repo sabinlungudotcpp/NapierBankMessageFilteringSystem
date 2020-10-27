@@ -4,6 +4,8 @@ using System.IO;
 
 namespace NapierBankMessageFilteringSystem.DataLayer
 {
+    // Author: Sabin Constantin Lungu
+    // Date of creation: 27/10/2020
     public class Abbreviations // Abbreviations class that replaces an abbreviation with its actual definition
     {
         public List<string> listOfDefinitions = new List<string>();

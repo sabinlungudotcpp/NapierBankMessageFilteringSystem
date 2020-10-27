@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace NapierBankMessageFilteringSystem.BusinessLayer
 {
+    // Author: Sabin Constantin Lungu
+    // Date of creation: 21/10/2020
     public class Tweet : Message // Tweet class inherits from Messages class
     {
         private string tweetSender;

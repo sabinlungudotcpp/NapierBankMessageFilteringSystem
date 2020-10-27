@@ -11,11 +11,11 @@
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="23" Margin="547,347,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" RenderTransformOrigin="0.494,-0.049"/>
-        <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="547,321,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
-        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="547,392,0,0" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="60" Margin="547,423,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157"/>
-        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="547,506,0,0" VerticalAlignment="Top" Width="98" Click="processMsgButton_Click"/>
+        <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="76" Margin="526,280,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="178" RenderTransformOrigin="0.494,-0.049"/>
+        <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="526,236,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
+        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="526,377,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="80" Margin="526,419,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168"/>
+        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="526,524,0,0" VerticalAlignment="Top" Width="98" Click="processMsgButton_Click"/>
         <ListBox HorizontalAlignment="Left" Height="139" Margin="36,199,0,0" VerticalAlignment="Top" Width="245" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2"/>
         <Button Content="Read File" Name="readFileBtn" HorizontalAlignment="Left" Margin="36,361,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="23" Click="readFileBtn_Click"/>
         <Label Content="URL Quarantine List

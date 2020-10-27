@@ -10,9 +10,9 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
     public class Sms : Message // SMS class inherits feeatures from the Message base class.
     {
         private string regexMatcher = "^([0|/+[0-9]{1,5})?([7-9][0-9]{9})$";
-        private string sender; // The SMS Sender
-        private string countryCode; // The SMS country code
-        private string smsText; // The SMS text
+        public string sender; // The SMS Sender
+        public string countryCode; // The SMS country code
+        public string smsText; // The SMS text
 
         public Sms()
         {

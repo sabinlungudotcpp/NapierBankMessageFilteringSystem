@@ -11,8 +11,8 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
     // Date of creation: 21/10/2020
     public class Message // Message Class.
     {
-        private string messageID;
-        private string messageBody;
+        public string messageID;
+        public string messageBody;
 
         public Message()
         {
