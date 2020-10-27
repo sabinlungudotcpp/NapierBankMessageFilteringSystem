@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NapierBankMessageFilteringSystem.DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,11 @@ namespace NapierBankMessageFilteringSystem
 
         private void readFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            Abbreviations abb = new Abbreviations();
 
+            abb.readFile();
         }
+
+        
     }
 }
