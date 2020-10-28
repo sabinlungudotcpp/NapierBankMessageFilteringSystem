@@ -13,6 +13,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         public string sender; // The SMS Sender
         public string countryCode; // The SMS country code
         public string smsText; // The SMS text
+        private string code = "+";
 
         public Sms()
         {
@@ -89,7 +90,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 
         public bool isCountryCodeValid() // Determines if the country code is valid
         {
-            return this.countryCode.StartsWith("+");
+            return this.countryCode.StartsWith(code);
         }
 
         private bool isSmsTextValid() // Determines if the SMS text is valid

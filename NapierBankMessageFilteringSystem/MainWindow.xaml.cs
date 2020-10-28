@@ -139,12 +139,7 @@ namespace NapierBankMessageFilteringSystem
             {
                 bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
 
-                if(!sms.sender.StartsWith("+") && !message.isIdValid() || !message.isBodyValid()) {
-                    isSmsSanitised = false;
-                    MessageBox.Show("Invalid entries. Please re-enter");
-                }
-
-                else if(message.isIdValid() && message.isBodyValid() && sms.sender.StartsWith("+")) // If the message ID is valid and the message body is valid
+                if(message.isIdValid() && message.isBodyValid() || sms.isCountryCodeValid()) // If the message ID is valid and the message body is valid
                 {
                     char splitToken = ' '; // Space character to split the data
                     int smsIndex = 0;
@@ -180,6 +175,13 @@ namespace NapierBankMessageFilteringSystem
                         messageText.Text = "Message Text : " + sms.smsText.ToString();
                     }
                 }
+
+                else if(!message.isIdValid() || message.isBodyValid())
+                {
+                    isSmsSanitised = false;
+                    MessageBox.Show("The Message ID or the body is invalid. Please re-check your entries");
+                }
+              
             } 
             
             catch(Exception exc)
