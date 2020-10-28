@@ -203,24 +203,22 @@ namespace NapierBankMessageFilteringSystem
                 int emailIndex = 0;
 
                 string fileLine = string.Empty;
-                string sirFilePath = "C:/Users/const/source/repos/sabinlungudotcpp/NapierBankMessageFilteringSystem/NapierBankMessageFilteringSystem/SIRList.csv";
+                string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
                 // Read file that contains incident reports
                 StreamReader sirFile = new StreamReader(sirFilePath);
                 while((fileLine = sirFile.ReadLine()) != null)
                 {
-                    string sirData = fileLine.Split(splitToken)[0];
-                    
-                    if(incidentList.Count == 0 && incidentList != null)
-                    {
-                        incidentList.Add(sirData);
-                    }
+                    string[] sirData = fileLine.Split(splitToken);
+                    incidentList.Add(sirData[0]);
                 }
 
                 foreach(string sir in incidentList)
                 {
-                    MessageBox.Show(sir);
+                    MessageBox.Show(Convert.ToString(incidentList.Count));
                 }
+
+                
             } 
             
             catch(Exception exc)
