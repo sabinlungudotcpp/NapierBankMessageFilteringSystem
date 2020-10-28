@@ -109,7 +109,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 
         private bool isEmailTxtValid() // Determines if the e-mail text is valid or not
         {
-            return this.emailText != null && this.emailText.Length > 0 && this.emailText.Length <= 1028;
+            return this.emailText.Length >= 0 && this.emailText.Length <= 1028;
         }
     }
 }

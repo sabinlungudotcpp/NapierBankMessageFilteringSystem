@@ -216,21 +216,21 @@ namespace NapierBankMessageFilteringSystem
 
                 string emailID = message.messageID; // The E-mail ID is the message ID
                 string emailBody = message.messageBody;
-
+                
                 string emailSender = emailBody.Split(splitToken)[0];
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
 
-                string messageUrls = processURLs(email.EmailText);
-                email.EmailText = messageUrls;
-
+                emailText = processURLs(emailText);
+              
                 isEmailSanitised = true;
 
                 if(isEmailSanitised)
                 {
                     messageID.Text = "Message ID : " + emailID.ToString();
                     messageSender.Text = "Message Sender:  " + emailSender.ToString();
-                    messageText.Text = "Message Text : " + email.EmailText.ToString();
+                    messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText;
+                   
                 }
             } 
             
@@ -242,6 +242,22 @@ namespace NapierBankMessageFilteringSystem
 
         private string processURLs(string sentence) // Method that checks 
         {
+            string replaceString = "<URL Quarantined>";
+            char delimiter = ' ';
+            bool isReplaced = false;
+
+            foreach (string word in sentence.Split(delimiter))
+            {
+                if (word.Contains("http://") || word.Contains("https://") || word.EndsWith(".com"))
+                {
+                    string replacedSentece = sentence.Replace(word, replaceString); // Replace the URL with URL quarantined
+                    sentence = replacedSentece;
+
+                    quarantineListBox.Items.Add(word); // Add it to the quarantine list
+                    isReplaced = true;
+                }
+            }
+
             return sentence; // Return the processed sentence
         }
 
