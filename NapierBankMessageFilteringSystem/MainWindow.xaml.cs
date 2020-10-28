@@ -29,10 +29,11 @@ namespace NapierBankMessageFilteringSystem
 
         private List<string> incidentList = new List<string>();
         private List<string> quarantineList = new List<string>(); // Declares a new list to store the URLs that are quarantined
-        private List<string> mentionsList = new List<string>();
+        private List<string> mentionsList = new List<string>(); // List to store twitter mentions
 
         private Dictionary<string, string> SIR = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
+
         private List<string> messageInputs = new List<string>();
         private List<string> messageOutputs = new List<string>();
 
@@ -198,7 +199,7 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-                bool isEmailSanitised = false;
+                bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 char splitToken = ',';
                 int emailIndex = 0;
 
@@ -207,18 +208,30 @@ namespace NapierBankMessageFilteringSystem
 
                 // Read file that contains incident reports
                 StreamReader sirFile = new StreamReader(sirFilePath);
-                while((fileLine = sirFile.ReadLine()) != null)
+                while((fileLine = sirFile.ReadLine()) != null && incidentList != null)
                 {
                     string[] sirData = fileLine.Split(splitToken);
                     incidentList.Add(sirData[0]);
                 }
 
-                foreach(string sir in incidentList)
-                {
-                    MessageBox.Show(Convert.ToString(incidentList.Count));
-                }
+                string emailID = message.messageID; // The E-mail ID is the message ID
+                string emailBody = message.messageBody;
 
-                
+                string emailSender = emailBody.Split(splitToken)[0];
+                string emailSubject = emailBody.Split(splitToken)[1];
+                string emailText = emailBody.Split(splitToken)[2];
+
+                string messageUrls = processURLs(email.EmailText);
+                email.EmailText = messageUrls;
+
+                isEmailSanitised = true;
+
+                if(isEmailSanitised)
+                {
+                    messageID.Text = "Message ID : " + emailID.ToString();
+                    messageSender.Text = "Message Sender:  " + emailSender.ToString();
+                    messageText.Text = "Message Text : " + email.EmailText.ToString();
+                }
             } 
             
             catch(Exception exc)
@@ -227,14 +240,14 @@ namespace NapierBankMessageFilteringSystem
             }
         }
 
+        private string processURLs(string sentence) // Method that checks 
+        {
+            return sentence; // Return the processed sentence
+        }
+
         private void sanitiseTweets(Message message)
         {
 
-        }
-
-        public string processURLs(string sentence) // Method that checks 
-        {
-            return sentence; // Return the processed sentence
         }
     }
 }
