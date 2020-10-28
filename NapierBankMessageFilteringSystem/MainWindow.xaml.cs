@@ -43,6 +43,9 @@ namespace NapierBankMessageFilteringSystem
                 string messageHeader = msgHeaderTxtBox.Text.ToUpper();
                 string messageBody = msgTextBox.Text;
 
+                message.messageID = messageHeader;
+                message.messageBody = messageBody;
+
                 if(messageHeader.StartsWith(messageTypes[0])) // If the message header starts with an upper case S
                 {
                     sanitiseSms(message);
@@ -94,12 +97,11 @@ namespace NapierBankMessageFilteringSystem
                         {
                             messageListBox.Items.Add(lines);
                         }
-                       
                     }
 
-                    else if(!filePath.Equals(".txt") || !filePath.Equals(".json"))
+                    else if(!filePath.Equals(".txt") || !filePath.Equals(".json")) // If the file paths are not txt or json
                     {
-                        isFileValid = false;
+                        isFileValid = false; // File not valid
                         MessageBox.Show("Please choose a .txt file or .json");
                     }
 
@@ -120,7 +122,7 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-
+                
             } 
             
             catch(Exception exc)
@@ -133,12 +135,31 @@ namespace NapierBankMessageFilteringSystem
         {
            try
             {
-               
-                abbreviations.readFile(); // Read the file
-                messageID.Text = "Message ID : " + sms.messageID;
-                messageSender.Text = "Message Sender : " + sms.CountryCode + ' ' + sms.Sender;
-                messageText.Text = "Message Text : " + abbreviations.replaceMessage(msgTextBox.Text).ToString();
+                bool isSmsSanitised = false;
 
+                if(message.isIdValid() && message.isBodyValid()) // If the message ID is valid and the message body is valid
+                {
+                    char splitToken = ' '; // Space character to split the data
+                    int index = 0;
+
+                    string smsSenderID = sms.messageID; // The SMS Sender ID is the message ID
+                    string messageID = message.messageID; // The message ID of the message
+
+                    string smsBody = sms.messageBody; // Body of the message
+                    string msgBody = message.messageBody;
+                    string smsCode = smsBody.Split(splitToken)[index]; // Split the SMS country code
+                    string smsText = smsBody.Split(splitToken)[index + 1]; // Split the SMS text by a space after the country code
+                                  
+                    smsSenderID = messageID;
+                    smsBody = msgBody;
+                }
+
+                else if(!message.isIdValid() || message.isBodyValid())
+                {
+                    isSmsSanitised = false;
+                    MessageBox.Show("The Message ID or the body is invalid. Please re-check your entries");
+                }
+              
             } 
             
             catch(Exception exc)

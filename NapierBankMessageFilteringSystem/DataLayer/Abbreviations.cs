@@ -45,7 +45,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                         if(definitionWord.Equals(abbreviation) && listOfDefinitions.Count > 0 && abbreviationsList.Count > 0)
                         {
                             int indexOfDefinition = abbreviationsList.IndexOf(abbreviation);
-                            string allDefinitions = listOfDefinitions[indexOfDefinition];
+                            string allDefinitions = listOfDefinitions[indexOfDefinition]; // Store the list of all the definitions in the string array
                             string replacedAbbreviations = abbreviation + " <" + allDefinitions + " >"; // Replaces the abberviations with all the 
 
                             int newIndex = sentence.IndexOf(definitionWord); // Get the index of the definition
