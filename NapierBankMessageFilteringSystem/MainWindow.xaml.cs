@@ -4,7 +4,6 @@ using NapierBankMessageFilteringSystem.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -142,7 +141,7 @@ namespace NapierBankMessageFilteringSystem
             }
         }
 
-        private void sanitiseSms(Message message) // Routine to sanitise SMS messages
+        private bool sanitiseSms(Message message) // Routine to sanitise SMS messages
         {
            try
             {
@@ -180,6 +179,8 @@ namespace NapierBankMessageFilteringSystem
                     sms.smsText = newSentence;
 
                     isSmsSanitised = true;
+                    messageInputs.Add(sms.smsText); // Adds the messages inputs to the list
+
                     abbreviations.readFile();
                 
                     if(isSmsSanitised)
@@ -189,21 +190,24 @@ namespace NapierBankMessageFilteringSystem
                         messageText.Text = "Message Text : " + sms.smsText.ToString();
                     }
                 }
+
+                return true;
             } 
             
             catch(Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
+
+            return false;
         }
-        private void sanitiseEmail(Message message) // Routine to sanitise Email messages & SIR e-mails
+        private bool sanitiseEmail(Message message) // Routine to sanitise Email messages & SIR e-mails
         {
             try
             {
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 char splitToken = ',';
-                int emailIndex = 0;
-                
+               
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
@@ -226,7 +230,7 @@ namespace NapierBankMessageFilteringSystem
 
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
-                    if (emailWord.Contains("http://") || emailWord.Contains("https://") || emailWord.EndsWith(".com"))
+                    if (emailWord.Trim().Contains("http://") || emailWord.Contains("https://") || emailWord.EndsWith(".com"))
                     {
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
@@ -239,6 +243,8 @@ namespace NapierBankMessageFilteringSystem
                         }
                     }
                 }
+
+                messageInputs.Add(emailText);
               
                 isEmailSanitised = true;
 
@@ -248,25 +254,33 @@ namespace NapierBankMessageFilteringSystem
                     messageSender.Text = "Message Sender:  " + emailSender.ToString();
                     messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText.ToString();
                 }
+
+                return true;
             } 
             
             catch(Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
+
+            return false;
         }
 
-        private void sanitiseTweets(Message message)
+        private bool sanitiseTweets(Message message)
         {
             try
             {
 
-            } 
-            
+                return true;
+            }
+
+           
             catch(Exception exception)
             {
                 MessageBox.Show(exception.ToString());
             }
+
+            return false;
 
         }
     }
