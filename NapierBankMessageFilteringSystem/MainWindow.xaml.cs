@@ -4,18 +4,25 @@ using NapierBankMessageFilteringSystem.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
+// Author of System: Sabin Constantin Lungu
+// Date of Last Modification: 28/10/2020
+// Any Bugs: N/A
 
 namespace NapierBankMessageFilteringSystem
 {
  
     public partial class MainWindow : Window
     {
-        public Abbreviations abbreviations = new Abbreviations();
+        private Regex regexMatcher = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b",
+          RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
+
         private Sms sms = new Sms(); // New SMS instance
         private Email email = new Email(); // E-mail message instance
         private Tweet tweets = new Tweet();
@@ -139,7 +146,7 @@ namespace NapierBankMessageFilteringSystem
             {
                 bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
 
-                if(!message.isIdValid() && !message.isBodyValid())
+                if(regexMatcher.IsMatch(msgHeaderTxtBox.Text))
                 {
                     MessageBox.Show("Message ID and body are not valid. Re-enter please");
                 }
@@ -187,11 +194,33 @@ namespace NapierBankMessageFilteringSystem
                 MessageBox.Show(exc.ToString());
             }
         }
-        private void sanitiseEmail(Message message) // Routine to sanitise Email messages
+        private void sanitiseEmail(Message message) // Routine to sanitise Email messages & SIR e-mails
         {
             try
             {
+                bool isEmailSanitised = false;
+                char splitToken = ',';
+                int emailIndex = 0;
 
+                string fileLine = string.Empty;
+                string sirFilePath = "C:/Users/const/source/repos/sabinlungudotcpp/NapierBankMessageFilteringSystem/NapierBankMessageFilteringSystem/SIRList.csv";
+
+                // Read file that contains incident reports
+                StreamReader sirFile = new StreamReader(sirFilePath);
+                while((fileLine = sirFile.ReadLine()) != null)
+                {
+                    string sirData = fileLine.Split(splitToken)[0];
+                    
+                    if(incidentList.Count == 0 && incidentList != null)
+                    {
+                        incidentList.Add(sirData);
+                    }
+                }
+
+                foreach(string sir in incidentList)
+                {
+                    MessageBox.Show(sir);
+                }
             } 
             
             catch(Exception exc)
@@ -205,14 +234,9 @@ namespace NapierBankMessageFilteringSystem
 
         }
 
-        public string verifyURL(string sentence)
+        public string processURLs(string sentence) // Method that checks 
         {
-            return sentence;
-        }
-
-        private void Label_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
+            return sentence; // Return the processed sentence
         }
     }
 }

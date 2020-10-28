@@ -11,9 +11,8 @@ namespace NapierBankMessageFilteringSystem.DataLayer
         public List<string> listOfDefinitions = new List<string>();
         public List<string> abbreviationsList = new List<string>();
 
-        private bool foundAbbreviation = false; // Determines if an abbreviation has been found
-        private bool isFileRead = false;
         private string textWordsFile = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem/textwords.csv";
+        private char delimiter = ',';
 
         public void readFile() // Read the file that contains the abbreviations
         {
@@ -22,20 +21,18 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
             while((fileLine = abbreviationsFile.ReadLine()) != null)
             {
-                string[] textValues = fileLine.Split(',');
+                string[] textValues = fileLine.Split(delimiter); // Split the data by a comma delimiter.
 
-                abbreviationsList.Add(textValues[0]);
+                abbreviationsList.Add(textValues[0]); // Add the abbreviations from the file to the list
                 listOfDefinitions.Add(textValues[1]);
-
-                isFileRead = true; // File is read successfully
             }
         }
 
         public string replaceMessage(string sentence) // Replaces the definition with the actual word
         {
-            char splitToken = ' ';
+           char splitToken = ' ';
             
-            try
+           try
             {
                 foreach (string definitionWord in sentence.Split(splitToken)) // For every definition in the sentence
                 {
@@ -46,14 +43,14 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                         {
                             int indexOfDefinition = abbreviationsList.IndexOf(abbreviation);
                             string allDefinitions = listOfDefinitions[indexOfDefinition]; // Store the list of all the definitions in the string array
-                            string replacedAbbreviations = abbreviation + " <" + allDefinitions + " >"; // Replaces the abberviations with all the 
+                            string replacedAbbreviations = " <".Trim() + allDefinitions + " >".Trim(); // Replaces the abberviations with all the 
 
                             int newIndex = sentence.IndexOf(definitionWord); // Get the index of the definition
 
                             string newSentence = sentence.Replace(definitionWord, replacedAbbreviations); // Replace the abbreviation with the definition
                             sentence = newSentence;
 
-                            foundAbbreviation = true;
+                          
                         }
                      }
                 }
