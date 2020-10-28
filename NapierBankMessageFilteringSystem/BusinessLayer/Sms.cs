@@ -87,7 +87,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             return Regex.IsMatch(this.sender, regexMatcher); // Returns true or false if the sender matches the regular expressions
         }
 
-        private bool isCountryCodeValid() // Determines if the country code is valid
+        public bool isCountryCodeValid() // Determines if the country code is valid
         {
             return this.countryCode.StartsWith("+");
         }

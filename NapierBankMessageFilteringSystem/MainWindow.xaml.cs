@@ -26,6 +26,8 @@ namespace NapierBankMessageFilteringSystem
 
         private Dictionary<string, string> SIR = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
+        private List<string> messageInputs = new List<string>();
+        private List<string> messageOutputs = new List<string>();
 
         public MainWindow()
         {
@@ -135,31 +137,49 @@ namespace NapierBankMessageFilteringSystem
         {
            try
             {
-                bool isSmsSanitised = false;
+                bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
 
-                if(message.isIdValid() && message.isBodyValid()) // If the message ID is valid and the message body is valid
+                if(!sms.sender.StartsWith("+") && !message.isIdValid() || !message.isBodyValid()) {
+                    isSmsSanitised = false;
+                    MessageBox.Show("Invalid entries. Please re-enter");
+                }
+
+                else if(message.isIdValid() && message.isBodyValid() && sms.sender.StartsWith("+")) // If the message ID is valid and the message body is valid
                 {
                     char splitToken = ' '; // Space character to split the data
-                    int index = 0;
+                    int smsIndex = 0;
 
-                    string smsSenderID = sms.messageID; // The SMS Sender ID is the message ID
-                    string messageID = message.messageID; // The message ID of the message
+                    string smsID = sms.messageID; // The SMS ID
+                    string msgID = message.messageID;
+                    smsID = msgID;
 
-                    string smsBody = sms.messageBody; // Body of the message
-                    string msgBody = message.messageBody;
-                    string smsCode = smsBody.Split(splitToken)[index]; // Split the SMS country code
-                    string smsText = smsBody.Split(splitToken)[index + 1]; // Split the SMS text by a space after the country code
-                                  
-                    smsSenderID = messageID;
-                    smsBody = msgBody;
+                    string smsBody = sms.messageBody;
+                    string messageBody = message.messageBody;
+                    smsBody = messageBody;
+
+                    string smsCountryCode = messageBody.Split(splitToken)[smsIndex]; // Split the country code.
+                    string smsSender = messageBody.Split(splitToken)[smsIndex + 1];
+
+                    int smsIndexToProcess = smsBody.IndexOf(" ") + 1;
+                    string processedSMS = smsBody.Substring(smsIndexToProcess);
+                    int nextIndex = processedSMS.IndexOf(" ") + 1;
+
+                    string finalSms = processedSMS.Substring(nextIndex);
+                    sms.smsText = finalSms;
+
+                    string newSentence = abbreviations.replaceMessage(sms.smsText);
+                    sms.smsText = newSentence;
+
+                    isSmsSanitised = true;
+                    abbreviations.readFile();
+                
+                    if(isSmsSanitised)
+                    {
+                        messageID.Text = "Message ID : " + smsID.ToString();
+                        messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
+                        messageText.Text = "Message Text : " + sms.smsText.ToString();
+                    }
                 }
-
-                else if(!message.isIdValid() || message.isBodyValid())
-                {
-                    isSmsSanitised = false;
-                    MessageBox.Show("The Message ID or the body is invalid. Please re-check your entries");
-                }
-              
             } 
             
             catch(Exception exc)
@@ -167,7 +187,6 @@ namespace NapierBankMessageFilteringSystem
                 MessageBox.Show(exc.ToString());
             }
         }
-
         private void sanitiseEmail(Message message) // Routine to sanitise Email messages
         {
             try
