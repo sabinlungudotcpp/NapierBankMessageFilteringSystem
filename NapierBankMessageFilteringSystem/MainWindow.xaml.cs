@@ -133,7 +133,7 @@ namespace NapierBankMessageFilteringSystem
             }
         }
 
-        private void sanitiseSms() // Routine to sanitise SMS messages
+        private void sanitiseSms(Message message) // Routine to sanitise SMS messages
         {
            try
             {
@@ -141,10 +141,10 @@ namespace NapierBankMessageFilteringSystem
 
                 if(!message.isIdValid() && !message.isBodyValid())
                 {
-                    MessageBox.Show("Message ID and body is not valid. Re-enter please");
+                    MessageBox.Show("Message ID and body are not valid. Re-enter please");
                 }
 
-                if(message.isIdValid() && message.isBodyValid() && sms.smsText.StartsWith("+")) // If the message ID is valid and the message body is valid
+                if(message.isIdValid() && message.isBodyValid()) // If the message ID is valid and the message body is valid
                 {
                     char splitToken = ' '; // Space character to split the data
                     int smsIndex = 0;
@@ -180,13 +180,6 @@ namespace NapierBankMessageFilteringSystem
                         messageText.Text = "Message Text : " + sms.smsText.ToString();
                     }
                 }
-
-                else if(!message.isIdValid() || message.isBodyValid())
-                {
-                    isSmsSanitised = false;
-                    MessageBox.Show("The Message ID or the body is invalid. Please re-check your entries");
-                }
-              
             } 
             
             catch(Exception exc)
@@ -215,6 +208,11 @@ namespace NapierBankMessageFilteringSystem
         public string verifyURL(string sentence)
         {
             return sentence;
+        }
+
+        private void Label_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
         }
     }
 }

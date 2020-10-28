@@ -11,13 +11,13 @@
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="76" Margin="547,195,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="178" RenderTransformOrigin="0.494,-0.049"/>
-        <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="547,164,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
-        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="547,287,0,0" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="80" Margin="547,327,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168"/>
-        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="585,426,0,0" VerticalAlignment="Top" Width="98" Click="processMsgButton_Click"/>
-        <ListBox HorizontalAlignment="Left" Name="messageListBox" Height="139" Margin="36,182,0,0" VerticalAlignment="Top" Width="245" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2" SelectionChanged="messageListBox_SelectionChanged"/>
-        <Button Content="Read File" Name="readFileBtn" HorizontalAlignment="Left" Margin="81,345,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="23" Click="readFileBtn_Click"/>
+        <TextBox Grid.Column="1" Name="msgHeaderTxtBox" HorizontalAlignment="Left" Height="76" Margin="547,320,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="178" RenderTransformOrigin="0.494,-0.049"/>
+        <Label Content="Message Header" Grid.Column="1" HorizontalAlignment="Left" Margin="547,289,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
+        <Label Content="Message Body" Grid.Column="1" HorizontalAlignment="Left" Margin="547,415,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" Name="msgTextBox" HorizontalAlignment="Left" Height="80" Margin="547,446,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168"/>
+        <Button Content="Process Message" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="547,551,0,0" VerticalAlignment="Top" Width="98" Click="processMsgButton_Click"/>
+        <ListBox HorizontalAlignment="Left" Name="messageListBox" Height="139" Margin="34,258,0,0" VerticalAlignment="Top" Width="245" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2" SelectionChanged="messageListBox_SelectionChanged"/>
+        <Button Content="Read File" Name="readFileBtn" HorizontalAlignment="Left" Margin="76,422,0,0" VerticalAlignment="Top" Width="134" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="38" Click="readFileBtn_Click"/>
         <Label Content="URL Quarantine List
 " HorizontalAlignment="Left" Margin="59,45,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <ListBox Name="quarantineListBox" HorizontalAlignment="Left" Height="73" Margin="57,76,0,0" VerticalAlignment="Top" Width="142" Grid.ColumnSpan="2"/>
@@ -27,9 +27,12 @@
         <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="73" Margin="350,76,0,0" VerticalAlignment="Top" Width="152"/>
         <Label Content="Trending List" Grid.Column="1" HorizontalAlignment="Left" Margin="547,45,0,0" VerticalAlignment="Top"/>
         <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="73" Margin="547,76,0,0" VerticalAlignment="Top" Width="147"/>
-        <TextBox Grid.Column="1" Name="messageID" HorizontalAlignment="Left" Height="73" Margin="220,182,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
-        <TextBox Grid.Column="1" Name="messageSender" HorizontalAlignment="Left" Height="74" Margin="220,287,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
-        <TextBox Grid.Column="1" Name="messageText" HorizontalAlignment="Left" Height="73" Margin="220,396,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
+        <TextBox Grid.Column="1" Name="messageID" HorizontalAlignment="Left" Height="73" Margin="222,269,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
+        <TextBox Grid.Column="1" Name="messageSender" HorizontalAlignment="Left" Height="74" Margin="222,379,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
+        <TextBox Grid.Column="1" Name="messageText" HorizontalAlignment="Left" Height="73" Margin="222,493,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
+        <Label Content="Processed Messages" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="222,209,0,0" VerticalAlignment="Top"/>
+        <Label Content="File Input" FontSize="24" HorizontalAlignment="Left" Margin="76,209,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="44" Width="132"/>
+        <Label Content="Message Inputs" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="539,211,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
