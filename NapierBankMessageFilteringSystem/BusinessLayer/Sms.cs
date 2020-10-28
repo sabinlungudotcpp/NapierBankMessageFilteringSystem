@@ -47,7 +47,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             {
                 if(isCountryCodeValid())
                 {
-                    value = this.countryCode; // Set the country code to its value property
+                    this.countryCode = value;
                 }
 
                 else if(!isCountryCodeValid())

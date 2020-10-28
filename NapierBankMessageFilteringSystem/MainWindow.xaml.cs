@@ -133,13 +133,18 @@ namespace NapierBankMessageFilteringSystem
             }
         }
 
-        private void sanitiseSms(Message message) // Routine to sanitise SMS messages
+        private void sanitiseSms() // Routine to sanitise SMS messages
         {
            try
             {
                 bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
 
-                if(message.isIdValid() && message.isBodyValid() || sms.isCountryCodeValid()) // If the message ID is valid and the message body is valid
+                if(!message.isIdValid() && !message.isBodyValid())
+                {
+                    MessageBox.Show("Message ID and body is not valid. Re-enter please");
+                }
+
+                if(message.isIdValid() && message.isBodyValid() && sms.smsText.StartsWith("+")) // If the message ID is valid and the message body is valid
                 {
                     char splitToken = ' '; // Space character to split the data
                     int smsIndex = 0;
@@ -155,9 +160,9 @@ namespace NapierBankMessageFilteringSystem
                     string smsCountryCode = messageBody.Split(splitToken)[smsIndex]; // Split the country code.
                     string smsSender = messageBody.Split(splitToken)[smsIndex + 1];
 
-                    int smsIndexToProcess = smsBody.IndexOf(" ") + 1;
+                    int smsIndexToProcess = smsBody.IndexOf(" ") + smsIndex + 1;
                     string processedSMS = smsBody.Substring(smsIndexToProcess);
-                    int nextIndex = processedSMS.IndexOf(" ") + 1;
+                    int nextIndex = processedSMS.IndexOf(" ") + smsIndex + 1;
 
                     string finalSms = processedSMS.Substring(nextIndex);
                     sms.smsText = finalSms;
