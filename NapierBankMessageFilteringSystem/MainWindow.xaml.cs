@@ -204,7 +204,6 @@ namespace NapierBankMessageFilteringSystem
                 char splitToken = ',';
                 int emailIndex = 0;
                 
-
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
@@ -227,7 +226,6 @@ namespace NapierBankMessageFilteringSystem
 
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
-
                     if (emailWord.Contains("http://") || emailWord.Contains("https://") || emailWord.EndsWith(".com"))
                     {
                         string newSentence = emailText.Replace(emailWord, quarantineText);
