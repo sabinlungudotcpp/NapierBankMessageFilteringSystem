@@ -34,7 +34,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
             
            try
             {
-                foreach (string definitionWord in sentence.Split(splitToken)) // For every definition in the sentence
+                foreach (string definitionWord in sentence.Split(splitToken)) // For every definition word in the sentence
                 {
                    
                  foreach(string abbreviation in abbreviationsList) // And for every abbreviation in the list

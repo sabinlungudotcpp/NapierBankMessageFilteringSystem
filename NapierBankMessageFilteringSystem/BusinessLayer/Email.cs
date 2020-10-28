@@ -59,10 +59,10 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                 {
                     throw new Exception("Subject exceeds 20 characters. Please re-enter");
                 }
-
             }
 
             get
+
             {
                 return this.subject;
             }

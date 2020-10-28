@@ -225,12 +225,11 @@ namespace NapierBankMessageFilteringSystem
               
                 isEmailSanitised = true;
 
-                if(isEmailSanitised)
+                if (isEmailSanitised)
                 {
                     messageID.Text = "Message ID : " + emailID.ToString();
                     messageSender.Text = "Message Sender:  " + emailSender.ToString();
-                    messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText;
-                   
+                    messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText.ToString();
                 }
             } 
             
@@ -263,6 +262,15 @@ namespace NapierBankMessageFilteringSystem
 
         private void sanitiseTweets(Message message)
         {
+            try
+            {
+
+            } 
+            
+            catch(Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
 
         }
     }
