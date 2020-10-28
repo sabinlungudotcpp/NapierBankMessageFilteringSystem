@@ -6,10 +6,12 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 {
     // Author: Sabin Constantin Lungu
     // Date of creation: 27/10/2020
+    // Date of last modification: 28/10/2020
+    // Errors: N/A
     public class Abbreviations // Abbreviations class that replaces an abbreviation with its actual definition
     {
-        public List<string> listOfDefinitions = new List<string>();
-        public List<string> abbreviationsList = new List<string>();
+        public List<string> listOfDefinitions = new List<string>(); // List of definitions
+        public List<string> abbreviationsList = new List<string>(); // List of abbreviations
 
         private string textWordsFile = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem/textwords.csv";
         private char delimiter = ',';
@@ -49,8 +51,6 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
                             string newSentence = sentence.Replace(definitionWord, replacedAbbreviations); // Replace the abbreviation with the definition
                             sentence = newSentence;
-
-                          
                         }
                      }
                 }
@@ -58,7 +58,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
             catch
             {
-                return sentence;
+                throw new Exception("Error processing abbreviations");
             }
 
             return sentence;

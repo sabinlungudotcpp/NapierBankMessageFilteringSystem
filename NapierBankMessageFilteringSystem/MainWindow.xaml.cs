@@ -4,6 +4,7 @@ using NapierBankMessageFilteringSystem.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -202,6 +203,7 @@ namespace NapierBankMessageFilteringSystem
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 char splitToken = ',';
                 int emailIndex = 0;
+                
 
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
@@ -221,7 +223,24 @@ namespace NapierBankMessageFilteringSystem
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
 
-                emailText = processURLs(emailText);
+                string quarantineText = "<URL Quarantined>";
+
+                foreach(string emailWord in emailText.Split(splitToken)) {
+                    
+
+                    if (emailWord.Contains("http://") || emailWord.Contains("https://") || emailWord.EndsWith(".com"))
+                    {
+                        string newSentence = emailText.Replace(emailWord, quarantineText);
+                        emailText = newSentence;
+
+                        quarantineListBox.Items.Add(emailWord);
+
+                        if(quarantineList != null)
+                        {
+                            quarantineList.Add(emailText);
+                        }
+                    }
+                }
               
                 isEmailSanitised = true;
 
@@ -237,27 +256,6 @@ namespace NapierBankMessageFilteringSystem
             {
                 MessageBox.Show(exc.ToString());
             }
-        }
-
-        private string processURLs(string sentence) // Method that checks 
-        {
-            string replaceString = "<URL Quarantined>";
-            char delimiter = ' ';
-            bool isReplaced = false;
-
-            foreach (string word in sentence.Split(delimiter))
-            {
-                if (word.Contains("http://") || word.Contains("https://") || word.EndsWith(".com"))
-                {
-                    string replacedSentece = sentence.Replace(word, replaceString); // Replace the URL with URL quarantined
-                    sentence = replacedSentece;
-
-                    quarantineListBox.Items.Add(word); // Add it to the quarantine list
-                    isReplaced = true;
-                }
-            }
-
-            return sentence; // Return the processed sentence
         }
 
         private void sanitiseTweets(Message message)
