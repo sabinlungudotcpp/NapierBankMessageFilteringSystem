@@ -289,7 +289,7 @@ namespace NapierBankMessageFilteringSystem
                     }
                 }
 
-                checkForMentions(tweets.TweetText);
+                checkForMentions(tweets.TweetSender);
 
                 isTweetSanitised = true; // The tweets are sanitised
 
@@ -310,18 +310,34 @@ namespace NapierBankMessageFilteringSystem
             }
 
             return false;
-
         }
-        private void checkForMentions(string tweetSentence)
+        private string checkForMentions(string tweetSentence)
         {
+            string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+            bool mentionFound = false;
 
-            foreach (string tweetWord in tweetSentence.Split(' '))
+            foreach (string tweetWord in splitTweetMsg)
             {
-                if(tweetWord.StartsWith("@"))
+                if(tweetWord.Contains("@") || mentionsList != null)
                 {
-                    mentionsListBox.Items.Add(tweetWord);
+                    mentionsList.Add(tweetWord.ToString());
+                    mentionsListBox.Items.Add(tweetWord.ToString());
+
+                    mentionFound = true;
+
+                    if(mentionFound) // If a mention has been found
+                    {
+                        processTrendingList();
+                    }
                 }
             }
+
+            return tweetSentence;
+        }
+
+        private bool processTrendingList() // Process the trending list if a hash tag is in the body of the message
+        {
+            return true;
         }
     }
 }
