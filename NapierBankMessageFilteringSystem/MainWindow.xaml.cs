@@ -39,19 +39,7 @@ namespace NapierBankMessageFilteringSystem
         public MainWindow()
         {
             Resources["TweetHashtags"] = tweetHashtags;
-
             InitializeComponent();
-        }
-
-        public class Drink
-        {
-            public Drink(string name, int popularity)
-            {
-                Name = name;
-                Popularity = popularity;
-            }
-            public string Name { get; set; }
-            public int Popularity { get; set; }
         }
 
         private void processMsgButton_Click(object sender, RoutedEventArgs e) // Process Message ID & Body manually
@@ -373,24 +361,6 @@ namespace NapierBankMessageFilteringSystem
             }
             trendingListBox.ItemsSource = new Dictionary<string, int>();
             trendingListBox.ItemsSource = tweetHashtags.OrderByDescending(key => key.Value); // Shouldn't it be by current counter?
-
-            //What is the "trending" supposed to be I sent you the description on messenger
-
-            //foreach(string tweetData in splitTweetMsg)
-            //{
-            //    if(tweetData.Contains("#") || tweetHashtags != null)
-            //    {
-            //        bool containsHashtag = tweetHashtags.ContainsKey("#"); // what's this for? stores either true or false if the tweet sentence has a hashtag or not
-
-            //        if(!containsHashtag)
-            //        {
-            //            tweetHashtags.Add(tweetData, counter++);
-
-            //            trendingListBox.Items.Add(tweetData.ToString());
-            //        }
-                    
-            //    }
-            //}
 
             return true;
         }
