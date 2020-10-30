@@ -209,6 +209,7 @@ namespace NapierBankMessageFilteringSystem
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 char splitToken = ',';
                 string quarantineText = "<URL Quarantined>";
+
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
@@ -227,19 +228,7 @@ namespace NapierBankMessageFilteringSystem
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
 
-                int emailIndex = message.MessageBody.IndexOf(" ") + 1;
-                string processedEmailMsg = emailBody.Substring(emailIndex);
-
-                int finalEmailIndex = processedEmailMsg.IndexOf(" ") + 1;
-                email.EmailText = processedEmailMsg;
-
-                for(int i = 0; i < processedEmailMsg.Length; i++)
-                {
-                
-                    string replacedEmailTxt = abbreviations.replaceMessage(email.EmailText);
-                    email.EmailText = replacedEmailTxt;
-                }
-
+               
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
                     if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
@@ -249,7 +238,19 @@ namespace NapierBankMessageFilteringSystem
 
                         if(quarantineListBox.Items.Count == 0)
                         {
-                            quarantineListBox.Items.Add(emailWord);
+
+                            int smsIndexToProcess = emailBody.IndexOf(" ") + 1;
+                            string processedSMS = emailBody.Substring(smsIndexToProcess);
+                            int nextIndex = processedSMS.IndexOf(" ") + 1;
+
+                            string finalEmailTxt = processedSMS.Substring(nextIndex);
+                            sms.SmsText = finalEmailTxt;
+
+                            abbreviations.readFile();
+                            string replacedEmailTxt = abbreviations.replaceMessage(sms.SmsText);
+                            sms.SmsText = replacedEmailTxt;
+
+                            quarantineListBox.Items.Add(sms.SmsText.ToString());
                         }
 
                         if (quarantineList != null) // If there is a quarantine list
@@ -266,7 +267,7 @@ namespace NapierBankMessageFilteringSystem
                 {
                     messageID.Text = "Message ID : " + emailID.ToString();
                     messageSender.Text = "Message Sender:  " + emailSender.ToString();
-                    messageText.Text = "Message Subject : " + emailSubject.ToString().Trim() + "\n Message Text : " + email.EmailText.ToString().Trim(); 
+                    messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText.ToString();
                 }
 
                 return true;
