@@ -19,6 +19,8 @@ namespace NapierBankMessageFilteringSystem
     public partial class MainWindow : Window
     {
         private char[] delimiters = { '.', ',', ' '};
+        private int defaultValue = 0;
+
         private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
 
@@ -109,7 +111,7 @@ namespace NapierBankMessageFilteringSystem
 
                         foreach(string lines in File.ReadAllLines(fileDialog.FileName))
                         {
-                            if(lines.Length > 0 || messageListBox.Items.Count == 0)
+                            if(lines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
                             {
                                 messageListBox.Items.Add(lines);
                             }
@@ -141,7 +143,7 @@ namespace NapierBankMessageFilteringSystem
             {
                 string messageID = message.MessageID;
                 string fileLineChosen = Convert.ToString(messageListBox.SelectedItem);
-                string fileLineSplit = fileLineChosen.Split(' ')[0].ToUpper();
+                string fileLineSplit = fileLineChosen.Split(delimiters[2])[defaultValue].ToUpper();
                
             } 
             
@@ -183,7 +185,7 @@ namespace NapierBankMessageFilteringSystem
 
                     isSmsSanitised = true;
                     
-                    for(int i = 0; i < processedSMS.Length; i++) {
+                    for(int i = defaultValue; i < processedSMS.Length; i++) {
                     abbreviations.readFile();
                     messageInputs.Add(sms.SmsText); // Adds the messages inputs to the list
                  }
@@ -217,7 +219,7 @@ namespace NapierBankMessageFilteringSystem
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
-                // Read file that contains incident reports
+                // Read file that contains SIGNIFICANT INCIDENT REPORTS
                 StreamReader sirFile = new StreamReader(sirFilePath);
                 while((fileLine = sirFile.ReadLine()) != null && incidentList != null)
                 {
@@ -228,9 +230,9 @@ namespace NapierBankMessageFilteringSystem
                 string emailID = message.MessageID; // The E-mail ID is the message ID
                 string emailBody = message.MessageBody;
                 
-                string emailSender = emailBody.Split(splitToken)[0];
-                string emailSubject = emailBody.Split(splitToken)[1];
-                string emailText = emailBody.Split(splitToken)[2];
+                string emailSender = emailBody.Split(splitToken)[defaultValue];
+                string emailSubject = emailBody.Split(splitToken)[defaultValue+1];
+                string emailText = emailBody.Split(splitToken)[defaultValue+2];
 
                 processSIREmails(email.EmailText);
 
@@ -241,11 +243,11 @@ namespace NapierBankMessageFilteringSystem
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
 
-                        if(quarantineListBox.Items.Count == 0) {
+                        if(quarantineListBox.Items.Count == defaultValue) {
                         
-                            int smsIndexToProcess = emailBody.IndexOf(" ") + 1;
+                            int smsIndexToProcess = emailBody.IndexOf(" ") + defaultValue + 1;
                             string processedSMS = emailBody.Substring(smsIndexToProcess);
-                            int nextIndex = processedSMS.IndexOf(" ") + 1;
+                            int nextIndex = processedSMS.IndexOf(" ") + defaultValue + 1;
 
                             string finalEmailTxt = processedSMS.Substring(nextIndex);
                             sms.SmsText = finalEmailTxt;
@@ -294,20 +296,21 @@ namespace NapierBankMessageFilteringSystem
 
                 tweets.MessageID = message.MessageID;
                 tweets.MessageBody = message.MessageBody;
-                int tweetIndex = message.MessageBody.IndexOf(delimiter) + 1;
+
+                int tweetIndex = message.MessageBody.IndexOf(delimiter) + defaultValue + 1;
                 string tweetText = tweets.TweetText;
                 string processedTweet = tweets.MessageBody.Substring(tweetIndex);
 
-                tweets.TweetSender = tweets.MessageBody.Substring(0, tweets.MessageBody.IndexOf(delimiter)); // The tweet sender is the substring of the message body followed by a space: '@Sabin Lungu'
+                tweets.TweetSender = tweets.MessageBody.Substring(defaultValue, tweets.MessageBody.IndexOf(delimiter)); // The tweet sender is the substring of the message body followed by a space: '@Sabin Lungu'
                 tweets.TweetText = processedTweet;
 
-                for (int i = 0; i < processedTweet.Length; i++)
+                for (int i = defaultValue; i < processedTweet.Length; i++)
                 {
                     abbreviations.readFile();
                     string replacedText = abbreviations.replaceMessage(tweets.TweetText);
                     tweets.TweetText = replacedText;
 
-                    if(messageInputs.Count > 0 || messageInputs != null)
+                    if(messageInputs.Count > defaultValue || messageInputs != null)
                     {
                         messageInputs.Add(replacedText);
                     }
@@ -327,7 +330,6 @@ namespace NapierBankMessageFilteringSystem
 
                 return true;
             }
-
            
             catch(Exception exception)
             {
@@ -343,9 +345,9 @@ namespace NapierBankMessageFilteringSystem
 
             foreach (string tweetMessageBody in splitTweetMsg)
             {
-                if(tweetMessageBody.Contains("@") || mentionsList != null || mentionsList.Count == 0) // If the tweet message body
+                if(tweetMessageBody.Contains("@") || mentionsList != null || mentionsList.Count == defaultValue) // If the tweet message body
                 {
-                    for(int x = 0; x < mentionsList.Count; x++)
+                    for(int x = defaultValue; x < mentionsList.Count; x++)
                     {
                         bool containsMentions = mentionsList.Contains(tweetMessageBody.ToString());
 
@@ -372,14 +374,15 @@ namespace NapierBankMessageFilteringSystem
         {
             tweetHashtags.Clear();
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+            string hashtag = "#";
 
             foreach(string tweetData in splitTweetMsg)
             {
                 int currentCount;
                 tweetHashtags.TryGetValue(tweetData, out currentCount);
 
-                if (tweetData.StartsWith("#") && tweetHashtags != null) {
-                    tweetHashtags[tweetData] = currentCount + 1;
+                if (tweetData.StartsWith(hashtag) && tweetHashtags != null || !tweetData.Contains(tweetData)) {
+                    tweetHashtags[tweetData] = currentCount + defaultValue + 1;
                 }
             }
 
@@ -406,27 +409,27 @@ namespace NapierBankMessageFilteringSystem
             messageSender.Text = string.Empty;
             messageText.Text = string.Empty;
 
-            for(int x = 0; x < mentionsListBox.Items.Count; x++)
+            for(int x = defaultValue; x < mentionsListBox.Items.Count; x++)
             {
-                if(mentionsListBox.Items.Count > 0 || mentionsListBox != null)
+                if(mentionsListBox.Items.Count > defaultValue || mentionsListBox != null)
                 {
                     mentionsListBox.Items.Clear();
                     tweets = null;
                 }
             }
 
-            for(int y = 0; y < messageListBox.Items.Count; y++)
+            for(int y = defaultValue; y < messageListBox.Items.Count; y++)
             {
-                if(messageListBox.Items.Count > 0 || messageListBox != null)
+                if(messageListBox.Items.Count > defaultValue || messageListBox != null)
                 {
                     messageListBox.Items.Clear();
                     message = null;
                 }
             }
 
-            for(int z = 0; z < quarantineListBox.Items.Count; z++)
+            for(int z = defaultValue; z < quarantineListBox.Items.Count; z++)
             {
-                if(quarantineListBox.Items.Count > 0 || quarantineListBox != null)
+                if(quarantineListBox.Items.Count > defaultValue || quarantineListBox != null)
                 {
                     quarantineListBox.Items.Clear();
                     email = null;
