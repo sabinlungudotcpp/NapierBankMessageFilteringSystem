@@ -74,12 +74,12 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 
         private bool isTweetSenderValid() // Determines if the Tweet sender is valid or not
         {
-            return this.tweetSender != null && this.tweetSender.StartsWith(atSymbol) && this.tweetSender.Length > 0 && this.tweetSender.Length <= 16;
+            return this.tweetSender.StartsWith(atSymbol) && this.tweetSender.Length > 0 && this.tweetSender.Length <= 16;
         }
 
         private bool isTweetTextValid()
         {
-            return this.tweetText != null && this.tweetText.Length > 0 && this.tweetText.Length <= 140;
+            return this.tweetText.Length > 0 && this.tweetText.Length <= 140;
         } 
     }
 }

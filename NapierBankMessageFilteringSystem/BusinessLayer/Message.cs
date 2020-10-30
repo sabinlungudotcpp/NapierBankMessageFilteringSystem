@@ -14,30 +14,29 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         public string messageID;
         public string messageBody;
 
-        public Message()
-        {
-
-        }
-
         public string MessageID
         {
             set
             {
-               if(isIdValid())
+                try
                 {
-                    this.messageID = value.ToUpper(); // Set the message ID to uppercase if it's valid
-                }
-
-                else if(!isIdValid())
+                    if (isIdValid())
+                    {
+                        this.messageID = value.ToUpper(); // Set the message ID to uppercase if it's valid
+                    }
+                } 
+                
+                catch
                 {
-                    throw new ArgumentException("Message ID is invalid. It must start with S, E or T");
+                    throw new ArgumentException("Message ID is invalid. It should begin with S, E or T and it should be a maximum of 10 characters.");
                 }
             }
 
             get
             {
-                return this.messageID;
+                return messageID;
             }
+
         }
 
         public string MessageBody
@@ -49,7 +48,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                     this.messageBody = value;
                 }
 
-                else if(!isBodyValid())
+                else
                 {
                     throw new ArgumentException("The body text must be > 0 characters.");
                 }

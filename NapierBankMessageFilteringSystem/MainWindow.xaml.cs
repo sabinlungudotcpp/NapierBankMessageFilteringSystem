@@ -270,8 +270,8 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-
-                return true;
+                char splitDelimiter = ',';
+                bool isTweetSanitised = false;               
             }
 
            
