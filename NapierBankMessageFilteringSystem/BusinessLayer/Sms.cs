@@ -9,29 +9,27 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 {
     public class Sms : Message // SMS class inherits feeatures from the Message base class.
     {
-        private string regexMatcher = "^([0|/+[0-9]{1,5})?([7-9][0-9]{9})$";
-        public string sender; // The SMS Sender
-        public string countryCode; // The SMS country code
-        public string smsText; // The SMS text
+        private string regexMatcher = "^([/+]?[0-9]{1,3}[/s.-][0-9]{1,12})([/s.-]?[0-9]{1,4}?)$";
+        private string sender; // The SMS Sender
+        private string countryCode; // The SMS country code
+        private string smsText; // The SMS text
         private string code = "+";
 
-        public Sms()
-        {
-
-        }
+        private int lengthOne = 0;
+        private int lengthTwo = 140;
 
         public string Sender
         {
             set
             {
-                if(isSenderValid())
+                if(!Regex.IsMatch(value, regexMatcher))
                 {
-                    this.sender = value;
+                    throw new ArgumentException("SMS Sender Invalid");
                 }
 
-                else if(!isSenderValid())
+                else
                 {
-                    throw new ArgumentException("Sender is invalid. Please re-enter");
+                    this.sender = value;
                 }
             }
 
@@ -45,12 +43,12 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(isCountryCodeValid())
+                if(value.StartsWith("+"))
                 {
                     this.countryCode = value;
                 }
 
-                else if(!isCountryCodeValid())
+                else
                 {
                     throw new ArgumentException("SMS country code must start with +");
                 }
@@ -66,12 +64,12 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(isSmsTextValid())
+                if(value.Length > lengthOne && value.Length <= lengthTwo)
                 {
-                    value = this.smsText; // Set the SMS text to its value property
+                    this.smsText = value;
                 }
 
-                else if(!isSmsTextValid())
+                else
                 {
                     throw new ArgumentException("The SMS text must have more than 0 characters and a maximum of 140");
                 }
@@ -81,21 +79,6 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             {
                 return this.smsText; // Return the SMS text
             }
-        }
-
-        private bool isSenderValid()
-        {
-            return Regex.IsMatch(this.sender, regexMatcher); // Returns true or false if the sender matches the regular expressions
-        }
-
-        public bool isCountryCodeValid() // Determines if the country code is valid
-        {
-            return this.countryCode.StartsWith(code);
-        }
-
-        private bool isSmsTextValid() // Determines if the SMS text is valid
-        {
-            return this.smsText.Length > 0 && this.smsText.Length <= 140; // Text should be between 0 and 140 characters long.
         }
     }
 }

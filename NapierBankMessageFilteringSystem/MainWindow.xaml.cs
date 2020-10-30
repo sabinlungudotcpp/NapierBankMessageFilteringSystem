@@ -147,11 +147,6 @@ namespace NapierBankMessageFilteringSystem
             {
                 bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
 
-                if(regexMatcher.IsMatch(msgHeaderTxtBox.Text))
-                {
-                    MessageBox.Show("Message ID and body are not valid. Re-enter please");
-                }
-                
                     char splitToken = ' '; // Space character to split the data
                     int smsIndex = 0;
 
@@ -171,13 +166,13 @@ namespace NapierBankMessageFilteringSystem
                     int nextIndex = processedSMS.IndexOf(" ") + smsIndex + 1;
 
                     string finalSms = processedSMS.Substring(nextIndex);
-                    sms.smsText = finalSms;
+                    sms.SmsText = finalSms;
 
-                    string newSentence = abbreviations.replaceMessage(sms.smsText);
-                    sms.smsText = newSentence;
+                    string newSentence = abbreviations.replaceMessage(sms.SmsText);
+                    sms.SmsText = newSentence;
 
                     isSmsSanitised = true;
-                    messageInputs.Add(sms.smsText); // Adds the messages inputs to the list
+                    messageInputs.Add(sms.SmsText); // Adds the messages inputs to the list
 
                     abbreviations.readFile();
 
@@ -185,7 +180,7 @@ namespace NapierBankMessageFilteringSystem
                 {
                     messageID.Text = "Message ID : " + smsID.ToString();
                     messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
-                    messageText.Text = "Message Text : " + sms.smsText.ToString();
+                    messageText.Text = "Message Text : " + sms.SmsText.ToString();
                 }
                 return true;
             } 
