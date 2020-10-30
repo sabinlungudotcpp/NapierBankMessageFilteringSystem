@@ -43,7 +43,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(value.StartsWith("+"))
+                if(value.StartsWith(code))
                 {
                     this.countryCode = value;
                 }

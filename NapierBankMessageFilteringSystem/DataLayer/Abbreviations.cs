@@ -10,13 +10,13 @@ namespace NapierBankMessageFilteringSystem.DataLayer
     // Errors: N/A
     public class Abbreviations // Abbreviations class that replaces an abbreviation with its actual definition
     {
-        public List<string> listOfDefinitions = new List<string>(); // List of definitions
-        public List<string> abbreviationsList = new List<string>(); // List of abbreviations
+        private List<string> listOfDefinitions = new List<string>(); // List of definitions
+        private List<string> abbreviationsList = new List<string>(); // List of abbreviations
 
         private string textWordsFile = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem/textwords.csv";
         private char delimiter = ',';
 
-        public void readFile() // Read the file that contains the abbreviations
+        public bool readFile() // Read the file that contains the abbreviations
         {
             StreamReader abbreviationsFile = new StreamReader(textWordsFile); // Create a stream reader to read in the file
             string fileLine;
@@ -28,6 +28,8 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                 abbreviationsList.Add(textValues[0]); // Add the abbreviations from the file to the list
                 listOfDefinitions.Add(textValues[1]);
             }
+
+            return true;
         }
 
         public string replaceMessage(string sentence) // Replaces the definition with the actual word

@@ -12,8 +12,8 @@ namespace NapierBankMessageFilteringSystemUnitTests
         [TestMethod]
         public void SMSTestSender()
         {
-            sms.Sender = "78 81365475";
-            string expectedSmsSender = "78 81365475";
+            sms.Sender = "54321";
+            string expectedSmsSender = "54321";
 
             Assert.AreEqual(expectedSmsSender, sms.Sender);
         }

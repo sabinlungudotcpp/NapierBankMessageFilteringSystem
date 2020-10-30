@@ -18,23 +18,16 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                try
-                {
-                   if(isTweetSenderValid())
-                    {
-                        this.tweetSender = value;
-                    }
+                if(value.StartsWith(atSymbol) && value.Length > 0 && value.Length <= 16) { 
+                   
+                   this.tweetSender = value;
 
-                   else if(!isTweetSenderValid())
-                    {
-                        throw new Exception("Tweet sender does not start with an @ symbol. Re-enter please");
-                    }
-                } 
-                
-                catch
-                {
-                    throw new ArgumentException("Tweet Sender does not start with an @. Please re-enter");
                 }
+
+                   else {
+                    
+                    throw new Exception("Tweet sender does not start with an @ symbol. Re-enter please");
+                  }
             }
 
             get
@@ -47,23 +40,15 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                try
-                {
-                    if(isTweetTextValid())
-                    {
+                if(value.Length > 0 && value.Length <= 140) { 
+                    
                         this.tweetText = value;
                     }
 
-                    else if(!isTweetTextValid())
+                    else 
                     {
                         throw new ArgumentException("Tweet text is not valid. Please re-enter");
-                    }
-                } 
-                
-                catch
-                {
-                    throw new Exception("Tweet Text must be a maximum of 140 characters long. Please re-enter");
-                }
+                 }
             }
 
             get
@@ -71,15 +56,5 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                 return this.tweetText;
             }
         }
-
-        private bool isTweetSenderValid() // Determines if the Tweet sender is valid or not
-        {
-            return this.tweetSender.StartsWith(atSymbol) && this.tweetSender.Length > 0 && this.tweetSender.Length <= 16;
-        }
-
-        private bool isTweetTextValid()
-        {
-            return this.tweetText.Length > 0 && this.tweetText.Length <= 140;
-        } 
     }
 }

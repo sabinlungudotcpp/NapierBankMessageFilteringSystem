@@ -15,7 +15,7 @@ namespace NapierBankMessageFilteringSystemUnitTests
             message.MessageID = "s123456789";
             string expectedID = "S123456789";
 
-            Assert.AreEqual(expectedID, message.MessageID);
+            Assert.AreEqual(expectedID, message.MessageID); // Determines if the actual and expected values are the same.
         }
 
         [TestMethod]

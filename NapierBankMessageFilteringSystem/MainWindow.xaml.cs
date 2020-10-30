@@ -34,7 +34,7 @@ namespace NapierBankMessageFilteringSystem
         private Dictionary<string, string> SIR = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
 
-        private List<string> messageInputs = new List<string>();
+        private List<string> messageInputs = new List<string>(); // Stores the input messages in a list to be thens tored in a JSON file
         private List<string> messageOutputs = new List<string>();
 
         public MainWindow()
@@ -44,8 +44,7 @@ namespace NapierBankMessageFilteringSystem
 
         private void processMsgButton_Click(object sender, RoutedEventArgs e) // Process Message ID & Body manually
         {
-            string emptyToken = "";
-            bool isEmpty = false;
+            
             string[] messageTypes = { "S", "E", "T" };
 
             try
@@ -61,7 +60,7 @@ namespace NapierBankMessageFilteringSystem
                     sanitiseSms(message);
                 }
 
-                else if(messageHeader.StartsWith(messageTypes[1]))
+                else if(messageHeader.StartsWith(messageTypes[1])) // If the message header text box starts with an E
                 {
                     sanitiseEmail(message);
                 }
@@ -91,7 +90,7 @@ namespace NapierBankMessageFilteringSystem
                 var fileContent = string.Empty;
                 bool isFileValid = false;
 
-                OpenFileDialog fileDialog = new OpenFileDialog();
+                OpenFileDialog fileDialog = new OpenFileDialog(); // A new open file dialog instance
                 fileDialog.RestoreDirectory = true;
 
                 if(fileDialog.ShowDialog() == true && fileDialog != null)
@@ -101,7 +100,11 @@ namespace NapierBankMessageFilteringSystem
                     if(filePath.Equals(".txt")) // If the file path is .txt
                     {
                         isFileValid = true;
-                        string fileData = File.ReadAllText(fileDialog.FileName);
+
+                        if(isFileValid)
+                        {
+                            string fileData = File.ReadAllText(fileDialog.FileName);
+                        }
 
                         foreach(string lines in File.ReadAllLines(fileDialog.FileName))
                         {
@@ -221,7 +224,7 @@ namespace NapierBankMessageFilteringSystem
 
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
-                    if (emailWord.Trim().Contains("http://") || emailWord.Contains("https://") || emailWord.EndsWith(".com"))
+                    if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
                     {
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
@@ -236,7 +239,6 @@ namespace NapierBankMessageFilteringSystem
                 }
 
                 messageInputs.Add(emailText);
-              
                 isEmailSanitised = true;
 
                 if (isEmailSanitised)
@@ -261,8 +263,25 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-                char splitDelimiter = ',';
-                bool isTweetSanitised = false;               
+                string delimiter = " "; // Space delimiter
+                bool isTweetSanitised = false; // Determines if the tweet has been sanitised or not
+
+                tweets.MessageID = message.MessageID;
+                tweets.MessageBody = message.MessageBody;
+                tweets.TweetSender = tweets.MessageBody.Substring(0, tweets.MessageBody.IndexOf(delimiter)); // The tweet sender is the substring of the message body followed by a space: '@Sabin Lungu'
+                int tweetIndex = message.MessageBody.IndexOf(delimiter) + 1;
+                
+
+                isTweetSanitised = true; // The tweets are sanitised
+
+                if(isTweetSanitised)
+                {
+                    messageID.Text = "Message ID : " + tweets.MessageID.ToString();
+                    messageSender.Text = "Message Sender : " + tweets.TweetSender.ToString();
+                    
+;                }
+
+                return true;
             }
 
            
