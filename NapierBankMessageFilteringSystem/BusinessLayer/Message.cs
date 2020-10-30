@@ -50,7 +50,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                     throw new ArgumentException("Message Body invalid");
                }
 
-                }  
+             }  
             
             get
             {

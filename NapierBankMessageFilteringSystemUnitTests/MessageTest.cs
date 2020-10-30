@@ -22,7 +22,7 @@ namespace NapierBankMessageFilteringSystemUnitTests
         [ExpectedException(typeof(ArgumentException))]
         public void MessageIDFail()
         {
-           message.MessageID = "s123450928";
+           message.MessageID = "e00000000000";
         }
 
         [TestMethod]
