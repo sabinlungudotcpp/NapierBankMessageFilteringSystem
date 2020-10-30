@@ -51,6 +51,7 @@ namespace NapierBankMessageFilteringSystem
             {
                 string messageHeader = msgHeaderTxtBox.Text.ToUpper();
                 string messageBody = msgTextBox.Text;
+                bool isEmpty = false;
 
                 message.MessageID = messageHeader;
                 message.MessageBody = messageBody;
@@ -231,6 +232,8 @@ namespace NapierBankMessageFilteringSystem
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
 
+                processSIREmails(email.EmailText);
+
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
                     if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
@@ -386,29 +389,49 @@ namespace NapierBankMessageFilteringSystem
             return true;
         }
 
+        private bool processSIREmails(string emailSentence)
+        {
+
+            // string[] splitEmailMsg = emailSentence.Split(delimiters[2]); // Split the e-mail by a comma.
+            return true;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e) // Clears data from the system
         {
             // Objects are now empty
-            message = null;
             sms = null;
-            email = null;
-            tweets = null;
-
+            
             // Clear the data from the system
             messageID.Text = string.Empty;
             messageSender.Text = string.Empty;
             messageText.Text = string.Empty;
 
-            for(int i = 0; i < mentionsListBox.Items.Count; i++)
+            for(int x = 0; x < mentionsListBox.Items.Count; x++)
             {
                 if(mentionsListBox.Items.Count > 0 || mentionsListBox != null)
                 {
                     mentionsListBox.Items.Clear();
+                    tweets = null;
                 }
             }
 
-            messageListBox.Items.Clear();
-            quarantineListBox.Items.Clear();
+            for(int y = 0; y < messageListBox.Items.Count; y++)
+            {
+                if(messageListBox.Items.Count > 0 || messageListBox != null)
+                {
+                    messageListBox.Items.Clear();
+                    message = null;
+                }
+            }
+
+            for(int z = 0; z < quarantineListBox.Items.Count; z++)
+            {
+                if(quarantineListBox.Items.Count > 0 || quarantineListBox != null)
+                {
+                    quarantineListBox.Items.Clear();
+                    email = null;
+                }
+            }
 
             msgHeaderTxtBox.Text = string.Empty;
             msgTextBox.Text = string.Empty;
