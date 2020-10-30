@@ -19,6 +19,7 @@ namespace NapierBankMessageFilteringSystem
     {
         private Regex regexMatcher = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b",
           RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private char[] delimiters = { '.', ',', ' '};
 
         private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
@@ -195,6 +196,7 @@ namespace NapierBankMessageFilteringSystem
 
             return false;
         }
+
         private bool sanitiseEmail(Message message) // Routine to sanitise Email messages & SIR e-mails
         {
             try
@@ -219,7 +221,6 @@ namespace NapierBankMessageFilteringSystem
                 string emailSender = emailBody.Split(splitToken)[0];
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
-
                 string quarantineText = "<URL Quarantined>";
 
                 foreach(string emailWord in emailText.Split(splitToken)) {
@@ -231,9 +232,9 @@ namespace NapierBankMessageFilteringSystem
 
                         quarantineListBox.Items.Add(emailWord);
 
-                        if(quarantineList != null)
+                        if(quarantineList != null) // If there is a quarantine list
                         {
-                            quarantineList.Add(emailText);
+                            quarantineList.Add(emailText); // Add the e-mails to the quarantine list
                         }
                     }
                 }
@@ -268,9 +269,27 @@ namespace NapierBankMessageFilteringSystem
 
                 tweets.MessageID = message.MessageID;
                 tweets.MessageBody = message.MessageBody;
-                tweets.TweetSender = tweets.MessageBody.Substring(0, tweets.MessageBody.IndexOf(delimiter)); // The tweet sender is the substring of the message body followed by a space: '@Sabin Lungu'
                 int tweetIndex = message.MessageBody.IndexOf(delimiter) + 1;
-                
+                string tweetText = tweets.TweetText;
+                string processedTweet = tweets.MessageBody.Substring(tweetIndex);
+
+                tweets.TweetSender = tweets.MessageBody.Substring(0, tweets.MessageBody.IndexOf(delimiter)); // The tweet sender is the substring of the message body followed by a space: '@Sabin Lungu'
+                tweets.TweetText = processedTweet;
+
+         
+                for (int i = 0; i < processedTweet.Length; i++)
+                {
+                    abbreviations.readFile();
+                    string replacedText = abbreviations.replaceMessage(tweets.TweetText);
+                    tweets.TweetText = replacedText;
+
+                    if(messageInputs.Count > 0 || messageInputs != null)
+                    {
+                        messageInputs.Add(replacedText);
+                    }
+                }
+
+                checkForMentions(tweets.TweetText);
 
                 isTweetSanitised = true; // The tweets are sanitised
 
@@ -278,7 +297,7 @@ namespace NapierBankMessageFilteringSystem
                 {
                     messageID.Text = "Message ID : " + tweets.MessageID.ToString();
                     messageSender.Text = "Message Sender : " + tweets.TweetSender.ToString();
-                    
+                    messageText.Text = "Message Text : " + tweets.TweetText.ToString();
 ;                }
 
                 return true;
@@ -292,6 +311,17 @@ namespace NapierBankMessageFilteringSystem
 
             return false;
 
+        }
+        private void checkForMentions(string tweetSentence)
+        {
+
+            foreach (string tweetWord in tweetSentence.Split(' '))
+            {
+                if(tweetWord.StartsWith("@"))
+                {
+                    mentionsListBox.Items.Add(tweetWord);
+                }
+            }
         }
     }
 }
