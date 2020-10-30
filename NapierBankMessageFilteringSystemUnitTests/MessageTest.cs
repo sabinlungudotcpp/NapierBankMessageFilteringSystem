@@ -12,7 +12,7 @@ namespace NapierBankMessageFilteringSystemUnitTests
         [TestMethod]
         public void MessageIDPass()
         {
-            message.messageID = "S123456789";
+            message.MessageID = "s123456789";
             string expectedID = "S123456789";
 
             Assert.AreEqual(expectedID, message.MessageID);
@@ -22,8 +22,22 @@ namespace NapierBankMessageFilteringSystemUnitTests
         [ExpectedException(typeof(ArgumentException))]
         public void MessageIDFail()
         {
-           message.MessageID = "s123456789";
-           
+           message.MessageID = "s123450928";
+        }
+
+        [TestMethod]
+        public void MessageBodyPass()
+        {
+            message.MessageBody = "Hello Sabin Lungu";
+            string expectedBodyMsg = "Hello Sabin Lungu";
+            Assert.AreEqual(expectedBodyMsg, message.MessageBody);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MessageBodyFail()
+        { 
+            message.MessageBody = "";
         }
 
     }

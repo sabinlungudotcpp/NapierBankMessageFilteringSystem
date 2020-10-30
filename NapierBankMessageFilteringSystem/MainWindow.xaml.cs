@@ -53,8 +53,8 @@ namespace NapierBankMessageFilteringSystem
                 string messageHeader = msgHeaderTxtBox.Text.ToUpper();
                 string messageBody = msgTextBox.Text;
 
-                message.messageID = messageHeader;
-                message.messageBody = messageBody;
+                message.MessageID = messageHeader;
+                message.MessageBody = messageBody;
 
                 if(messageHeader.StartsWith(messageTypes[0])) // If the message header starts with an upper case S
                 {
@@ -151,18 +151,16 @@ namespace NapierBankMessageFilteringSystem
                 {
                     MessageBox.Show("Message ID and body are not valid. Re-enter please");
                 }
-
-                if(message.isIdValid() && message.isBodyValid()) // If the message ID is valid and the message body is valid
-                {
+                
                     char splitToken = ' '; // Space character to split the data
                     int smsIndex = 0;
 
-                    string smsID = sms.messageID; // The SMS ID
-                    string msgID = message.messageID;
+                    string smsID = sms.MessageID; // The SMS ID
+                    string msgID = message.MessageID;
                     smsID = msgID;
 
-                    string smsBody = sms.messageBody;
-                    string messageBody = message.messageBody;
+                    string smsBody = sms.MessageBody;
+                    string messageBody = message.MessageBody;
                     smsBody = messageBody;
 
                     string smsCountryCode = messageBody.Split(splitToken)[smsIndex]; // Split the country code.
@@ -182,15 +180,13 @@ namespace NapierBankMessageFilteringSystem
                     messageInputs.Add(sms.smsText); // Adds the messages inputs to the list
 
                     abbreviations.readFile();
-                
-                    if(isSmsSanitised)
-                    {
-                        messageID.Text = "Message ID : " + smsID.ToString();
-                        messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
-                        messageText.Text = "Message Text : " + sms.smsText.ToString();
-                    }
-                }
 
+                if (isSmsSanitised)
+                {
+                    messageID.Text = "Message ID : " + smsID.ToString();
+                    messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
+                    messageText.Text = "Message Text : " + sms.smsText.ToString();
+                }
                 return true;
             } 
             
@@ -219,8 +215,8 @@ namespace NapierBankMessageFilteringSystem
                     incidentList.Add(sirData[0]);
                 }
 
-                string emailID = message.messageID; // The E-mail ID is the message ID
-                string emailBody = message.messageBody;
+                string emailID = message.MessageID; // The E-mail ID is the message ID
+                string emailBody = message.MessageBody;
                 
                 string emailSender = emailBody.Split(splitToken)[0];
                 string emailSubject = emailBody.Split(splitToken)[1];
