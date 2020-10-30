@@ -5,12 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
 // Author of System: Sabin Constantin Lungu
 // Date of Last Modification: 28/10/2020
+// Purpose of Class: 
 // Any Bugs: N/A
 
 namespace NapierBankMessageFilteringSystem
@@ -57,7 +57,7 @@ namespace NapierBankMessageFilteringSystem
 
                 if(messageHeader.StartsWith(messageTypes[0])) // If the message header starts with an upper case S
                 {
-                    sanitiseSms(message);
+                    sanitiseSms(message); // Sanitise SMS messages
                 }
 
                 else if(messageHeader.StartsWith(messageTypes[1])) // If the message header text box starts with an E
@@ -95,7 +95,7 @@ namespace NapierBankMessageFilteringSystem
 
                 if(fileDialog.ShowDialog() == true && fileDialog != null)
                 {
-                    filePath = Path.GetExtension(fileDialog.FileName);
+                    filePath = Path.GetExtension(fileDialog.FileName); // Get the file extension
 
                     if(filePath.Equals(".txt")) // If the file path is .txt
                     {
@@ -108,7 +108,10 @@ namespace NapierBankMessageFilteringSystem
 
                         foreach(string lines in File.ReadAllLines(fileDialog.FileName))
                         {
-                            messageListBox.Items.Add(lines);
+                            if(lines.Length > 0 || messageListBox.Items.Count == 0)
+                            {
+                                messageListBox.Items.Add(lines);
+                            }
                         }
                     }
 
@@ -325,6 +328,7 @@ namespace NapierBankMessageFilteringSystem
                     for(int x = 0; x < mentionsList.Count; x++)
                     {
                         bool containsMentions = mentionsList.Contains(tweetMessageBody.ToString());
+
                         if(containsMentions)
                         {
                             mentionsList.Add(tweetMessageBody);
@@ -380,14 +384,14 @@ namespace NapierBankMessageFilteringSystem
 
             for(int i = 0; i < mentionsListBox.Items.Count; i++)
             {
-                if(mentionsListBox.Items.Count > 0)
+                if(mentionsListBox.Items.Count > 0 || mentionsListBox != null)
                 {
                     mentionsListBox.Items.Clear();
                 }
             }
 
             messageListBox.Items.Clear();
-            trendingListBox.Items.Clear();
+            quarantineListBox.Items.Clear();
 
             msgHeaderTxtBox.Text = string.Empty;
             msgTextBox.Text = string.Empty;
