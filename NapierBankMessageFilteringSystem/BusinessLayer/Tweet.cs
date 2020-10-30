@@ -60,5 +60,6 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                 return this.tweetText; // Returns the tweet text
             }
         }
+
     }
 }

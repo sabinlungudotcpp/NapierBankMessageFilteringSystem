@@ -78,5 +78,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
              return this.emailText;
             }
         }
+
+
     }
 }

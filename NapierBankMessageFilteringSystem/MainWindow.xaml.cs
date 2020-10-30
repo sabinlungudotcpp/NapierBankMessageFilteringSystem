@@ -138,7 +138,10 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-                
+                string messageID = message.MessageID;
+                string fileLineChosen = Convert.ToString(messageListBox.SelectedItem);
+                string fileLineSplit = fileLineChosen.Split(' ')[0].ToUpper();
+               
             } 
             
             catch(Exception exc)
@@ -372,7 +375,7 @@ namespace NapierBankMessageFilteringSystem
                 int currentCount;
                 tweetHashtags.TryGetValue(tweetData, out currentCount);
 
-                if (tweetData.StartsWith("#")) {
+                if (tweetData.StartsWith("#") && tweetHashtags != null) {
                     tweetHashtags[tweetData] = currentCount + 1;
                 }
             }
