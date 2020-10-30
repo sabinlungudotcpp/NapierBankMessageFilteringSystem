@@ -17,10 +17,7 @@ namespace NapierBankMessageFilteringSystem
  
     public partial class MainWindow : Window
     {
-        private Regex regexMatcher = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b",
-          RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private char[] delimiters = { '.', ',', ' '};
-
         private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
 
@@ -176,10 +173,13 @@ namespace NapierBankMessageFilteringSystem
                     sms.SmsText = newSentence;
 
                     isSmsSanitised = true;
-                    messageInputs.Add(sms.SmsText); // Adds the messages inputs to the list
-
+                    
+                    for(int i = 0; i < processedSMS.Length; i++) {
                     abbreviations.readFile();
+                    messageInputs.Add(sms.SmsText); // Adds the messages inputs to the list
+                 }
 
+                 
                 if (isSmsSanitised)
                 {
                     messageID.Text = "Message ID : " + smsID.ToString();
@@ -387,6 +387,10 @@ namespace NapierBankMessageFilteringSystem
             }
 
             messageListBox.Items.Clear();
+            trendingListBox.Items.Clear();
+
+            msgHeaderTxtBox.Text = string.Empty;
+            msgTextBox.Text = string.Empty;
         }
     }
 }
