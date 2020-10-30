@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NapierBankMessageFilteringSystem.BusinessLayer
 {
     // Author: Sabin Constantin Lungu
     // Date of creation: 21/10/2020
+    // Purpose of Class: Tweet class used to store the tweet sender ID, tweet text and the symbol for the sender.
+    // Any Errors: N/A
+
     public class Tweet : Message // Tweet class inherits from Messages class
     {
         private string tweetSender;
         private string tweetText;
         private string atSymbol = "@";
+
+        public Tweet()
+        {
+
+        }
 
         public string TweetSender
         {
@@ -24,9 +28,9 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 
                 }
 
-                   else {
+                else {
                     
-                    throw new Exception("Tweet sender does not start with an @ symbol. Re-enter please");
+                 throw new Exception("Tweet sender does not start with an @ symbol. Re-enter please");
                   }
             }
 
@@ -53,7 +57,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 
             get
             {
-                return this.tweetText;
+                return this.tweetText; // Returns the tweet text
             }
         }
     }

@@ -5,7 +5,7 @@ using NapierBankMessageFilteringSystem.BusinessLayer;
 namespace NapierBankMessageFilteringSystemUnitTests
 {
     [TestClass]
-    public class MessageTest
+    public class TweetTest
     {
         Message message = new Message();
 

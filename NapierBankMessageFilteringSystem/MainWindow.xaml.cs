@@ -228,7 +228,6 @@ namespace NapierBankMessageFilteringSystem
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
 
-               
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
                     if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
@@ -236,9 +235,8 @@ namespace NapierBankMessageFilteringSystem
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
 
-                        if(quarantineListBox.Items.Count == 0)
-                        {
-
+                        if(quarantineListBox.Items.Count == 0) {
+                        
                             int smsIndexToProcess = emailBody.IndexOf(" ") + 1;
                             string processedSMS = emailBody.Substring(smsIndexToProcess);
                             int nextIndex = processedSMS.IndexOf(" ") + 1;

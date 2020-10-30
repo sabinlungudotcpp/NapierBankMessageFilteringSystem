@@ -8,6 +8,11 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string subject; // The E-mail Subject
         private string emailText; // E-mail Text
 
+        public Email()
+        {
+
+        }
+
         public string EmailSender
         {
             set
