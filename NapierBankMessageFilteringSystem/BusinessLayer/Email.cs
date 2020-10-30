@@ -56,34 +56,22 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                try
-                {
-                    if(isEmailTxtValid())
-                    {
-                        this.emailText = value;
-                    }
 
-                    else if(!isEmailTxtValid())
-                    {
-                        throw new ArgumentException("E-mail text is not valid. Please re-enter");
+                if(value.Length >= 0 && value.Length <= 1028) { 
+                    
+                     this.emailText = value;
+                   }
+
+                  else { 
+                    
+                   throw new ArgumentException("E-mail text is not valid. Please re-enter");
                     }
                 } 
-                
-                catch
-                {
-                    throw new Exception("E-mail Text must be a maximum of 1028 characters. Please re-enter");
-                }
-            }
 
-            get
-            {
-                return this.emailText;
+            get {
+            
+             return this.emailText;
             }
-        }
-
-        private bool isEmailTxtValid() // Determines if the e-mail text is valid or not
-        {
-            return this.emailText.Length >= 0 && this.emailText.Length <= 1028;
         }
     }
 }

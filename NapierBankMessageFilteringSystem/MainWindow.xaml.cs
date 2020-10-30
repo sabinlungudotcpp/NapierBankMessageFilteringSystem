@@ -208,7 +208,7 @@ namespace NapierBankMessageFilteringSystem
             {
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 char splitToken = ',';
-               
+                string quarantineText = "<URL Quarantined>";
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
@@ -226,7 +226,19 @@ namespace NapierBankMessageFilteringSystem
                 string emailSender = emailBody.Split(splitToken)[0];
                 string emailSubject = emailBody.Split(splitToken)[1];
                 string emailText = emailBody.Split(splitToken)[2];
-                string quarantineText = "<URL Quarantined>";
+
+                int emailIndex = message.MessageBody.IndexOf(" ") + 1;
+                string processedEmailMsg = emailBody.Substring(emailIndex);
+
+                int finalEmailIndex = processedEmailMsg.IndexOf(" ") + 1;
+                email.EmailText = processedEmailMsg;
+
+                for(int i = 0; i < processedEmailMsg.Length; i++)
+                {
+                
+                    string replacedEmailTxt = abbreviations.replaceMessage(email.EmailText);
+                    email.EmailText = replacedEmailTxt;
+                }
 
                 foreach(string emailWord in emailText.Split(splitToken)) {
                     
@@ -235,9 +247,12 @@ namespace NapierBankMessageFilteringSystem
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
 
-                        quarantineListBox.Items.Add(emailWord);
+                        if(quarantineListBox.Items.Count == 0)
+                        {
+                            quarantineListBox.Items.Add(emailWord);
+                        }
 
-                        if(quarantineList != null) // If there is a quarantine list
+                        if (quarantineList != null) // If there is a quarantine list
                         {
                             quarantineList.Add(emailText); // Add the e-mails to the quarantine list
                         }
@@ -251,7 +266,7 @@ namespace NapierBankMessageFilteringSystem
                 {
                     messageID.Text = "Message ID : " + emailID.ToString();
                     messageSender.Text = "Message Sender:  " + emailSender.ToString();
-                    messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText.ToString();
+                    messageText.Text = "Message Subject : " + emailSubject.ToString().Trim() + "\n Message Text : " + email.EmailText.ToString().Trim(); 
                 }
 
                 return true;
