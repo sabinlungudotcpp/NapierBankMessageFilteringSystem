@@ -14,9 +14,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string countryCode; // The SMS country code
         private string smsText; // The SMS text
         private string code = "+";
-
-        private int lengthOne = 0;
-        private int lengthTwo = 140;
+        private int defaultValue = 0;
 
         public Sms()
         {
@@ -68,7 +66,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(value.Length > lengthOne && value.Length <= lengthTwo)
+                if(value.Length > defaultValue && value.Length <= 140)
                 {
                     this.smsText = value;
                 }

@@ -15,6 +15,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
         private string textWordsFile = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem/textwords.csv";
         private char delimiter = ',';
+        private int defaultValue = 0;
 
         public bool readFile() // Read the file that contains the abbreviations
         {
@@ -43,7 +44,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                    
                  foreach(string abbreviation in abbreviationsList) // And for every abbreviation in the list
                    {
-                        if(definitionWord.Equals(abbreviation) && listOfDefinitions.Count > 0 && abbreviationsList.Count > 0)
+                        if(definitionWord.Equals(abbreviation) && listOfDefinitions.Count > defaultValue && abbreviationsList.Count > defaultValue)
                         {
                             int indexOfDefinition = abbreviationsList.IndexOf(abbreviation);
                             string allDefinitions = listOfDefinitions[indexOfDefinition]; // Store the list of all the definitions in the string array
