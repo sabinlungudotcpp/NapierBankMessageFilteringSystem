@@ -349,10 +349,16 @@ namespace NapierBankMessageFilteringSystem
 
             foreach(string tweetData in splitTweetMsg)
             {
-                if(tweetData.Contains("#"))
+                if(tweetData.Contains("#") || tweetHashtags != null)
                 {
-                    tweetHashtags.Add(tweetData, counter++);
-                    trendingListBox.Items.Add(counter);
+                    bool containsHashtag = tweetHashtags.ContainsKey("#");
+
+                    if(!containsHashtag)
+                    {
+                        tweetHashtags.Add(tweetData, counter++);
+                        trendingListBox.Items.Add(tweetData.ToString());
+                    }
+                    
                 }
             }
 
