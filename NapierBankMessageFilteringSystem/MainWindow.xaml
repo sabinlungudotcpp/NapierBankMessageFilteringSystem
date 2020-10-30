@@ -25,7 +25,22 @@
         <Label Content="SIR List" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="378,97,0,0" VerticalAlignment="Top"/>
         <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="73" Margin="334,122,0,0" VerticalAlignment="Top" Width="159"/>
         <Label Content="Trending List" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="569,97,0,0" VerticalAlignment="Top"/>
-        <ListBox Grid.Column="1" Name="trendingListBox" HorizontalAlignment="Left" Height="73" Margin="547,122,0,0" VerticalAlignment="Top" Width="147"/>
+        <ListBox Grid.Column="1" ItemsSource="{DynamicResource TweetHashtags}" Name="trendingListBox" HorizontalAlignment="Left" Height="73" Margin="547,122,0,0" VerticalAlignment="Top" Width="147">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="Key" />
+                            <ColumnDefinition SharedSizeGroup="T" />
+                            <ColumnDefinition SharedSizeGroup="Value" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="2" Text="{Binding Key}" Grid.Column="0"/>
+                        <TextBlock Margin="2" Text="Count:" Grid.Column="1"/>
+                        <TextBlock Margin="2" Text="{Binding Value}" Grid.Column="2"/>
+                    </Grid>
+                </DataTemplate>
+                </ListBox.ItemTemplate>
+        </ListBox>
         <TextBox Grid.Column="1" Name="messageID" HorizontalAlignment="Left" Height="73" Margin="222,269,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
         <TextBox Grid.Column="1" Name="messageSender" HorizontalAlignment="Left" Height="74" Margin="222,379,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
         <TextBox Grid.Column="1" Name="messageText" HorizontalAlignment="Left" Height="73" Margin="222,493,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>

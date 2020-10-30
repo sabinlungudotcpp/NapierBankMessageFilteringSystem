@@ -4,6 +4,7 @@ using NapierBankMessageFilteringSystem.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,12 +38,25 @@ namespace NapierBankMessageFilteringSystem
 
         public MainWindow()
         {
+            Resources["TweetHashtags"] = tweetHashtags;
+
             InitializeComponent();
+        }
+
+        public class Drink
+        {
+            public Drink(string name, int popularity)
+            {
+                Name = name;
+                Popularity = popularity;
+            }
+            public string Name { get; set; }
+            public int Popularity { get; set; }
         }
 
         private void processMsgButton_Click(object sender, RoutedEventArgs e) // Process Message ID & Body manually
         {
-            
+
             string[] messageTypes = { "S", "E", "T" };
 
             try
@@ -344,23 +358,39 @@ namespace NapierBankMessageFilteringSystem
 
         private bool produceTrendingList(string tweetSentence) // Process the trending list if a hash tag is in the body of the message
         {
+            tweetHashtags.Clear();
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
-            int counter = 0;
 
             foreach(string tweetData in splitTweetMsg)
             {
-                if(tweetData.Contains("#") || tweetHashtags != null)
-                {
-                    bool containsHashtag = tweetHashtags.ContainsKey("#");
+                int currentCount;
+                tweetHashtags.TryGetValue(tweetData, out currentCount);
 
-                    if(!containsHashtag)
-                    {
-                        tweetHashtags.Add(tweetData, counter++);
-                        trendingListBox.Items.Add(tweetData.ToString());
-                    }
-                    
+                if (tweetData.StartsWith("#")) {
+                    tweetHashtags[tweetData] = currentCount + 1;
                 }
+
             }
+            trendingListBox.ItemsSource = new Dictionary<string, int>();
+            trendingListBox.ItemsSource = tweetHashtags.OrderByDescending(key => key.Value); // Shouldn't it be by current counter?
+
+            //What is the "trending" supposed to be I sent you the description on messenger
+
+            //foreach(string tweetData in splitTweetMsg)
+            //{
+            //    if(tweetData.Contains("#") || tweetHashtags != null)
+            //    {
+            //        bool containsHashtag = tweetHashtags.ContainsKey("#"); // what's this for? stores either true or false if the tweet sentence has a hashtag or not
+
+            //        if(!containsHashtag)
+            //        {
+            //            tweetHashtags.Add(tweetData, counter++);
+
+            //            trendingListBox.Items.Add(tweetData.ToString());
+            //        }
+                    
+            //    }
+            //}
 
             return true;
         }
