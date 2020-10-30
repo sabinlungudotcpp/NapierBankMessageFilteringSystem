@@ -361,8 +361,8 @@ namespace NapierBankMessageFilteringSystem
                 if (tweetData.StartsWith("#")) {
                     tweetHashtags[tweetData] = currentCount + 1;
                 }
-
             }
+
             trendingListBox.ItemsSource = new Dictionary<string, int>();
             trendingListBox.ItemsSource = tweetHashtags.OrderByDescending(key => key.Value); // Shouldn't it be by current counter?
 

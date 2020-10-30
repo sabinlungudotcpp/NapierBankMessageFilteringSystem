@@ -12,16 +12,13 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                try
-                {
-                    if(isEmailSenderValid())
-                    {
-                        var email_address = new System.Net.Mail.MailAddress(value);
-                        this.emailSender = value; // Set the E-mail sender to its value
-                    }
-                }
+                if(value.Length > 0) {
+                    
+                   var email_address = new System.Net.Mail.MailAddress(value);
+                   this.emailSender = value; // Set the E-mail sender to its value
+                 }
 
-                catch
+                else
                 {
                     throw new Exception("E-mail address is not in the correct format. Please re-enter");
                 }
@@ -37,29 +34,21 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                try
-                {
-                    if(isSubjectValid())
-                    {
-                        this.subject = value;
-                    }
 
-                    else if(!isSubjectValid())
-                    {
-                        throw new ArgumentException("Subject exceeds 20 characters. Please re-enter!");
+              if(value.Length > 0 && value.Length <= 20) {
+               
+                this.subject = value;
+               }
+
+                else {
+                   
+                 throw new ArgumentException("Subject exceeds 20 characters. Please re-enter!");
                     }
                 }
 
-                catch
-                {
-                    throw new Exception("Subject exceeds 20 characters. Please re-enter");
-                }
-            }
-
-            get
-
-            {
-                return this.subject;
+            get {
+            
+              return this.subject;
             }
         }
 
@@ -90,16 +79,6 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             {
                 return this.emailText;
             }
-        }
-
-        private bool isEmailSenderValid() // Determines if the e-mail sender is valid or not
-        {
-            return this.emailSender.Length > 0 && this.emailSender != null; // Returns true or false if the length is > 0 and the e-mail sender field is not left empty
-        }
-
-        private bool isSubjectValid()
-        {
-            return this.subject.Length > 0 && this.subject.Length <= 20 && this.subject != null;
         }
 
         private bool isEmailTxtValid() // Determines if the e-mail text is valid or not

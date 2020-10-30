@@ -18,6 +18,10 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private int lengthOne = 0;
         private int lengthTwo = 140;
 
+        public Sms()
+        {
+
+        }
         public string Sender
         {
             set

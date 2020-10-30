@@ -64,7 +64,6 @@ namespace NapierBankMessageFilteringSystem.DataLayer
             }
 
             return sentence;
-
         }
     }
 }
