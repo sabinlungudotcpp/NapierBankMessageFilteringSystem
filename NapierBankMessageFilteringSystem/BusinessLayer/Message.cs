@@ -13,7 +13,10 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
     {
         private string messageID;
         private string messageBody;
+        public Message()
+        {
 
+        }
         public string MessageID
         {
             set
@@ -56,6 +59,11 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             {
                 return this.messageBody;
             }
+        }
+
+        public static implicit operator string(Message v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -276,7 +276,6 @@ namespace NapierBankMessageFilteringSystem
                 tweets.TweetSender = tweets.MessageBody.Substring(0, tweets.MessageBody.IndexOf(delimiter)); // The tweet sender is the substring of the message body followed by a space: '@Sabin Lungu'
                 tweets.TweetText = processedTweet;
 
-         
                 for (int i = 0; i < processedTweet.Length; i++)
                 {
                     abbreviations.readFile();
@@ -290,6 +289,7 @@ namespace NapierBankMessageFilteringSystem
                 }
 
                 checkForMentions(tweets.TweetSender);
+                produceTrendingList(tweets.TweetText);
 
                 isTweetSanitised = true; // The tweets are sanitised
 
@@ -316,18 +316,25 @@ namespace NapierBankMessageFilteringSystem
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
             bool mentionFound = false;
 
-            foreach (string tweetWord in splitTweetMsg)
+            foreach (string tweetMessageBody in splitTweetMsg)
             {
-                if(tweetWord.Contains("@") || mentionsList != null)
+                if(tweetMessageBody.Contains("@") || mentionsList != null || mentionsList.Count == 0) // If the tweet message body
                 {
-                    mentionsList.Add(tweetWord.ToString());
-                    mentionsListBox.Items.Add(tweetWord.ToString());
+                    for(int x = 0; x < mentionsList.Count; x++)
+                    {
+                        bool containsMentions = mentionsList.Contains(tweetMessageBody.ToString());
+                        if(containsMentions)
+                        {
+                            mentionsList.Add(tweetMessageBody);
+                        }
+                    }
 
+                    mentionsListBox.Items.Add(tweetMessageBody);
                     mentionFound = true;
 
-                    if(mentionFound) // If a mention has been found
+                    if(mentionFound)
                     {
-                        processTrendingList();
+                        // Write to JSON file the processed tweet messages
                     }
                 }
             }
@@ -335,9 +342,45 @@ namespace NapierBankMessageFilteringSystem
             return tweetSentence;
         }
 
-        private bool processTrendingList() // Process the trending list if a hash tag is in the body of the message
+        private bool produceTrendingList(string tweetSentence) // Process the trending list if a hash tag is in the body of the message
         {
+            string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+            int counter = 0;
+
+            foreach(string tweetData in splitTweetMsg)
+            {
+                if(tweetData.Contains("#"))
+                {
+                    tweetHashtags.Add(tweetData, counter++);
+                    trendingListBox.Items.Add(counter);
+                }
+            }
+
             return true;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) // Clears data from the system
+        {
+            // Objects are now empty
+            message = null;
+            sms = null;
+            email = null;
+            tweets = null;
+
+            // Clear the data from the system
+            messageID.Text = string.Empty;
+            messageSender.Text = string.Empty;
+            messageText.Text = string.Empty;
+
+            for(int i = 0; i < mentionsListBox.Items.Count; i++)
+            {
+                if(mentionsListBox.Items.Count > 0)
+                {
+                    mentionsListBox.Items.Clear();
+                }
+            }
+
+            messageListBox.Items.Clear();
         }
     }
 }
