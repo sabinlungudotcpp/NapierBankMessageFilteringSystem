@@ -408,35 +408,53 @@ namespace NapierBankMessageFilteringSystem
 
         private bool produceTrendingList(string tweetSentence) // Process the trending list if a hash tag is in the body of the message
         {
-            tweetHashtags.Clear();
-
-            string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
-            string hashtag = "#";
-
-            foreach(string tweetData in splitTweetMsg) // For every tweet in the sentence
+            try
             {
-                int currentCount; // The count of hashtags found
-                tweetHashtags.TryGetValue(tweetData, out currentCount);
+                tweetHashtags.Clear();
 
-                if (tweetData.StartsWith(hashtag) && tweetHashtags != null || !tweetData.Contains(tweetData)) {
+                string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+                string hashtag = "#";
 
-                    bool containsHashtag = tweetHashtags.ContainsKey(hashtag);
+                foreach (string tweetData in splitTweetMsg) // For every tweet in the sentence
+                {
+                    int currentCount; // The count of hashtags found
+                    tweetHashtags.TryGetValue(tweetData, out currentCount);
 
-                    if(!containsHashtag)
+                    if (tweetData.StartsWith(hashtag) && tweetHashtags != null || !tweetData.Contains(tweetData))
                     {
-                        tweetHashtags[tweetData] = currentCount + defaultValue + 1;
-                    } 
-                }
-            }
 
-            trendingListBox.ItemsSource = new Dictionary<string, int>();
-            trendingListBox.ItemsSource = tweetHashtags.OrderByDescending(key => key.Value); // Shouldn't it be by current counter?
+                        bool containsHashtag = tweetHashtags.ContainsKey(hashtag);
+
+                        if (!containsHashtag)
+                        {
+                            tweetHashtags[tweetData] = currentCount + defaultValue + 1;
+                        }
+                    }
+                }
+
+                trendingListBox.ItemsSource = new Dictionary<string, int>();
+                trendingListBox.ItemsSource = tweetHashtags.OrderByDescending(key => key.Value); // Shouldn't it be by current counter?
+            } 
+            
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
+            }
 
             return true;
         }
 
         private bool processSIREmails(string emailSentence)
         {
+            try
+            {
+
+            } 
+            
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
+            }
 
             // string[] splitEmailMsg = emailSentence.Split(delimiters[2]); // Split the e-mail by a comma.
             return true;
