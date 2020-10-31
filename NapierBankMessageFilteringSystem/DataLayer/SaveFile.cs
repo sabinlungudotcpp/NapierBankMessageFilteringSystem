@@ -12,6 +12,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
     [Serializable()]
     public class SaveFile // Class to save messages to a JSON file
     {
+        private bool serialized = false;
 
         public void saveToJSON(List<Message> inputMessages)
         {
@@ -19,12 +20,12 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
             using(StreamWriter messageFile = File.CreateText("C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/messagesFile.json"))
             {
-                if(messageFile != null)
+                if(messageFile != null && inputMessages != null)
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(messageFile, inputMessages); // Serialize the messaegs to the file
+                    serialized = true;
                 }
-               
             }
         }
     }

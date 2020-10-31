@@ -33,7 +33,7 @@ namespace NapierBankMessageFilteringSystem
 
         private Dictionary<string, string> SIR = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
-
+        private List<Message> fileInputMessages = new List<Message>();
         private List<Message> outputMessages = new List<Message>();
 
         public MainWindow()
@@ -107,13 +107,19 @@ namespace NapierBankMessageFilteringSystem
                             string fileData = File.ReadAllText(fileDialog.FileName);
                         }
 
-                        foreach(string lines in File.ReadAllLines(fileDialog.FileName))
+                        foreach(string messageLines in File.ReadAllLines(fileDialog.FileName))
                         {
-                            if(lines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
+                            if(messageLines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
                             {
-                                messageListBox.Items.Add(lines);
+                                messageListBox.Items.Add(messageLines.ToString());
                             }
                         }
+                    }
+
+                    else if(filePath.Equals(".json")) // Process JSON messages from file
+                    {
+                        // Read JSON File
+                        string jsonLine;
                     }
 
                     else if(!filePath.Equals(".txt") || !filePath.Equals(".json")) // If the file paths are not txt or json
@@ -245,7 +251,7 @@ namespace NapierBankMessageFilteringSystem
 
                 processSIREmails(email.EmailText);
 
-                foreach(string emailWord in emailText.Split(splitToken)) {
+                foreach(string emailWord in emailText.Split(delimiters[1])) {
                     
                     if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
                     {
@@ -290,7 +296,7 @@ namespace NapierBankMessageFilteringSystem
                 {
                     messageID.Text = "Message ID : " + emailID.ToString();
                     messageSender.Text = "Message Sender:  " + emailSender.ToString();
-                    messageText.Text = "Message Text: " + emailSubject.ToString() + splitToken + emailText.ToString();
+                    messageText.Text = "Message Text: " + emailSubject.ToString() + delimiters[1] + emailText.ToString();
                 }
 
                 return true;
