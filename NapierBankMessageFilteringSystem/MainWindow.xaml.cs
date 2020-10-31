@@ -227,8 +227,14 @@ namespace NapierBankMessageFilteringSystem
                     incidentList.Add(sirData[0]);
                 }
 
+                string emailMessage = email.MessageID;
+                string emailMsgBody = email.MessageBody;
+
                 string emailID = message.MessageID; // The E-mail ID is the message ID
                 string emailBody = message.MessageBody;
+
+                emailMessage = emailID;
+                emailMsgBody = emailBody;
                 
                 string emailSender = emailBody.Split(splitToken)[defaultValue];
                 string emailSubject = emailBody.Split(splitToken)[defaultValue+1];
@@ -266,14 +272,15 @@ namespace NapierBankMessageFilteringSystem
                     }
                 }
 
-                outputMessages.Add(message);
-                SaveFile emailFile = new SaveFile();
+               SaveFile emailFile = new SaveFile();
 
-                if(emailFile != null)
-                {
-                    emailFile.saveToJSON(outputMessages);
-                }
+               if(emailFile != null) {
                 
+                outputMessages.Add(email);
+                emailFile.saveToJSON(outputMessages);
+
+                }
+
                 isEmailSanitised = true;
 
                 if (isEmailSanitised)
