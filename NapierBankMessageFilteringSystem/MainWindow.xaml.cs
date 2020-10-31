@@ -15,10 +15,10 @@ using System.Windows.Controls;
 
 namespace NapierBankMessageFilteringSystem
 {
- 
+
     public partial class MainWindow : Window
     {
-        private char[] delimiters = { '.', ',', ' '};
+        private char[] delimiters = { '.', ',', ' ' };
         private int defaultValue = 0;
 
         private Abbreviations abbreviations = new Abbreviations();
@@ -56,17 +56,17 @@ namespace NapierBankMessageFilteringSystem
                 message.MessageID = messageHeader;
                 message.MessageBody = messageBody;
 
-                if(messageHeader.StartsWith(messageTypes[0]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(0)))) // If the message header starts with an upper case S
+                if (messageHeader.StartsWith(messageTypes[0]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(0)))) // If the message header starts with an upper case S
                 {
                     sanitiseSms(message); // Sanitise SMS messages
                 }
 
-                else if(messageHeader.StartsWith(messageTypes[1])) // If the message header text box starts with an E
+                else if (messageHeader.StartsWith(messageTypes[1])) // If the message header text box starts with an E
                 {
                     sanitiseEmail(message);
                 }
 
-                else if(messageHeader.StartsWith(messageTypes[2]))
+                else if (messageHeader.StartsWith(messageTypes[2]))
                 {
                     sanitiseTweets(message); // Sanitise tweet messages
                 }
@@ -75,9 +75,9 @@ namespace NapierBankMessageFilteringSystem
                 {
                     MessageBox.Show("Please fill in both boxes");
                 }
-            } 
-            
-            catch(Exception exception)
+            }
+
+            catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString());
             }
@@ -87,7 +87,7 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-               
+
                 var filePath = string.Empty;
                 var fileContent = string.Empty;
                 bool isFileValid = false;
@@ -95,46 +95,49 @@ namespace NapierBankMessageFilteringSystem
                 OpenFileDialog fileDialog = new OpenFileDialog(); // A new open file dialog instance
                 fileDialog.RestoreDirectory = true;
 
-                if(fileDialog.ShowDialog() == true && fileDialog != null)
+                if (fileDialog.ShowDialog() == true && fileDialog != null)
                 {
                     filePath = Path.GetExtension(fileDialog.FileName); // Get the file extension
 
-                    if(filePath.Equals(".txt")) // If the file path is .txt
+                    if (filePath.Equals(".txt")) // If the file path is .txt
                     {
                         isFileValid = true;
 
-                        if(isFileValid)
+                        if (isFileValid)
                         {
                             string fileData = File.ReadAllText(fileDialog.FileName);
                         }
 
-                        foreach(string messageLines in File.ReadAllLines(fileDialog.FileName))
+                        foreach (string messageLines in File.ReadAllLines(fileDialog.FileName))
                         {
-                            if(messageLines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
+                            if (messageLines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
                             {
                                 messageListBox.Items.Add(messageLines.ToString());
                             }
                         }
                     }
 
-                    else if(filePath.Equals(".json")) // Process JSON messages from file
+                    else if (filePath.EndsWith(".json")) // Process JSON messages from file
                     {
                         // Read JSON File
                         string jsonFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/messagesFile.json";
                         StreamReader jsonReader = new StreamReader(jsonFilePath);
-                        string jsonLine;
+                        string jsonLine = string.Empty;
+                        char token = '}';
 
-                        while((jsonLine = jsonReader.ReadLine()) != null)
+                        while ((jsonLine = jsonReader.ReadLine()) != null)
                         {
-                            if(jsonLine.Length < 0 || jsonReader != null)
+                            if (jsonLine.Length < 0 || jsonReader != null)
                             {
                                 // Deserialise JSON
+                                string[] jsonFileContent = jsonLine.Split(token);
+
+
                             }
                         }
-                        
                     }
 
-                    else if(!filePath.Equals(".txt") || !filePath.Equals(".json")) // If the file paths are not txt or json
+                    else if (!filePath.EndsWith(".txt") || !filePath.EndsWith(".json")) // If the file paths are not txt or json
                     {
                         isFileValid = false; // File not valid
                         MessageBox.Show("Please choose a .txt file or .json");
@@ -145,9 +148,9 @@ namespace NapierBankMessageFilteringSystem
                         MessageBox.Show("Invalid file type");
                     }
                 }
-            } 
-            
-            catch(Exception exc)
+            }
+
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
@@ -160,10 +163,10 @@ namespace NapierBankMessageFilteringSystem
                 string messageID = message.MessageID;
                 string fileLineChosen = Convert.ToString(messageListBox.SelectedItem);
                 string fileLineSplit = fileLineChosen.Split(delimiters[2])[defaultValue].ToUpper();
-               
-            } 
-            
-            catch(Exception exc)
+
+            }
+
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
@@ -171,55 +174,55 @@ namespace NapierBankMessageFilteringSystem
 
         private bool sanitiseSms(Message message) // Routine to sanitise SMS messages
         {
-           try
+            try
             {
-               bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
-               char splitToken = ' '; // Space character to split the data
-               string space = " ";
+                bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
+                char splitToken = ' '; // Space character to split the data
+                string space = " ";
 
-               string smsID = sms.MessageID; // The SMS ID
-               string msgID = message.MessageID;
-               smsID = msgID;
+                string smsID = sms.MessageID; // The SMS ID
+                string msgID = message.MessageID;
+                smsID = msgID;
 
-               string smsBody = sms.MessageBody;
-               string messageBody = message.MessageBody;
-               smsBody = messageBody;
+                string smsBody = sms.MessageBody;
+                string messageBody = message.MessageBody;
+                smsBody = messageBody;
 
-               string smsCountryCode = smsBody.Split(splitToken)[defaultValue]; // Split the country code.
-               string smsSender = smsBody.Split(splitToken)[defaultValue + 1];
+                string smsCountryCode = smsBody.Split(splitToken)[defaultValue]; // Split the country code.
+                string smsSender = smsBody.Split(splitToken)[defaultValue + 1];
 
-               int smsIndexToProcess = smsBody.IndexOf(space) + defaultValue + 1;
-               string processedSMS = smsBody.Substring(smsIndexToProcess);
-               int nextIndex = processedSMS.IndexOf(space) + defaultValue + 1;
+                int smsIndexToProcess = smsBody.IndexOf(space) + defaultValue + 1;
+                string processedSMS = smsBody.Substring(smsIndexToProcess);
+                int nextIndex = processedSMS.IndexOf(space) + defaultValue + 1;
 
-               string finalSms = processedSMS.Substring(nextIndex);
-               sms.SmsText = finalSms;
+                string finalSms = processedSMS.Substring(nextIndex);
+                sms.SmsText = finalSms;
 
-               string newSentence = abbreviations.replaceMessage(sms.SmsText);
-               sms.SmsText = newSentence;
+                string newSentence = abbreviations.replaceMessage(sms.SmsText);
+                sms.SmsText = newSentence;
 
-               outputMessages.Add(sms);
-               abbreviations.readFile();
+                outputMessages.Add(sms);
+                abbreviations.readFile();
 
-               SaveFile file = new SaveFile();
+                SaveFile file = new SaveFile();
 
-                if(file != null) {
+                if (file != null) {
                     file.saveToJSON(outputMessages);
                 }
-              
-               isSmsSanitised = true;
 
-               if (isSmsSanitised) {
-                   messageID.Text = "Message ID : " + smsID.ToString();
-                   messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
-                   messageText.Text = "Message Text : " + sms.SmsText.ToString();
+                isSmsSanitised = true;
+
+                if (isSmsSanitised) {
+                    messageID.Text = "Message ID : " + smsID.ToString();
+                    messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
+                    messageText.Text = "Message Text : " + sms.SmsText.ToString();
                 }
 
                 return true;
-            } 
-            
-            catch(Exception exc) {
-            
+            }
+
+            catch (Exception exc) {
+
                 MessageBox.Show(exc.ToString());
             }
 
@@ -238,15 +241,16 @@ namespace NapierBankMessageFilteringSystem
 
                 // Read file that contains SIGNIFICANT INCIDENT REPORTS
                 StreamReader sirFile = new StreamReader(sirFilePath);
-                while((fileLine = sirFile.ReadLine()) != null && incidentList != null)
+                while ((fileLine = sirFile.ReadLine()) != null && incidentList != null)
                 {
-                    if(fileLine.Length < defaultValue)
+                    if (fileLine.Length < defaultValue)
                     {
                         string[] sirData = fileLine.Split(delimiters[defaultValue + 1]);
                         incidentList.Add(sirData[defaultValue]);
                         break;
                     }
                 }
+
                 processSIREmails(email.EmailText);
 
                 string emailMessage = email.MessageID;
@@ -257,20 +261,20 @@ namespace NapierBankMessageFilteringSystem
 
                 emailMessage = emailID;
                 emailMsgBody = emailBody;
-                
+
                 string emailSender = emailBody.Split(delimiters[1])[defaultValue];
                 string emailSubject = emailBody.Split(delimiters[1])[defaultValue + 1];
                 string emailText = emailBody.Split(delimiters[1])[defaultValue + 2];
 
-                foreach(string emailWord in emailText.Split(delimiters[1])) {
-                    
+                foreach (string emailWord in emailText.Split(delimiters[1])) {
+
                     if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
                     {
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
 
-                        if(quarantineListBox.Items.Count == defaultValue) {
-                        
+                        if (quarantineListBox.Items.Count == defaultValue) {
+
                             int smsIndexToProcess = emailBody.IndexOf(" ") + defaultValue + 1;
                             string processedSMS = emailBody.Substring(smsIndexToProcess);
                             int nextIndex = processedSMS.IndexOf(" ") + defaultValue + 1;
@@ -282,22 +286,22 @@ namespace NapierBankMessageFilteringSystem
                             string replacedEmailTxt = abbreviations.replaceMessage(email.EmailText);
                             email.EmailText = replacedEmailTxt;
 
-                            quarantineListBox.Items.Add(email.EmailText.ToString());
+                            quarantineListBox.Items.Add(emailText.ToString());
                         }
 
                         if (quarantineList != null) // If there is a quarantine list
                         {
-                            quarantineList.Add(emailText); // Add the e-mails to the quarantine list
+                            quarantineList.Add(email.EmailText); // Add the e-mails to the quarantine list
                         }
                     }
                 }
 
-               SaveFile emailFile = new SaveFile();
+                SaveFile emailFile = new SaveFile();
 
-               if(emailFile != null) {
-                
-                outputMessages.Add(email);
-                emailFile.saveToJSON(outputMessages);
+                if (emailFile != null) {
+
+                    outputMessages.Add(email);
+                    emailFile.saveToJSON(outputMessages);
 
                 }
 
@@ -305,15 +309,15 @@ namespace NapierBankMessageFilteringSystem
 
                 if (isEmailSanitised)
                 {
-                    messageID.Text = emailID.ToString();
-                    messageSender.Text = emailSender.ToString();
-                    messageText.Text = emailText.ToString();
+                    messageID.Text = "Message ID : " + emailID.ToString();
+                    messageSender.Text = "Message Sender : " + '\n' + emailSender.ToString() + '\n' + "Message Subject : " + emailSubject.ToString();
+                    messageText.Text = "Message Text : " + emailText.ToString();
                 }
 
                 return true;
-            } 
-            
-            catch(Exception exc)
+            }
+
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
@@ -350,17 +354,17 @@ namespace NapierBankMessageFilteringSystem
 
                 isTweetSanitised = true; // The tweets are sanitised
 
-                if(isTweetSanitised)
+                if (isTweetSanitised)
                 {
                     messageID.Text = "Message ID : " + tweets.MessageID.ToString().Trim();
                     messageSender.Text = "Message Sender : " + tweets.TweetSender.ToString().Trim();
                     messageText.Text = "Message Text : " + tweets.TweetText.ToString().Trim();
-;                }
+                    ; }
 
                 return true;
             }
-           
-            catch(Exception exception)
+
+            catch (Exception exception)
             {
                 MessageBox.Show(exception.ToString());
             }
@@ -404,9 +408,9 @@ namespace NapierBankMessageFilteringSystem
                         }
                     }
                 }
-            } 
-            
-            catch(Exception exc)
+            }
+
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
@@ -442,9 +446,9 @@ namespace NapierBankMessageFilteringSystem
 
                 trendingListBox.ItemsSource = new Dictionary<string, int>();
                 trendingListBox.ItemsSource = tweetHashtags.OrderByDescending(key => key.Value); // Shouldn't it be by current counter?
-            } 
-            
-            catch(Exception exc)
+            }
+
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
@@ -456,66 +460,74 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
+                // string[] splitEmailMsg = emailSentence.Split(delimiters[2]); // Split the e-mail by a comma.
+            }
 
-            } 
-            
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
 
-            // string[] splitEmailMsg = emailSentence.Split(delimiters[2]); // Split the e-mail by a comma.
+
             return true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) // Clears data from the system
         {
-            // Objects are now empty
-            sms = null;
-            
-            // Clear the data from the system
-            messageID.Text = string.Empty;
-            messageSender.Text = string.Empty;
-            messageText.Text = string.Empty;
-
-            for(int x = defaultValue; x < mentionsListBox.Items.Count; x++)
+            try
             {
-                if(mentionsListBox.Items.Count > defaultValue || mentionsListBox != null)
+                // Objects are now empty
+                sms = null;
+
+                // Clear the data from the system
+                messageID.Text = string.Empty;
+                messageSender.Text = string.Empty;
+                messageText.Text = string.Empty;
+
+                for (int x = defaultValue; x < mentionsListBox.Items.Count; x++)
                 {
-                    mentionsListBox.Items.Clear();
-                    tweets = null;
+                    if (mentionsListBox.Items.Count > defaultValue || mentionsListBox != null)
+                    {
+                        mentionsListBox.Items.Clear();
+                        tweets = null;
+                    }
                 }
+
+                for (int y = defaultValue; y < messageListBox.Items.Count; y++)
+                {
+                    if (messageListBox.Items.Count > defaultValue || messageListBox != null)
+                    {
+                        messageListBox.Items.Clear();
+                        message = null;
+                    }
+                }
+
+                for (int z = defaultValue; z < quarantineListBox.Items.Count; z++)
+                {
+                    if (quarantineListBox.Items.Count > defaultValue || quarantineListBox != null)
+                    {
+                        quarantineListBox.Items.Clear();
+                        email = null;
+                    }
+                }
+
+                for (int i = defaultValue; i < trendingListBox.Items.Count; i++)
+                {
+                    if (tweetHashtags.Count > defaultValue || trendingListBox != null)
+                    {
+                        trendingListBox.ItemsSource = string.Empty;
+                        tweets = null; // Tweet instance is empty now
+                    }
+                }
+
+                msgHeaderTxtBox.Text = string.Empty;
+                msgTextBox.Text = string.Empty;
             }
 
-            for(int y = defaultValue; y < messageListBox.Items.Count; y++)
+            catch (Exception exc)
             {
-                if(messageListBox.Items.Count > defaultValue || messageListBox != null)
-                {
-                    messageListBox.Items.Clear();
-                    message = null;
-                }
+                MessageBox.Show("An error occurred clearing data from the system" + ' ' + exc.ToString());
             }
-
-            for(int z = defaultValue; z < quarantineListBox.Items.Count; z++)
-            {
-                if(quarantineListBox.Items.Count > defaultValue || quarantineListBox != null)
-                {
-                    quarantineListBox.Items.Clear();
-                    email = null;
-                }
-            }
-
-            for(int i = defaultValue; i < trendingListBox.Items.Count; i++)
-            {
-                if(tweetHashtags.Count > defaultValue || trendingListBox != null)
-                {
-                    trendingListBox.ItemsSource = string.Empty;
-                    tweets = null; // Tweet instance is empty now
-                }
-            }
-
-            msgHeaderTxtBox.Text = string.Empty;
-            msgTextBox.Text = string.Empty;
         }
     }
 }
