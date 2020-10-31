@@ -340,8 +340,8 @@ namespace NapierBankMessageFilteringSystem
 
                 for (int i = defaultValue; i < processedTweet.Length; i++)
                 {
-                    abbreviations.readFile();
-                    string replacedText = abbreviations.replaceMessage(tweets.TweetText);
+                    abbreviations.readFile(); // Read the abbreviatiosn file
+                    string replacedText = abbreviations.replaceMessage(tweets.TweetText); // Replace the text with the definitions
                     tweets.TweetText = replacedText;
                 }
 
@@ -352,9 +352,9 @@ namespace NapierBankMessageFilteringSystem
 
                 if(isTweetSanitised)
                 {
-                    messageID.Text = msgIDLbl + tweets.MessageID.ToString();
-                    messageSender.Text = msgSenderLbl + tweets.TweetSender.ToString();
-                    messageText.Text = msgTextLbl + tweets.TweetText.ToString();
+                    messageID.Text = "Message ID : " + tweets.MessageID.ToString().Trim();
+                    messageSender.Text = "Message Sender : " + tweets.TweetSender.ToString().Trim();
+                    messageText.Text = "Message Text : " + tweets.TweetText.ToString().Trim();
 ;                }
 
                 return true;

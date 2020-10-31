@@ -15,17 +15,17 @@
         <Label Content="Message Header" FontWeight="Bold" FontFamily="Arial" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="565,262,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.323,0.66"/>
         <Label Content="Message Body" FontWeight="Bold" FontFamily="Arial" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="569,411,0,0" VerticalAlignment="Top"/>
         <TextBox Grid.Column="1" Background="LightGreen" FontFamily="Arial" BorderThickness="1" Name="msgTextBox" HorizontalAlignment="Left" Height="99" Margin="536,442,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="189"/>
-        <Button Content="Process Message" Background="LightGreen" Padding="1" FontFamily="Arial" BorderThickness="1" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="583,570,0,0" VerticalAlignment="Top" Width="111" Click="processMsgButton_Click" Height="29"/>
-        <ListBox HorizontalAlignment="Left" Background="LightGreen"  Name="messageListBox" Height="139" Margin="43,280,0,0" VerticalAlignment="Top" Width="245" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2" SelectionChanged="messageListBox_SelectionChanged"/>
-        <Button Content="Read File" Background="PaleGoldenrod" FontWeight="Bold" FontFamily="Arial" BorderThickness="1" Name="readFileBtn" HorizontalAlignment="Left" Margin="85,442,0,0" VerticalAlignment="Top" Width="134" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="38" Click="readFileBtn_Click"/>
-        <Label Content="URL Quarantine List" FontSize="14" HorizontalAlignment="Left" Margin="59,93,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <ListBox Name="quarantineListBox" HorizontalAlignment="Left" Height="73" Margin="59,122,0,0" VerticalAlignment="Top" Width="142" Grid.ColumnSpan="2"/>
-        <Label Content="Mentions List" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="160,93,0,0" VerticalAlignment="Top"/>
-        <ListBox Grid.Column="1" Name="mentionsListBox" HorizontalAlignment="Left" Height="73" Margin="138,122,0,0" VerticalAlignment="Top" Width="145"/>
-        <Label Content="SIR List" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="378,97,0,0" VerticalAlignment="Top"/>
-        <ListBox Grid.Column="1" HorizontalAlignment="Left" Height="73" Margin="334,122,0,0" VerticalAlignment="Top" Width="159"/>
-        <Label Content="Trending List" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="569,97,0,0" VerticalAlignment="Top"/>
-        <ListBox Grid.Column="1" ItemsSource="{DynamicResource TweetHashtags}" Name="trendingListBox" HorizontalAlignment="Left" Height="73" Margin="547,122,0,0" VerticalAlignment="Top" Width="147">
+        <Button Content="Process Message" FontWeight="Bold" FontFamily="Arial" BorderThickness="1" Name="processMsgButton" Grid.Column="1" HorizontalAlignment="Left" Margin="571,570,0,0" VerticalAlignment="Top" Width="123" Click="processMsgButton_Click" Height="29"/>
+        <ListBox HorizontalAlignment="Left" Background="LightGreen"  Name="messageListBox" Height="104" Margin="34,276,0,0" VerticalAlignment="Top" Width="250" RenderTransformOrigin="0.49,0.301" Grid.ColumnSpan="2" SelectionChanged="messageListBox_SelectionChanged"/>
+        <Button Content="Read File"  FontWeight="Bold" FontFamily="Arial" Name="readFileBtn" HorizontalAlignment="Left" Margin="34,414,0,0" VerticalAlignment="Top" Width="134" RenderTransformOrigin="0.803,-0.445" Grid.ColumnSpan="2" Height="38" Click="readFileBtn_Click"/>
+        <Label Content="URL Quarantine List" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" Margin="59,93,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <ListBox Name="quarantineListBox" Background="LightGreen" HorizontalAlignment="Left" Height="73" Margin="59,122,0,0" VerticalAlignment="Top" Width="142" Grid.ColumnSpan="2"/>
+        <Label Content="Mentions List" FontWeight="Bold" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="160,93,0,0" VerticalAlignment="Top"/>
+        <ListBox Grid.Column="1" Background="LightGreen" Name="mentionsListBox" HorizontalAlignment="Left" Height="73" Margin="138,122,0,0" VerticalAlignment="Top" Width="145"/>
+        <Label Content="SIR List" FontWeight="Bold" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="375,93,0,0" VerticalAlignment="Top"/>
+        <ListBox Grid.Column="1" Background="LightGreen" HorizontalAlignment="Left" Height="73" Margin="334,122,0,0" VerticalAlignment="Top" Width="159"/>
+        <Label Content="Trending List" FontWeight="Bold" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="571,93,0,0" VerticalAlignment="Top"/>
+        <ListBox Grid.Column="1" Background="LightGreen" ItemsSource="{DynamicResource TweetHashtags}" Name="trendingListBox" HorizontalAlignment="Left" Height="73" Margin="547,122,0,0" VerticalAlignment="Top" Width="159">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -44,14 +44,14 @@
         <TextBox Grid.Column="1" Name="messageID" Background="LightGreen" HorizontalAlignment="Left" Height="73" Margin="222,289,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
         <TextBox Grid.Column="1" Background="LightGreen" BorderThickness="1" FontFamily="Arial" Name="messageSender" HorizontalAlignment="Left" Height="74" Margin="222,406,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
         <TextBox Grid.Column="1" Background="LightGreen" BorderThickness="1" Name="messageText" HorizontalAlignment="Left" Height="73" Margin="222,526,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="249"/>
-        <Label Content="Processed Messages" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="222,209,0,0" VerticalAlignment="Top"/>
-        <Label Content="File Input" FontSize="24" HorizontalAlignment="Left" Margin="87,211,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="44" Width="132" RenderTransformOrigin="0.568,0.545"/>
-        <Label Content="Message Inputs" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="539,211,0,0" VerticalAlignment="Top"/>
+        <Label Content="Processed Messages" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="222,222,0,0" VerticalAlignment="Top"/>
+        <Label Content="File Input" FontSize="24" HorizontalAlignment="Left" Margin="87,220,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="44" Width="132" RenderTransformOrigin="0.568,0.545"/>
+        <Label Content="Message Inputs" FontSize="24" Grid.Column="1" HorizontalAlignment="Left" Margin="539,220,0,0" VerticalAlignment="Top"/>
         <Label Content="Napier Bank Message Filtering System" FontSize="28" Grid.Column="1" HorizontalAlignment="Left" Margin="106,36,0,0" VerticalAlignment="Top"/>
-        <Button Content="Clear Data" Background="LightGreen" BorderThickness="1" FontFamily="Arial" HorizontalAlignment="Left" Margin="34,507,0,0" VerticalAlignment="Top" Width="95" Height="30" Click="Button_Click" Grid.ColumnSpan="2"/>
-        <Label Content="Message Header" FontSize="14.5" Name="msgIDLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="285,255,0,0" VerticalAlignment="Top"/>
-        <Label Content="Sender" FontSize="14.5" Name="msgSenderLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="310,377,0,0" VerticalAlignment="Top"/>
-        <Label Content="Message Text" FontFamily="Arial" FontSize="14.5" Name="msgTextLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="285,494,0,0" VerticalAlignment="Top"/>
+        <Button Content="Clear Data" FontWeight="Bold" FontFamily="Arial" HorizontalAlignment="Left" Margin="34,490,0,0" VerticalAlignment="Top" Width="134" Height="30" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <Label Content="Message Header" FontWeight="Bold" FontSize="14" Name="msgIDLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="283,262,0,0" VerticalAlignment="Top"/>
+        <Label Content="Message Sender" FontWeight="Bold" FontSize="14" Name="msgSenderLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="285,372,0,0" VerticalAlignment="Top"/>
+        <Label Content="Message Text" FontWeight="Bold" FontFamily="Arial" FontSize="14" Name="msgTextLbl" Grid.Column="1" HorizontalAlignment="Left" Margin="285,494,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

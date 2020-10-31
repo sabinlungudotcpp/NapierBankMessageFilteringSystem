@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace NapierBankMessageFilteringSystem.DataLayer
 {
+    // Author of Class: Sabin Constantin Lungu
+    // Purpose of Class: To read JSON file, deserialize it and store it in a list box to be processed
+    // 
     [Serializable()]
     public class SaveFile // Class to save messages to a JSON file
     {
