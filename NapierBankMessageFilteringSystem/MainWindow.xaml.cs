@@ -213,7 +213,6 @@ namespace NapierBankMessageFilteringSystem
             try
             {
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
-                char splitToken = ',';
                 string quarantineText = "<URL Quarantined>";
 
                 string fileLine = string.Empty;
@@ -223,8 +222,12 @@ namespace NapierBankMessageFilteringSystem
                 StreamReader sirFile = new StreamReader(sirFilePath);
                 while((fileLine = sirFile.ReadLine()) != null && incidentList != null)
                 {
-                    string[] sirData = fileLine.Split(splitToken);
-                    incidentList.Add(sirData[0]);
+                    if(fileLine.Length < defaultValue)
+                    {
+                        string[] sirData = fileLine.Split(delimiters[defaultValue + 1]);
+                        incidentList.Add(sirData[defaultValue]);
+                        break;
+                    }
                 }
 
                 string emailMessage = email.MessageID;
@@ -236,9 +239,9 @@ namespace NapierBankMessageFilteringSystem
                 emailMessage = emailID;
                 emailMsgBody = emailBody;
                 
-                string emailSender = emailBody.Split(splitToken)[defaultValue];
-                string emailSubject = emailBody.Split(splitToken)[defaultValue+1];
-                string emailText = emailBody.Split(splitToken)[defaultValue+2];
+                string emailSender = emailBody.Split(delimiters[1])[defaultValue];
+                string emailSubject = emailBody.Split(delimiters[1])[defaultValue+1];
+                string emailText = emailBody.Split(delimiters[1])[defaultValue+2];
 
                 processSIREmails(email.EmailText);
 
