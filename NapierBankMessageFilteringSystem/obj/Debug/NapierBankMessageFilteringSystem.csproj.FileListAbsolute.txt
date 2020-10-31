@@ -13,3 +13,6 @@ C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\Na
 C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\NapierBankMessageFilteringSystem\obj\Debug\NapierBankMessageFilteringSystem.csproj.CoreCompileInputs.cache
 C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\NapierBankMessageFilteringSystem\obj\Debug\NapierBankMessageFilteringSystem.exe
 C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\NapierBankMessageFilteringSystem\obj\Debug\NapierBankMessageFilteringSystem.pdb
+C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\NapierBankMessageFilteringSystem\bin\Debug\Newtonsoft.Json.dll
+C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\NapierBankMessageFilteringSystem\bin\Debug\Newtonsoft.Json.xml
+C:\Users\const\Source\Repos\sabinlungudotcpp\NapierBankMessageFilteringSystem\NapierBankMessageFilteringSystem\obj\Debug\NapierBankMessageFilteringSystem.csproj.CopyComplete

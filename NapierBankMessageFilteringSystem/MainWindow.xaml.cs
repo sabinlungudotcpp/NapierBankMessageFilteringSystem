@@ -23,8 +23,7 @@ namespace NapierBankMessageFilteringSystem
 
         private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
-
-        private Sms sms = new Sms(); // New SMS instance
+        private Sms sms = new Sms();
         private Email email = new Email(); // E-mail message instance
         private Tweet tweets = new Tweet();
 
@@ -35,8 +34,7 @@ namespace NapierBankMessageFilteringSystem
         private Dictionary<string, string> SIR = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
 
-        private List<string> messageInputs = new List<string>(); // Stores the input messages in a list to be thens tored in a JSON file
-        private List<string> messageOutputs = new List<string>();
+        private List<Message> outputMessages = new List<Message>();
 
         public MainWindow()
         {
@@ -157,51 +155,53 @@ namespace NapierBankMessageFilteringSystem
         {
            try
             {
-                bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
+               bool isSmsSanitised = false; // Flag to determine if the SMS message is sanitised or not
+               char splitToken = ' '; // Space character to split the data
+               string space = " ";
 
-                    char splitToken = ' '; // Space character to split the data
-                    int smsIndex = 0;
+               string smsID = sms.MessageID; // The SMS ID
+               string msgID = message.MessageID;
+               smsID = msgID;
 
-                    string smsID = sms.MessageID; // The SMS ID
-                    string msgID = message.MessageID;
-                    smsID = msgID;
+               string smsBody = sms.MessageBody;
+               string messageBody = message.MessageBody;
+               smsBody = messageBody;
 
-                    string smsBody = sms.MessageBody;
-                    string messageBody = message.MessageBody;
-                    smsBody = messageBody;
+               string smsCountryCode = smsBody.Split(splitToken)[defaultValue]; // Split the country code.
+               string smsSender = smsBody.Split(splitToken)[defaultValue + 1];
 
-                    string smsCountryCode = messageBody.Split(splitToken)[smsIndex]; // Split the country code.
-                    string smsSender = messageBody.Split(splitToken)[smsIndex + 1];
+               int smsIndexToProcess = smsBody.IndexOf(space) + defaultValue + 1;
+               string processedSMS = smsBody.Substring(smsIndexToProcess);
+               int nextIndex = processedSMS.IndexOf(space) + defaultValue + 1;
 
-                    int smsIndexToProcess = smsBody.IndexOf(" ") + smsIndex + 1;
-                    string processedSMS = smsBody.Substring(smsIndexToProcess);
-                    int nextIndex = processedSMS.IndexOf(" ") + smsIndex + 1;
+               string finalSms = processedSMS.Substring(nextIndex);
+               sms.SmsText = finalSms;
 
-                    string finalSms = processedSMS.Substring(nextIndex);
-                    sms.SmsText = finalSms;
+               string newSentence = abbreviations.replaceMessage(sms.SmsText);
+               sms.SmsText = newSentence;
 
-                    string newSentence = abbreviations.replaceMessage(sms.SmsText);
-                    sms.SmsText = newSentence;
+               outputMessages.Add(sms);
+               abbreviations.readFile();
 
-                    isSmsSanitised = true;
-                    
-                    for(int i = defaultValue; i < processedSMS.Length; i++) {
-                    abbreviations.readFile();
-                    messageInputs.Add(sms.SmsText); // Adds the messages inputs to the list
-                 }
+               SaveFile file = new SaveFile();
 
-                 
-                if (isSmsSanitised)
-                {
-                    messageID.Text = "Message ID : " + smsID.ToString();
-                    messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
-                    messageText.Text = "Message Text : " + sms.SmsText.ToString();
+                if(file != null) {
+                    file.saveToJSON(outputMessages);
                 }
+              
+               isSmsSanitised = true;
+
+               if (isSmsSanitised) {
+                   messageID.Text = "Message ID : " + smsID.ToString();
+                   messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + splitToken + smsSender;
+                   messageText.Text = "Message Text : " + sms.SmsText.ToString();
+                }
+
                 return true;
             } 
             
-            catch(Exception exc)
-            {
+            catch(Exception exc) {
+            
                 MessageBox.Show(exc.ToString());
             }
 
@@ -250,13 +250,13 @@ namespace NapierBankMessageFilteringSystem
                             int nextIndex = processedSMS.IndexOf(" ") + defaultValue + 1;
 
                             string finalEmailTxt = processedSMS.Substring(nextIndex);
-                            sms.SmsText = finalEmailTxt;
+                            email.EmailText = finalEmailTxt;
 
                             abbreviations.readFile();
-                            string replacedEmailTxt = abbreviations.replaceMessage(sms.SmsText);
-                            sms.SmsText = replacedEmailTxt;
+                            string replacedEmailTxt = abbreviations.replaceMessage(email.EmailText);
+                            email.EmailText = replacedEmailTxt;
 
-                            quarantineListBox.Items.Add(sms.SmsText.ToString());
+                            quarantineListBox.Items.Add(email.EmailText.ToString());
                         }
 
                         if (quarantineList != null) // If there is a quarantine list
@@ -266,7 +266,14 @@ namespace NapierBankMessageFilteringSystem
                     }
                 }
 
-                messageInputs.Add(emailText);
+                outputMessages.Add(message);
+                SaveFile emailFile = new SaveFile();
+
+                if(emailFile != null)
+                {
+                    emailFile.saveToJSON(outputMessages);
+                }
+                
                 isEmailSanitised = true;
 
                 if (isEmailSanitised)
@@ -309,11 +316,6 @@ namespace NapierBankMessageFilteringSystem
                     abbreviations.readFile();
                     string replacedText = abbreviations.replaceMessage(tweets.TweetText);
                     tweets.TweetText = replacedText;
-
-                    if(messageInputs.Count > defaultValue || messageInputs != null)
-                    {
-                        messageInputs.Add(replacedText);
-                    }
                 }
 
                 checkForMentions(tweets.TweetSender);
@@ -341,11 +343,12 @@ namespace NapierBankMessageFilteringSystem
         private string checkForMentions(string tweetSentence)
         {
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+            string atSymbol = "@";
             bool mentionFound = false;
 
             foreach (string tweetMessageBody in splitTweetMsg)
             {
-                if(tweetMessageBody.Contains("@") || mentionsList != null || mentionsList.Count == defaultValue) // If the tweet message body
+                if(tweetMessageBody.Contains(atSymbol) || mentionsList != null || mentionsList.Count == defaultValue) // If the tweet message body
                 {
                     for(int x = defaultValue; x < mentionsList.Count; x++)
                     {
@@ -362,7 +365,12 @@ namespace NapierBankMessageFilteringSystem
 
                     if(mentionFound)
                     {
-                        // Write to JSON file the processed tweet messages
+                        SaveFile tweetsFile = new SaveFile();
+                        if(tweetsFile != null)
+                        {
+                            outputMessages.Add(tweets);
+                            tweetsFile.saveToJSON(outputMessages);
+                        }
                     }
                 }
             }
