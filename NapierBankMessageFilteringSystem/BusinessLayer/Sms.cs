@@ -82,5 +82,10 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                 return this.smsText; // Return the SMS text
             }
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

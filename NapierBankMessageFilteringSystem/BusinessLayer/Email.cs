@@ -80,6 +80,11 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             }
         }
 
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
 
     }
 }
