@@ -56,7 +56,7 @@ namespace NapierBankMessageFilteringSystem
                 message.MessageID = messageHeader;
                 message.MessageBody = messageBody;
 
-                if(messageHeader.StartsWith(messageTypes[0])) // If the message header starts with an upper case S
+                if(messageHeader.StartsWith(messageTypes[0]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(0)))) // If the message header starts with an upper case S
                 {
                     sanitiseSms(message); // Sanitise SMS messages
                 }
