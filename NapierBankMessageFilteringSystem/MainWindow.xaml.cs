@@ -128,7 +128,7 @@ namespace NapierBankMessageFilteringSystem
                         {
                             if(jsonLine.Length < 0 || jsonReader != null)
                             {
-                                messageListBox.Items.Add(jsonLine.ToString());
+                                // Deserialise JSON
                             }
                         }
                         
@@ -367,6 +367,7 @@ namespace NapierBankMessageFilteringSystem
 
             return false;
         }
+
         private string checkForMentions(string tweetSentence)
         {
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
@@ -412,13 +413,19 @@ namespace NapierBankMessageFilteringSystem
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
             string hashtag = "#";
 
-            foreach(string tweetData in splitTweetMsg)
+            foreach(string tweetData in splitTweetMsg) // For every tweet in the sentence
             {
-                int currentCount;
+                int currentCount; // The count of hashtags found
                 tweetHashtags.TryGetValue(tweetData, out currentCount);
 
                 if (tweetData.StartsWith(hashtag) && tweetHashtags != null || !tweetData.Contains(tweetData)) {
-                    tweetHashtags[tweetData] = currentCount + defaultValue + 1;
+
+                    bool containsHashtag = tweetHashtags.ContainsKey(hashtag);
+
+                    if(!containsHashtag)
+                    {
+                        tweetHashtags[tweetData] = currentCount + defaultValue + 1;
+                    } 
                 }
             }
 
