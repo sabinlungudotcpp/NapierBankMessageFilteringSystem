@@ -31,7 +31,7 @@ namespace NapierBankMessageFilteringSystem
         private List<string> quarantineList = new List<string>(); // Declares a new list to store the URLs that are quarantined
         private List<string> mentionsList = new List<string>(); // List to store twitter mentions
 
-        private Dictionary<string, string> SIR = new Dictionary<string, string>();
+        private Dictionary<string, string> incidentReports = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
         private List<Message> fileInputMessages = new List<Message>();
         private List<Message> outputMessages = new List<Message>();
@@ -87,6 +87,7 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
+               
                 var filePath = string.Empty;
                 var fileContent = string.Empty;
                 bool isFileValid = false;
@@ -119,7 +120,18 @@ namespace NapierBankMessageFilteringSystem
                     else if(filePath.Equals(".json")) // Process JSON messages from file
                     {
                         // Read JSON File
+                        string jsonFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/messagesFile.json";
+                        StreamReader jsonReader = new StreamReader(jsonFilePath);
                         string jsonLine;
+
+                        while((jsonLine = jsonReader.ReadLine()) != null)
+                        {
+                            if(jsonLine.Length < 0 || jsonReader != null)
+                            {
+                                messageListBox.Items.Add(jsonLine.ToString());
+                            }
+                        }
+                        
                     }
 
                     else if(!filePath.Equals(".txt") || !filePath.Equals(".json")) // If the file paths are not txt or json
@@ -235,6 +247,7 @@ namespace NapierBankMessageFilteringSystem
                         break;
                     }
                 }
+                processSIREmails(email.EmailText);
 
                 string emailMessage = email.MessageID;
                 string emailMsgBody = email.MessageBody;
@@ -246,10 +259,8 @@ namespace NapierBankMessageFilteringSystem
                 emailMsgBody = emailBody;
                 
                 string emailSender = emailBody.Split(delimiters[1])[defaultValue];
-                string emailSubject = emailBody.Split(delimiters[1])[defaultValue+1];
-                string emailText = emailBody.Split(delimiters[1])[defaultValue+2];
-
-                processSIREmails(email.EmailText);
+                string emailSubject = emailBody.Split(delimiters[1])[defaultValue + 1];
+                string emailText = emailBody.Split(delimiters[1])[defaultValue + 2];
 
                 foreach(string emailWord in emailText.Split(delimiters[1])) {
                     
@@ -294,9 +305,9 @@ namespace NapierBankMessageFilteringSystem
 
                 if (isEmailSanitised)
                 {
-                    messageID.Text = "Message ID : " + emailID.ToString();
-                    messageSender.Text = "Message Sender:  " + emailSender.ToString();
-                    messageText.Text = "Message Text: " + emailSubject.ToString() + delimiters[1] + emailText.ToString();
+                    messageID.Text = emailID.ToString();
+                    messageSender.Text = emailSender.ToString();
+                    messageText.Text = emailText.ToString();
                 }
 
                 return true;
@@ -341,9 +352,9 @@ namespace NapierBankMessageFilteringSystem
 
                 if(isTweetSanitised)
                 {
-                    messageID.Text = "Message ID : " + tweets.MessageID.ToString();
-                    messageSender.Text = "Message Sender : " + tweets.TweetSender.ToString();
-                    messageText.Text = "Message Text : " + tweets.TweetText.ToString();
+                    messageID.Text = msgIDLbl + tweets.MessageID.ToString();
+                    messageSender.Text = msgSenderLbl + tweets.TweetSender.ToString();
+                    messageText.Text = msgTextLbl + tweets.TweetText.ToString();
 ;                }
 
                 return true;
@@ -397,6 +408,7 @@ namespace NapierBankMessageFilteringSystem
         private bool produceTrendingList(string tweetSentence) // Process the trending list if a hash tag is in the body of the message
         {
             tweetHashtags.Clear();
+
             string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
             string hashtag = "#";
 
@@ -457,6 +469,15 @@ namespace NapierBankMessageFilteringSystem
                 {
                     quarantineListBox.Items.Clear();
                     email = null;
+                }
+            }
+
+            for(int i = defaultValue; i < trendingListBox.Items.Count; i++)
+            {
+                if(tweetHashtags.Count > defaultValue || trendingListBox != null)
+                {
+                    trendingListBox.ItemsSource = string.Empty;
+                    tweets = null; // Tweet instance is empty now
                 }
             }
 
