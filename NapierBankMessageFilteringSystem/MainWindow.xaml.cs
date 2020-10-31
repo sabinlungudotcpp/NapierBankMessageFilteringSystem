@@ -472,56 +472,64 @@ namespace NapierBankMessageFilteringSystem
             return true;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) // Clears data from the system
+       private void clearData(object sender, RoutedEventArgs e) // Clears data from the system
         {
             try
             {
-                // Objects are now empty
-                sms = null;
+                System.Windows.Forms.DialogResult clearDialog = (System.Windows.Forms.DialogResult)MessageBox.Show("Are you sure you want to clear the system data ? ", "Warning", MessageBoxButton.YesNo);
 
-                // Clear the data from the system
-                messageID.Text = string.Empty;
-                messageSender.Text = string.Empty;
-                messageText.Text = string.Empty;
-
-                for (int x = defaultValue; x < mentionsListBox.Items.Count; x++)
+                switch(clearDialog)
                 {
-                    if (mentionsListBox.Items.Count > defaultValue || mentionsListBox != null)
-                    {
-                        mentionsListBox.Items.Clear();
-                        tweets = null;
-                    }
-                }
 
-                for (int y = defaultValue; y < messageListBox.Items.Count; y++)
-                {
-                    if (messageListBox.Items.Count > defaultValue || messageListBox != null)
-                    {
-                        messageListBox.Items.Clear();
-                        message = null;
-                    }
-                }
+                    case System.Windows.Forms.DialogResult.Yes:
+                        // Clear the data from the system
+                        messageID.Text = string.Empty;
+                        messageSender.Text = string.Empty;
+                        messageText.Text = string.Empty;
 
-                for (int z = defaultValue; z < quarantineListBox.Items.Count; z++)
-                {
-                    if (quarantineListBox.Items.Count > defaultValue || quarantineListBox != null)
-                    {
-                        quarantineListBox.Items.Clear();
-                        email = null;
-                    }
-                }
+                        for (int x = defaultValue; x < mentionsListBox.Items.Count; x++)
+                        {
+                            if (mentionsListBox.Items.Count > defaultValue || mentionsListBox != null)
+                            {
+                                mentionsListBox.Items.Clear();
+                                tweets = null;
+                            }
+                        }
 
-                for (int i = defaultValue; i < trendingListBox.Items.Count; i++)
-                {
-                    if (tweetHashtags.Count > defaultValue || trendingListBox != null)
-                    {
-                        trendingListBox.ItemsSource = string.Empty;
-                        tweets = null; // Tweet instance is empty now
-                    }
-                }
+                        for (int y = defaultValue; y < messageListBox.Items.Count; y++)
+                        {
+                            if (messageListBox.Items.Count > defaultValue || messageListBox != null)
+                            {
+                                messageListBox.Items.Clear();
+                                message = null;
+                            }
+                        }
 
-                msgHeaderTxtBox.Text = string.Empty;
-                msgTextBox.Text = string.Empty;
+                        for (int z = defaultValue; z < quarantineListBox.Items.Count; z++)
+                        {
+                            if (quarantineListBox.Items.Count > defaultValue || quarantineListBox != null)
+                            {
+                                quarantineListBox.Items.Clear();
+                                email = null;
+                            }
+                        }
+
+                        for (int i = defaultValue; i < trendingListBox.Items.Count; i++)
+                        {
+                            if (tweetHashtags.Count > defaultValue || trendingListBox != null)
+                            {
+                                trendingListBox.ItemsSource = string.Empty;
+                                tweets = null; // Tweet instance is empty now
+                            }
+                        }
+
+                        msgHeaderTxtBox.Text = string.Empty;
+                        msgTextBox.Text = string.Empty;
+                        break;
+
+                    case System.Windows.Forms.DialogResult.No:
+                        break;
+                }
             }
 
             catch (Exception exc)
