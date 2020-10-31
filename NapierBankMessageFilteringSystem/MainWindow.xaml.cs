@@ -370,37 +370,45 @@ namespace NapierBankMessageFilteringSystem
 
         private string checkForMentions(string tweetSentence)
         {
-            string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
-            string atSymbol = "@";
-            bool mentionFound = false;
-
-            foreach (string tweetMessageBody in splitTweetMsg)
+            try
             {
-                if(tweetMessageBody.Contains(atSymbol) || mentionsList != null || mentionsList.Count == defaultValue) // If the tweet message body
+                string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+                string atSymbol = "@";
+                bool mentionFound = false;
+
+                foreach (string tweetMessageBody in splitTweetMsg)
                 {
-                    for(int x = defaultValue; x < mentionsList.Count; x++)
+                    if (tweetMessageBody.Contains(atSymbol) || mentionsList != null || mentionsList.Count == defaultValue) // If the tweet message body
                     {
-                        bool containsMentions = mentionsList.Contains(tweetMessageBody.ToString());
-
-                        if(containsMentions)
+                        for (int x = defaultValue; x < mentionsList.Count; x++)
                         {
-                            mentionsList.Add(tweetMessageBody);
+                            bool containsMentions = mentionsList.Contains(tweetMessageBody.ToString());
+
+                            if (containsMentions)
+                            {
+                                mentionsList.Add(tweetMessageBody);
+                            }
                         }
-                    }
 
-                    mentionsListBox.Items.Add(tweetMessageBody);
-                    mentionFound = true;
+                        mentionsListBox.Items.Add(tweetMessageBody);
+                        mentionFound = true;
 
-                    if(mentionFound)
-                    {
-                        SaveFile tweetsFile = new SaveFile();
-                        if(tweetsFile != null)
+                        if (mentionFound)
                         {
-                            outputMessages.Add(tweets);
-                            tweetsFile.saveToJSON(outputMessages);
+                            SaveFile tweetsFile = new SaveFile();
+                            if (tweetsFile != null)
+                            {
+                                outputMessages.Add(tweets);
+                                tweetsFile.saveToJSON(outputMessages);
+                            }
                         }
                     }
                 }
+            } 
+            
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
             }
 
             return tweetSentence;
@@ -425,7 +433,7 @@ namespace NapierBankMessageFilteringSystem
 
                         bool containsHashtag = tweetHashtags.ContainsKey(hashtag);
 
-                        if (!containsHashtag)
+                        if (!containsHashtag || tweetData.Length > defaultValue)
                         {
                             tweetHashtags[tweetData] = currentCount + defaultValue + 1;
                         }
