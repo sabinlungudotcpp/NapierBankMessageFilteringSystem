@@ -25,3 +25,21 @@ User Requirements: Statements in natural language that are typically written for
 System Requirements: Structured sentences that highlight the system’s functionality.
 
 The requirements of the Napier Bank Messaging System will be complete which means that the requirements will contain detailed descrip-tions of the features required.
+
+Sometimes  the  end-users of the system may not be fully certain on which features they would like the system to have and therefore a requirements analysis is performed to find out what features users would like to see and then they are converted into a requirements specification. 
+
+There are two types of requirements:
+
+Functional Requirements and Non-Functional Requirements.
+
+There are also five various stages to requirements engineering in a project, each of which have their own purpose:
+
+1.  Requirements Elicitation
+
+2.  Requirements Analysis
+
+3.  Requirements Specification
+
+4.  Requirements Validation
+
+5.  Requirements Management
