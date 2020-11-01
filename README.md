@@ -43,3 +43,13 @@ There are also five various stages to requirements engineering in a project, eac
 4.  Requirements Validation
 
 5.  Requirements Management
+
+Firstly, the Requirements Elicitation stage is where the developers workalongside with stakeholders to find out what features they would like from the system as  well as identifying and establishing a clear scope and boundaries for the project and any conflicts and there are a couple of techniques for this:
+
+Interviewing Techniques
+Questionnaires
+Collaborative Sessions
+
+After  the  requirements  elicitation  stage  is  successfully  complete,  theRequirements  Analysis  stage  begins  where  a  deeper  understanding  ofthe system and its interactions is made.  Furthermore, the Requirements Specification document is written after a coherent analysis is performed.
+
+The requirements specification document is a type of document that captures the system and software requirements in order to support their systematic review. It is a document that describes the system to be developed in a way that can be revised and evaluated
