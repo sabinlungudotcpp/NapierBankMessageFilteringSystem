@@ -47,7 +47,9 @@ There are also five various stages to requirements engineering in a project, eac
 Firstly, the Requirements Elicitation stage is where the developers workalongside with stakeholders to find out what features they would like from the system as  well as identifying and establishing a clear scope and boundaries for the project and any conflicts and there are a couple of techniques for this:
 
 Interviewing Techniques
+
 Questionnaires
+
 Collaborative Sessions
 
 After  the  requirements  elicitation  stage  is  successfully  complete,  theRequirements  Analysis  stage  begins  where  a  deeper  understanding  ofthe system and its interactions is made.  Furthermore, the Requirements Specification document is written after a coherent analysis is performed.
@@ -65,7 +67,9 @@ The functional requirements of the Napier Bank Message Filtering Service are as 
 **2. Validate  the  messages  inputted  from  the  file or manually by the end-users and pinpoint which class of messages they fall under:**
 
 SMS Messages
+
 Email Messages
+
 Tweet Messages
 
 3. Sanitise (process) the messages in the following forms:
