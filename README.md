@@ -14,3 +14,14 @@ Before  any  code  will  be  written  for  the  system,  we  are  required  to u
 4.  Create a version control plan.
 
 5.  Produce  an  evolution  strategy  for  the  Napier  Bank  Message Filtering System.
+
+# Requirements Specification
+
+The  Requirements  gathering  is  a  very  important  stage of the software engineering life cycle due to the fact that the engineers that are workingas part of a team, usually most of the time in a SCRUM team which is a  methodology  of  Agile  development  need  to  know  the  different  typesof features the software will  have  as  well  as  any  constraints  that  willhinder the performance of the system.  
+
+There are two specific types of requirements and they are:
+
+User Requirements:   Statements  in  natural  language  that  aretypically written for customers.
+System Requirements:  Structured sentences that highlights thesystem’s functionality.
+
+The  requirements  of  the  Napier  Bank  Messaging  System  will  be  com-plete which means that the requirements will contain detailed descrip-tions of the features required.
