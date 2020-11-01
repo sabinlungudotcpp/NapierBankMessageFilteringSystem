@@ -58,30 +58,30 @@ The requirements specification document is a type of document that captures the 
 
 The functional requirements are the type of requirements that describes what features the system should provide, how the system should react and behave to  particular user inputs and also sometimes it may state what the system should NOT do. These are simply just high-level statements of what the system will do. 
 
-The  functional requirements of the Napier Bank Message Filtering Service are as follows:
+The functional requirements of the Napier Bank Message Filtering Service are as follows:
 
-1. Read JSON or TXT file  containing  different  types  of  messages  oridentify manual message inputs by the end-users.
+**1. Read JSON or TXT file  containing  different  types  of  messages  oridentify manual message inputs by the end-users.**
 
-2. Validate  the  messages  inputted  from  the  file or manually by the end-users and pinpoint which class of messages they fall under:
+**2. Validate  the  messages  inputted  from  the  file or manually by the end-users and pinpoint which class of messages they fall under:**
 
 SMS Messages
 Email Messages
-Tweet Messages.
+Tweet Messages
 
 3. Sanitise (process) the messages in the following forms:
 
-3.1 Find text abbreviations in the messages and add their defini-tion after them in the full form.
+**3.1 Find text abbreviations in the messages and add their defini-tion after them in the full form.**
 
-3.2 Remove URLs contained in end-user messages and write them to a quarantine list.
+**3.2 Remove URLs contained in end-user messages and write them to a quarantine list.**
 
-3.3 Replace URLs with URL Quarantined in the body of the message.
+**3.3 Replace URLs with URL Quarantined in the body of the message.**
 
-3.4 Identify the nature of incident, associate it to a sort code and write to a SIR list.
+**3.4 Identify the nature of incident, associate it to a sort code and write to a SIR list.**
 
-3.5 Identify hashtags which represent tweets and count the number of uses to produce a trending list with the number of hashtags included in the tweet message.
+**3.5 Identify hashtags which represent tweets and count the number of uses to produce a trending list with the number of hashtags included in the tweet message.**
 
-3.6 Add the twitter IDs and mentions to a mentions list denoted and starting with an @ symbol.
+**3.6 Add the twitter IDs and mentions to a mentions list denoted and starting with an @ symbol.**
 
-3.7 Categorise the types of messages - SMS, Email or Tweet.
+**3.7 Categorise the types of messages - SMS, Email or Tweet.**
 
-3.8 Write processed messages to a JSON file.
+**3.8 Write processed messages to a JSON file.**
