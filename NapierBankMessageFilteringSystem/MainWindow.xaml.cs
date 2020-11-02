@@ -209,8 +209,6 @@ namespace NapierBankMessageFilteringSystem
                 sms.SmsText = newSentence;
 
                 outputMessages.Add(sms);
-                
-
                 SaveFile file = new SaveFile();
 
                 if (file != null) {
@@ -480,12 +478,13 @@ namespace NapierBankMessageFilteringSystem
 
                 bool foundSIR = false;
                 string replaceRegex = "@/s+";
+
                 string emailText = email.EmailText; // The Email Text
                 string emailMsgID = message.MessageID;
                 emailSirSentence = message.MessageBody; // The SIR email sentence
 
-                string emailSender = emailSirSentence.Split(' ')[0];
-                string emailSubject = emailSirSentence.Split(' ')[1];
+                string emailSender = emailSirSentence.Split(' ')[defaultValue];
+                string emailSubject = emailSirSentence.Split(' ')[defaultValue + 1];
 
                 for(int i = 0; i < emailSirSentence.Length; i++)
                 {
@@ -496,14 +495,23 @@ namespace NapierBankMessageFilteringSystem
 
                     else if(emailSubject.Contains("SIR"))
                     {
-                        emailText = emailSirSentence.Split(',')[2] + emailSirSentence.Split(',')[3] + emailSirSentence.Split(',')[4];
+                        emailText = emailSirSentence.Split(',')[defaultValue + 2] + emailSirSentence.Split(delimiters[1])[defaultValue + 3] + emailSirSentence.Split(',')[defaultValue + 4];
+                    }
+
+                    else
+                    {
+                        foundSIR = false;
+                        MessageBox.Show("Invalid SIR E-mail");
                     }
 
                     foreach (string natureOfIncident in incidentList)
                     {
-                        if (natureOfIncident.Length > defaultValue)
+                        if (natureOfIncident.Length > defaultValue || emailSirSentence.Contains(natureOfIncident))
                         {
                             string replacedSIR = Regex.Replace(emailText, replaceRegex, "");
+                            // Add SIR to the dictionary
+
+
                         }
                     }
                 }
