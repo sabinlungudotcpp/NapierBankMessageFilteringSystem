@@ -42,6 +42,7 @@ namespace NapierBankMessageFilteringSystem
         public MainWindow()
         {
             Resources["TweetHashtags"] = tweetHashtags;
+            Resources["Mentions"] = mentionsList;
             InitializeComponent();
         }
 
@@ -241,21 +242,6 @@ namespace NapierBankMessageFilteringSystem
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 string quarantineText = "<URL Quarantined>";
 
-                string fileLine = string.Empty;
-                string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
-
-                // Read file that contains SIGNIFICANT INCIDENT REPORTS
-                StreamReader sirFile = new StreamReader(sirFilePath);
-                while ((fileLine = sirFile.ReadLine()) != null && incidentList != null)
-                {
-                    if (fileLine.Length < defaultValue)
-                    {
-                        string[] sirData = fileLine.Split(delimiters[defaultValue + 1]);
-                        incidentList.Add(sirData[defaultValue]);
-                        break;
-                    }
-                }
-
                 processSIREmails(email.EmailText);
 
                 string emailMessage = email.MessageID;
@@ -402,7 +388,7 @@ namespace NapierBankMessageFilteringSystem
                                 mentionsList.Add(tweetMessageBody);
                             }
 
-                            if(!containsMentions)
+                            if (!containsMentions)
                             {
                                 MessageBox.Show("No mentions found");
                             }
@@ -472,12 +458,41 @@ namespace NapierBankMessageFilteringSystem
             return true;
         }
 
-        private bool processSIREmails(string emailSentence)
+        private bool processSIREmails(string emailSirSentence)
         {
             try
             {
+                string fileLine = string.Empty;
+                string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
-                // string[] splitEmailMsg = emailSentence.Split(delimiters[2]); // Split the e-mail by a comma.
+                // Read file that contains SIGNIFICANT INCIDENT REPORTS
+                StreamReader sirFile = new StreamReader(sirFilePath);
+                while ((fileLine = sirFile.ReadLine()) != null && incidentList != null)
+                {
+                    if (fileLine.Length < defaultValue)
+                    {
+                        string[] sirData = fileLine.Split(delimiters[defaultValue + 1]);
+                        incidentList.Add(sirData[defaultValue]);
+                        break;
+                    }
+                }
+
+                bool foundSIR = false;
+                string emailText = email.EmailText;
+                string emailMsgID = message.MessageID;
+                emailSirSentence = message.MessageBody; // The SIR email sentence
+
+                string emailSender = emailSirSentence.Split(' ')[0];
+                string emailSubject = emailSirSentence.Split(' ')[1];
+
+
+                for(int i = 0; i < emailSirSentence.Length; i++)
+                {
+                    if(emailSubject.Contains("SIR"))
+                    {
+                        emailText = emailSirSentence.Split(' ')[2];
+                    }
+                }
             }
 
             catch (Exception exc)
