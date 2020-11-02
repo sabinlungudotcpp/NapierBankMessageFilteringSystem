@@ -24,8 +24,12 @@ namespace NapierBankMessageFilteringSystem
         private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
         private Sms sms = new Sms();
+
         private Email email = new Email(); // E-mail message instance
         private Tweet tweets = new Tweet();
+
+        private List<Message> fileInputMessages = new List<Message>();
+        private List<Message> outputMessages = new List<Message>();
 
         private List<string> incidentList = new List<string>();
         private List<string> quarantineList = new List<string>(); // Declares a new list to store the URLs that are quarantined
@@ -33,8 +37,7 @@ namespace NapierBankMessageFilteringSystem
 
         private Dictionary<string, string> incidentReports = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
-        private List<Message> fileInputMessages = new List<Message>();
-        private List<Message> outputMessages = new List<Message>();
+        
 
         public MainWindow()
         {
@@ -46,6 +49,7 @@ namespace NapierBankMessageFilteringSystem
         {
 
             string[] messageTypes = { "S", "E", "T" };
+            int startIndex = 0;
 
             try
             {
@@ -53,20 +57,20 @@ namespace NapierBankMessageFilteringSystem
                 string messageBody = msgTextBox.Text;
                 bool isEmpty = false;
 
-                message.MessageID = messageHeader;
+                message.MessageID = messageHeader; // The message ID is the message header
                 message.MessageBody = messageBody;
 
-                if (messageHeader.StartsWith(messageTypes[0]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(0)))) // If the message header starts with an upper case S
+                if (messageHeader.StartsWith(messageTypes[0]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(startIndex)))) // If the message header starts with an upper case S
                 {
                     sanitiseSms(message); // Sanitise SMS messages
                 }
 
-                else if (messageHeader.StartsWith(messageTypes[1])) // If the message header text box starts with an E
+                else if (messageHeader.StartsWith(messageTypes[1]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(startIndex)))) // If the message header text box starts with an E
                 {
                     sanitiseEmail(message);
                 }
 
-                else if (messageHeader.StartsWith(messageTypes[2]))
+                else if (messageHeader.StartsWith(messageTypes[2]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(startIndex))))
                 {
                     sanitiseTweets(message); // Sanitise tweet messages
                 }
@@ -198,11 +202,12 @@ namespace NapierBankMessageFilteringSystem
                 string finalSms = processedSMS.Substring(nextIndex);
                 sms.SmsText = finalSms;
 
+                abbreviations.readFile();
                 string newSentence = abbreviations.replaceMessage(sms.SmsText);
                 sms.SmsText = newSentence;
 
                 outputMessages.Add(sms);
-                abbreviations.readFile();
+                
 
                 SaveFile file = new SaveFile();
 
@@ -264,7 +269,7 @@ namespace NapierBankMessageFilteringSystem
 
                 string emailSender = emailBody.Split(delimiters[1])[defaultValue];
                 string emailSubject = emailBody.Split(delimiters[1])[defaultValue + 1];
-                string emailText = emailBody.Split(delimiters[1])[defaultValue + 2];
+                string emailText = emailMsgBody.Split(delimiters[1])[defaultValue + 2];
 
                 foreach (string emailWord in emailText.Split(delimiters[1])) {
 
@@ -286,32 +291,36 @@ namespace NapierBankMessageFilteringSystem
                             string replacedEmailTxt = abbreviations.replaceMessage(email.EmailText);
                             email.EmailText = replacedEmailTxt;
 
-                            quarantineListBox.Items.Add(emailText.ToString());
+                            quarantineListBox.Items.Add(email.EmailText);
                         }
 
                         if (quarantineList != null) // If there is a quarantine list
                         {
-                            quarantineList.Add(email.EmailText); // Add the e-mails to the quarantine list
+                            quarantineList.Add(emailText); // Add the e-mails to the quarantine list
                         }
                     }
-                }
-
-                SaveFile emailFile = new SaveFile();
-
-                if (emailFile != null) {
-
-                    outputMessages.Add(email);
-                    emailFile.saveToJSON(outputMessages);
-
                 }
 
                 isEmailSanitised = true;
 
                 if (isEmailSanitised)
                 {
+                    SaveFile emailFile = new SaveFile();
+
+                    if (emailFile != null)
+                    {
+                        outputMessages.Add(email);
+                        emailFile.saveToJSON(outputMessages);
+                    }
+
                     messageID.Text = "Message ID : " + emailID.ToString();
                     messageSender.Text = "Message Sender : " + '\n' + emailSender.ToString() + '\n' + "Message Subject : " + emailSubject.ToString();
                     messageText.Text = "Message Text : " + emailText.ToString();
+                }
+
+                if(!isEmailSanitised)
+                {
+                    MessageBox.Show("Could not sanitise emails");
                 }
 
                 return true;
@@ -325,14 +334,14 @@ namespace NapierBankMessageFilteringSystem
             return false;
         }
 
-        private bool sanitiseTweets(Message message)
+        private bool sanitiseTweets(Message message) // Method that takes a message as the parameter and returns either true or false if the tweets have been sanitised
         {
             try
             {
                 string delimiter = " "; // Space delimiter
                 bool isTweetSanitised = false; // Determines if the tweet has been sanitised or not
 
-                tweets.MessageID = message.MessageID;
+                tweets.MessageID = message.MessageID; // The Tweet message ID
                 tweets.MessageBody = message.MessageBody;
 
                 int tweetIndex = message.MessageBody.IndexOf(delimiter) + defaultValue + 1;
@@ -359,7 +368,7 @@ namespace NapierBankMessageFilteringSystem
                     messageID.Text = "Message ID : " + tweets.MessageID.ToString().Trim();
                     messageSender.Text = "Message Sender : " + tweets.TweetSender.ToString().Trim();
                     messageText.Text = "Message Text : " + tweets.TweetText.ToString().Trim();
-                    ; }
+                  }
 
                 return true;
             }
@@ -372,7 +381,7 @@ namespace NapierBankMessageFilteringSystem
             return false;
         }
 
-        private string checkForMentions(string tweetSentence)
+        private string checkForMentions(string tweetSentence) // Function that takes the tweet sentence as the parameter and checks for tweet mentions in the body of the sentence
         {
             try
             {
@@ -392,15 +401,22 @@ namespace NapierBankMessageFilteringSystem
                             {
                                 mentionsList.Add(tweetMessageBody);
                             }
-                        }
 
-                        mentionsListBox.Items.Add(tweetMessageBody);
+                            if(!containsMentions)
+                            {
+                                MessageBox.Show("No mentions found");
+                            }
+                        }
+                        
                         mentionFound = true;
 
-                        if (mentionFound)
+                        if (mentionFound || mentionsListBox.Items.Count == defaultValue) // If a mention has been found and the mentions list box items is 0
                         {
+                            mentionsListBox.Items.Add(tweetMessageBody.ToString());
+
                             SaveFile tweetsFile = new SaveFile();
-                            if (tweetsFile != null)
+
+                            if (tweetsFile != null) // If there is an existing tweets file
                             {
                                 outputMessages.Add(tweets);
                                 tweetsFile.saveToJSON(outputMessages);
@@ -460,6 +476,7 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
+
                 // string[] splitEmailMsg = emailSentence.Split(delimiters[2]); // Split the e-mail by a comma.
             }
 
@@ -482,6 +499,7 @@ namespace NapierBankMessageFilteringSystem
                 {
 
                     case System.Windows.Forms.DialogResult.Yes:
+
                         // Clear the data from the system
                         messageID.Text = string.Empty;
                         messageSender.Text = string.Empty;

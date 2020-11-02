@@ -26,8 +26,8 @@ namespace NapierBankMessageFilteringSystem.DataLayer
             {
                 string[] textValues = fileLine.Split(delimiter); // Split the data by a comma delimiter.
 
-                abbreviationsList.Add(textValues[0]); // Add the abbreviations from the file to the list
-                listOfDefinitions.Add(textValues[1]);
+                abbreviationsList.Add(textValues[defaultValue]); // Add the abbreviations from the file to the list
+                listOfDefinitions.Add(textValues[defaultValue + 1]);
             }
 
             return true;
