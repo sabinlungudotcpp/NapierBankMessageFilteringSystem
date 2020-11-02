@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -478,19 +479,32 @@ namespace NapierBankMessageFilteringSystem
                 }
 
                 bool foundSIR = false;
-                string emailText = email.EmailText;
+                string replaceRegex = "@/s+";
+                string emailText = email.EmailText; // The Email Text
                 string emailMsgID = message.MessageID;
                 emailSirSentence = message.MessageBody; // The SIR email sentence
 
                 string emailSender = emailSirSentence.Split(' ')[0];
                 string emailSubject = emailSirSentence.Split(' ')[1];
 
-
                 for(int i = 0; i < emailSirSentence.Length; i++)
                 {
-                    if(emailSubject.Contains("SIR"))
+                    if(!emailSubject.Contains("SIR"))
                     {
-                        emailText = emailSirSentence.Split(' ')[2];
+                        MessageBox.Show("SIR e-mails should start with SIR");
+                    }
+
+                    else if(emailSubject.Contains("SIR"))
+                    {
+                        emailText = emailSirSentence.Split(',')[2] + emailSirSentence.Split(',')[3] + emailSirSentence.Split(',')[4];
+                    }
+
+                    foreach (string natureOfIncident in incidentList)
+                    {
+                        if (natureOfIncident.Length > defaultValue)
+                        {
+                            string replacedSIR = Regex.Replace(emailText, replaceRegex, "");
+                        }
                     }
                 }
             }
