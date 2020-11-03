@@ -9,12 +9,13 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 {
     public class Sms : Message // SMS class inherits feeatures from the Message base class.
     {
-        private string regexMatcher = "^([/+]?[0-9]{1,3}[/s.-][0-9]{1,12})([/s.-]?[0-9]{1,4}?)$";
+        private string regexMatcher = "[0-9]{1,10}";
         private string sender; // The SMS Sender
         private string countryCode; // The SMS country code
         private string smsText; // The SMS text
         private string code = "+";
         private int defaultValue = 0;
+
 
         public Sms()
         {
@@ -24,14 +25,14 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(!Regex.IsMatch(value, regexMatcher))
+                if(Regex.IsMatch(value, regexMatcher))
                 {
-                    throw new ArgumentException("SMS Sender Invalid");
+                    this.sender = value;
                 }
 
                 else
                 {
-                    this.sender = value;
+                    throw new Exception("SMS Sender invalid");
                 }
             }
 

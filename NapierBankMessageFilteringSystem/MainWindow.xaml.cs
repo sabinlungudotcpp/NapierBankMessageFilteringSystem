@@ -166,10 +166,28 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-                string messageID = message.MessageID;
-                string fileLineChosen = Convert.ToString(messageListBox.SelectedItem);
+                string smsMessageID = message.MessageID;
+                string smsMessageBody = message.MessageBody;
+
+                string fileLineChosen = Convert.ToString(messageListBox.SelectedItem.ToString());
                 string fileLineSplit = fileLineChosen.Split(delimiters[2])[defaultValue].ToUpper();
 
+                sms.MessageID = fileLineSplit;
+                
+                string smsCountryCode = fileLineChosen.Split(delimiters[2])[defaultValue + 1];
+                string smsSender = fileLineChosen.Split(delimiters[2])[defaultValue + 2];
+                string smsText = fileLineChosen.Split(delimiters[2])[defaultValue + 3];
+
+                int indexOfText = fileLineChosen.IndexOf(smsText);
+                string substringOfText = fileLineChosen.Substring(indexOfText);
+                sms.MessageBody = substringOfText;
+
+                abbreviations.readFile();
+                string replacedMessage = abbreviations.replaceMessage(sms.MessageBody);
+
+                messageID.Text = "Message ID : " + fileLineSplit.ToString();
+                messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + ' ' + smsSender.ToString();
+                messageText.Text = "Message Text : " + replacedMessage.ToString();
             }
 
             catch (Exception exc)
@@ -192,10 +210,16 @@ namespace NapierBankMessageFilteringSystem
 
                 string smsBody = sms.MessageBody;
                 string messageBody = message.MessageBody;
-                smsBody = messageBody;
+                sms.MessageBody = messageBody;
 
                 string smsCountryCode = smsBody.Split(splitToken)[defaultValue]; // Split the country code.
+                sms.CountryCode = smsCountryCode;
                 string smsSender = smsBody.Split(splitToken)[defaultValue + 1];
+
+                sms.Sender = smsSender;
+                sms.MessageID = message.MessageID;
+                sms.MessageBody = message.MessageBody;
+
 
                 int smsIndexToProcess = smsBody.IndexOf(space) + defaultValue + 1;
                 string processedSMS = smsBody.Substring(smsIndexToProcess);
@@ -488,22 +512,7 @@ namespace NapierBankMessageFilteringSystem
 
                 for(int i = 0; i < emailSirSentence.Length; i++)
                 {
-                    if(!emailSubject.Contains("SIR"))
-                    {
-                        MessageBox.Show("SIR e-mails should start with SIR");
-                    }
-
-                    else if(emailSubject.Contains("SIR"))
-                    {
-                        emailText = emailSirSentence.Split(',')[defaultValue + 2] + emailSirSentence.Split(delimiters[1])[defaultValue + 3] + emailSirSentence.Split(',')[defaultValue + 4];
-                    }
-
-                    else
-                    {
-                        foundSIR = false;
-                        MessageBox.Show("Invalid SIR E-mail");
-                    }
-
+                  
                     foreach (string natureOfIncident in incidentList)
                     {
                         if (natureOfIncident.Length > defaultValue || emailSirSentence.Contains(natureOfIncident))
