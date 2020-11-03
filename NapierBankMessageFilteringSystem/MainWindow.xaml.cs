@@ -39,7 +39,6 @@ namespace NapierBankMessageFilteringSystem
         private Dictionary<string, string> incidentReports = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
         
-
         public MainWindow()
         {
             Resources["TweetHashtags"] = tweetHashtags;
@@ -220,7 +219,6 @@ namespace NapierBankMessageFilteringSystem
                 sms.MessageID = message.MessageID;
                 sms.MessageBody = message.MessageBody;
 
-
                 int smsIndexToProcess = smsBody.IndexOf(space) + defaultValue + 1;
                 string processedSMS = smsBody.Substring(smsIndexToProcess);
                 int nextIndex = processedSMS.IndexOf(space) + defaultValue + 1;
@@ -279,6 +277,10 @@ namespace NapierBankMessageFilteringSystem
                 string emailSender = emailBody.Split(delimiters[1])[defaultValue];
                 string emailSubject = emailBody.Split(delimiters[1])[defaultValue + 1];
                 string emailText = emailMsgBody.Split(delimiters[1])[defaultValue + 2];
+
+                email.EmailSender = emailSender;
+                email.Subject = emailSubject;
+                email.EmailText = emailText;
 
                 foreach (string emailWord in emailText.Split(delimiters[1])) {
 
