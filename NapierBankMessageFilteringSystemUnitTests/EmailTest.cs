@@ -18,6 +18,15 @@ namespace NapierBankMessageFilteringSystemUnitTests
         }
 
         [TestMethod]
+        public void TestEmailSenderNew()
+        {
+            email.EmailSender = "bob90@gmail.com";
+            string expectedValue = "bob90@gmail.com";
+
+            Assert.AreEqual(expectedValue, email.EmailSender);
+        }
+
+        [TestMethod]
         public void TestEmailSenderTwo()
         {
             email.EmailSender = "mike23@yahoo.com";
@@ -38,6 +47,39 @@ namespace NapierBankMessageFilteringSystemUnitTests
         public void TestEmailSenderFailTwo()
         {
             email.EmailSender = "bob23";
+        }
+
+        [TestMethod]
+        public void TestEmailSubject() // Unit Test method to check if the e-mail subject is valid or not
+        {
+            email.Subject = "Incident Report";
+            string expectedValue = "Incident Report";
+
+            Assert.AreEqual(expectedValue, email.Subject);
+        }
+
+        [TestMethod]
+        public void TestEmailSubjectTwo()
+        {
+            email.Subject = "Theft Report";
+            string expectedValue = "Theft Report";
+
+            Assert.AreEqual(expectedValue, email.Subject);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestEmptySubject()
+        {
+            email.Subject = "";
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestInvalidSubject()
+        {
+            email.Subject = "Theft happened 20 minutes ago and we need to take action as soon as possible otherwise they will steal all of our money, FAST";
+
         }
     }
 }

@@ -49,6 +49,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                 else {
                    
                  throw new ArgumentException("Subject exceeds 20 characters. Please re-enter!");
+
                     }
                 }
 
