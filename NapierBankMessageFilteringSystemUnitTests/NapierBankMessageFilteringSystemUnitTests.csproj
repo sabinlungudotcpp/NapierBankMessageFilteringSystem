@@ -49,11 +49,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TweetTest.cs" />
+    <Compile Include="MessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsTest.cs" />
     <Compile Include="EmailTest.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TweetTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -67,7 +67,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(value.Length > defaultValue && value.Length <= 140)
+                if(value.Length > 0 && value.Length <= 140)
                 {
                     this.smsText = value;
                 }

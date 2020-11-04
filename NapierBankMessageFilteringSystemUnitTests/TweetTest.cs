@@ -7,38 +7,28 @@ namespace NapierBankMessageFilteringSystemUnitTests
     [TestClass]
     public class TweetTest
     {
-        Message message = new Message();
+        Tweet tweets = new Tweet();
+        [TestMethod]
+        public void TestTweetSender()
+        {
+
+            tweets.TweetSender = "@SabinLungu";
+            string expectedValue = "@SabinLungu";
+
+            Assert.AreEqual(expectedValue, tweets.TweetSender);
+        }
 
         [TestMethod]
-        public void MessageIDPass()
+        public void TestTweetSenderTwo()
         {
-            message.MessageID = "s123456789";
-            string expectedID = "S123456789";
 
-            Assert.AreEqual(expectedID, message.MessageID); // Determines if the actual and expected values are the same.
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void MessageIDFail()
+        public void TestTweetSenderFail()
         {
-           message.MessageID = "e00000000000";
-        }
 
-        [TestMethod]
-        public void MessageBodyPass()
-        {
-            message.MessageBody = "Hello Sabin Lungu";
-            string expectedBodyMsg = "Hello Sabin Lungu";
-            Assert.AreEqual(expectedBodyMsg, message.MessageBody);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void MessageBodyFail()
-        { 
-            message.MessageBody = "";
-        }
-
     }
 }

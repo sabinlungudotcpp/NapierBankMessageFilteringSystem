@@ -110,7 +110,7 @@ namespace NapierBankMessageFilteringSystem
 
                         if (isFileValid)
                         {
-                            string fileData = File.ReadAllText(fileDialog.FileName);
+                            string fileData = File.ReadAllText(fileDialog.FileName); // Read all the text from the file
                         }
 
                         foreach (string messageLines in File.ReadAllLines(fileDialog.FileName))
@@ -118,26 +118,6 @@ namespace NapierBankMessageFilteringSystem
                             if (messageLines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
                             {
                                 messageListBox.Items.Add(messageLines.ToString());
-                            }
-                        }
-                    }
-
-                    else if (filePath.EndsWith(".json")) // Process JSON messages from file
-                    {
-                        // Read JSON File
-                        string jsonFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/messagesFile.json";
-                        StreamReader jsonReader = new StreamReader(jsonFilePath);
-                        string jsonLine = string.Empty;
-                        char token = '}';
-
-                        while ((jsonLine = jsonReader.ReadLine()) != null)
-                        {
-                            if (jsonLine.Length < 0 || jsonReader != null)
-                            {
-                                // Deserialise JSON
-                                string[] jsonFileContent = jsonLine.Split(token);
-
-
                             }
                         }
                     }
@@ -269,6 +249,9 @@ namespace NapierBankMessageFilteringSystem
                 string emailMessage = email.MessageID;
                 string emailMsgBody = email.MessageBody;
 
+                email.MessageID = message.MessageID;
+                email.MessageBody = message.MessageBody;
+
                 string emailID = message.MessageID; // The E-mail ID is the message ID
                 string emailBody = message.MessageBody;
 
@@ -392,7 +375,6 @@ namespace NapierBankMessageFilteringSystem
 
             return false;
         }
-
         private string checkForMentions(string tweetSentence) // Function that takes the tweet sentence as the parameter and checks for tweet mentions in the body of the sentence
         {
             try
@@ -484,7 +466,7 @@ namespace NapierBankMessageFilteringSystem
             return true;
         }
 
-        private bool processSIREmails(string emailSirSentence)
+        private bool processSIREmails(string emailSirSentence) // Method that processes SIR e-mails.
         {
             try
             {
@@ -522,8 +504,6 @@ namespace NapierBankMessageFilteringSystem
                         {
                             string replacedSIR = Regex.Replace(emailText, replaceRegex, "");
                             // Add SIR to the dictionary
-
-
                         }
                     }
                 }

@@ -33,5 +33,22 @@ namespace NapierBankMessageFilteringSystemUnitTests
         {
             sms.CountryCode = "49";
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestSmsTextFail()
+        {
+            sms.SmsText = "";
+        }
+
+
+        [TestMethod]
+        public void SmsTextTest()
+        {
+            sms.SmsText = "Hi Sabin OMG check this out";
+            string expectedText = "Hi Sabin OMG check this out";
+
+            Assert.AreEqual(expectedText, sms.SmsText);
+        }
     }
 }
