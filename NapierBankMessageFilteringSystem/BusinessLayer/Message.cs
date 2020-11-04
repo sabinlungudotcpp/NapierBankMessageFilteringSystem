@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NapierBankMessageFilteringSystem.BusinessLayer
 {
@@ -21,7 +16,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if (value.Length == 10)
+                if (value.Length == 10) // If the length of the message id is 10
                     {
                         this.messageID = value.ToUpper(); // Set the message ID to uppercase if it's valid
                     }

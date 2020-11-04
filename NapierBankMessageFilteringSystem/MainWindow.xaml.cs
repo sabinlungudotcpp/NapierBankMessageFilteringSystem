@@ -168,16 +168,16 @@ namespace NapierBankMessageFilteringSystem
                 string smsMessageID = message.MessageID;
                 string smsMessageBody = message.MessageBody;
 
-                string fileLineChosen = Convert.ToString(messageListBox.SelectedItem.ToString());
+                string fileLineChosen = Convert.ToString(messageListBox.SelectedItem);
                 string fileLineSplit = fileLineChosen.Split(delimiters[2])[defaultValue].ToUpper();
 
                 sms.MessageID = fileLineSplit;
                 
-                string smsCountryCode = fileLineChosen.Split(delimiters[2])[defaultValue + 1];
-                string smsSender = fileLineChosen.Split(delimiters[2])[defaultValue + 2];
-                string smsText = fileLineChosen.Split(delimiters[2])[defaultValue + 3];
+                string msgSender = fileLineChosen.Split(delimiters[2])[defaultValue + 1];
+                string subject = fileLineChosen.Split(delimiters[2])[defaultValue + 2];
+                string text = fileLineChosen.Split(delimiters[2])[defaultValue + 3];
 
-                int indexOfText = fileLineChosen.IndexOf(smsText);
+                int indexOfText = fileLineChosen.IndexOf(text);
                 string substringOfText = fileLineChosen.Substring(indexOfText);
                 sms.MessageBody = substringOfText;
 
@@ -185,9 +185,20 @@ namespace NapierBankMessageFilteringSystem
                 string replacedMessage = abbreviations.replaceMessage(sms.MessageBody);
 
                 messageID.Text = "Message ID : " + fileLineSplit.ToString();
-                messageSender.Text = "Message Sender : " + smsCountryCode.ToString() + ' ' + smsSender.ToString();
+                messageSender.Text = "Message Sender : " + msgSender.ToString();
                 messageText.Text = "Message Text : " + replacedMessage.ToString();
-            }
+
+                if (fileLineSplit.StartsWith("E") || (fileLineSplit.Trim().Contains("http://") || fileLineSplit.Trim().Contains("https://") || fileLineSplit.Trim().EndsWith(".com")))
+                {
+                    string emailMsgBody = email.MessageBody;
+                    string replacedEmail = substringOfText.Replace(email.EmailText, "<URL Quarantined>");
+                    email.EmailText = replacedEmail;
+
+                    quarantineListBox.Items.Add(email.EmailText.ToString());
+                    messageText.Text = "Message Text : " + email.EmailText.ToString();
+                }
+
+                }
 
             catch (Exception exc)
             {
@@ -233,7 +244,7 @@ namespace NapierBankMessageFilteringSystem
                 outputMessages.Add(sms);
                 SaveFile file = new SaveFile();
 
-                if (file != null) {
+                if (file != null) { // If there is a file
                     file.saveToJSON(outputMessages);
                 }
 
