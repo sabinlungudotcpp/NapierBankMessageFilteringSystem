@@ -41,8 +41,8 @@ namespace NapierBankMessageFilteringSystem
         
         public MainWindow()
         {
-            Resources["TweetHashtags"] = tweetHashtags;
-            Resources["Mentions"] = mentionsList;
+            Resources["TweetHashtags"] = this.tweetHashtags;
+            Resources["Mentions"] = this.mentionsList;
             InitializeComponent();
         }
 
@@ -151,7 +151,7 @@ namespace NapierBankMessageFilteringSystem
                 string fileLineChosen = Convert.ToString(messageListBox.SelectedItem);
                 string fileLineSplit = fileLineChosen.Split(delimiters[2])[defaultValue].ToUpper();
 
-                sms.MessageID = fileLineSplit;
+                sms.MessageID = fileLineSplit; // The message ID is the split file line
                 
                 string countryCode = fileLineChosen.Split(delimiters[2])[defaultValue + 1];
                 string msgSender = fileLineChosen.Split(delimiters[2])[defaultValue + 2];

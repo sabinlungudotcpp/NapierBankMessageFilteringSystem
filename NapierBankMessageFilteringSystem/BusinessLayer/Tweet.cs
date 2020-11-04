@@ -22,15 +22,14 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(value.StartsWith(atSymbol) && value.Length > 0 && value.Length <= 16) { 
+                if(value.StartsWith(atSymbol) && value.Length >= 0 && value.Length <= 16) { 
                    
                    this.tweetSender = value;
-
                 }
 
                 else {
                     
-                 throw new Exception("Tweet sender does not start with an @ symbol. Re-enter please");
+                 throw new ArgumentException("Tweet sender does not start with an @ symbol. Re-enter please");
                   }
             }
 
@@ -44,9 +43,9 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(value.Length > 0 && value.Length <= 140) { 
-                    
-                        this.tweetText = value;
+                if(value.Length > 0 && value.Length <= 140) { // If the tweet length is > 0 and <= 140 words
+                   
+                      this.tweetText = value; // Set the tweet text to its value
                     }
 
                     else 

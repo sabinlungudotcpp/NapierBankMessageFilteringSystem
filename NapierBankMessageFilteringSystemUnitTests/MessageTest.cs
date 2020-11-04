@@ -20,7 +20,7 @@ namespace NapierBankMessageFilteringSystemUnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void MessageIDFail()
+        public void MessageIDFail() // Unit Test for testing an invalid Message ID
         {
            message.MessageID = "e00000000000";
         }
@@ -39,6 +39,5 @@ namespace NapierBankMessageFilteringSystemUnitTests
         { 
             message.MessageBody = "";
         }
-
     }
 }

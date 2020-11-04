@@ -29,9 +29,41 @@ namespace NapierBankMessageFilteringSystemUnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestTweetSenderFail()
+        public void TestTweetSenderFail() // Unit Test to determine if it will pass in the circumstance that the tweet sender is empty
         {
-            tweets.TweetSender = " ";
+            tweets.TweetSender = "";
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestTweetSenderFailTwo()
+        {
+            tweets.TweetSender = "Jamie Brown";
+        }
+
+        [TestMethod]
+        public void TweetText() // Unit Test for the Tweet Text
+        {
+            tweets.TweetText = "I found this OMG";
+            string expectedValue = "I found this OMG";
+
+            Assert.AreEqual(expectedValue, tweets.TweetText);
+        }
+
+        [TestMethod]
+        public void TweetTextTwo()
+        {
+            tweets.TweetText = "Check this radio station out #CapitalFM";
+            string expectedValue = "Check this radio station out #CapitalFM";
+
+            Assert.AreEqual(expectedValue, tweets.TweetText);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestTweetFail()
+        {
+            tweets.TweetText = "";
         }
     }
 }
