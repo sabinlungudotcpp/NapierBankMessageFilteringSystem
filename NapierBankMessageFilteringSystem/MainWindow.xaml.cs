@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 // Author of System: Sabin Constantin Lungu
 // Date of Last Modification: 28/10/2020
-// Purpose of Class: 
+// Purpose of Class: To store the Presentation Layer code for the Message Filtering System such as sanitising SMS, E-mail and Tweet messages
 // Any Bugs: N/A
 
 namespace NapierBankMessageFilteringSystem
@@ -29,7 +29,6 @@ namespace NapierBankMessageFilteringSystem
         private Email email = new Email(); // E-mail message instance
         private Tweet tweets = new Tweet();
 
-        private List<Message> fileInputMessages = new List<Message>();
         private List<Message> outputMessages = new List<Message>();
 
         private List<string> incidentList = new List<string>();
@@ -39,7 +38,7 @@ namespace NapierBankMessageFilteringSystem
         private Dictionary<string, string> incidentReports = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
         
-        public MainWindow()
+        public MainWindow() // Main Window Constructor
         {
             Resources["TweetHashtags"] = this.tweetHashtags;
             Resources["Mentions"] = this.mentionsList;
@@ -63,22 +62,31 @@ namespace NapierBankMessageFilteringSystem
 
                 if (messageHeader.StartsWith(messageTypes[0]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(startIndex)))) // If the message header starts with an upper case S
                 {
+                    isEmpty = false;
                     sanitiseSms(message); // Sanitise SMS messages
                 }
 
                 else if (messageHeader.StartsWith(messageTypes[1]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(startIndex)))) // If the message header text box starts with an E
                 {
+                    isEmpty = false;
                     sanitiseEmail(message);
                 }
 
                 else if (messageHeader.StartsWith(messageTypes[2]) && Char.IsUpper(Convert.ToChar(messageTypes.ElementAt(startIndex))))
                 {
+                    isEmpty = false;
                     sanitiseTweets(message); // Sanitise tweet messages
                 }
 
                 else
                 {
-                    MessageBox.Show("Please fill in both boxes");
+                    isEmpty = true;
+
+                    if(isEmpty)
+                    {
+                        MessageBox.Show("Please fill in both boxes");
+                    }
+                   
                 }
             }
 
@@ -495,15 +503,14 @@ namespace NapierBankMessageFilteringSystem
                 string emailSender = emailSirSentence.Split(' ')[defaultValue];
                 string emailSubject = emailSirSentence.Split(' ')[defaultValue + 1];
 
-                for(int i = 0; i < emailSirSentence.Length; i++)
+                for(int i = 0; i < emailSirSentence.Length; i++) // Loop over the SIR Sentence
                 {
-                  
-                    foreach (string natureOfIncident in incidentList)
+                    foreach (string natureOfIncident in incidentList) // For every incident in the incident list
                     {
                         if (natureOfIncident.Length > defaultValue || emailSirSentence.Contains(natureOfIncident))
                         {
                             string replacedSIR = Regex.Replace(emailText, replaceRegex, "");
-                            // Add SIR to the dictionary
+                            // Process SIR e-mails
                         }
                     }
                 }
