@@ -173,8 +173,8 @@ namespace NapierBankMessageFilteringSystem
 
                 sms.MessageID = fileLineSplit;
                 
-                string msgSender = fileLineChosen.Split(delimiters[2])[defaultValue + 1];
-                string subject = fileLineChosen.Split(delimiters[2])[defaultValue + 2];
+                string countryCode = fileLineChosen.Split(delimiters[2])[defaultValue + 1];
+                string msgSender = fileLineChosen.Split(delimiters[2])[defaultValue + 2];
                 string text = fileLineChosen.Split(delimiters[2])[defaultValue + 3];
 
                 int indexOfText = fileLineChosen.IndexOf(text);
@@ -185,20 +185,10 @@ namespace NapierBankMessageFilteringSystem
                 string replacedMessage = abbreviations.replaceMessage(sms.MessageBody);
 
                 messageID.Text = "Message ID : " + fileLineSplit.ToString();
-                messageSender.Text = "Message Sender : " + msgSender.ToString();
+                messageSender.Text = "Message Sender : " + countryCode.ToString() + ' ' + msgSender.ToString();
                 messageText.Text = "Message Text : " + replacedMessage.ToString();
 
-                if (fileLineSplit.StartsWith("E") || (fileLineSplit.Trim().Contains("http://") || fileLineSplit.Trim().Contains("https://") || fileLineSplit.Trim().EndsWith(".com")))
-                {
-                    string emailMsgBody = email.MessageBody;
-                    string replacedEmail = substringOfText.Replace(email.EmailText, "<URL Quarantined>");
-                    email.EmailText = replacedEmail;
-
-                    quarantineListBox.Items.Add(email.EmailText.ToString());
-                    messageText.Text = "Message Text : " + email.EmailText.ToString();
-                }
-
-                }
+            }
 
             catch (Exception exc)
             {
@@ -222,16 +212,16 @@ namespace NapierBankMessageFilteringSystem
                 string messageBody = message.MessageBody;
                 sms.MessageBody = messageBody;
 
-                string smsCountryCode = smsBody.Split(splitToken)[defaultValue]; // Split the country code.
+                string smsCountryCode = messageBody.Split(splitToken)[defaultValue]; // Split the country code.
                 sms.CountryCode = smsCountryCode;
-                string smsSender = smsBody.Split(splitToken)[defaultValue + 1];
+                string smsSender = messageBody.Split(splitToken)[defaultValue + 1];
 
                 sms.Sender = smsSender;
                 sms.MessageID = message.MessageID;
                 sms.MessageBody = message.MessageBody;
 
-                int smsIndexToProcess = smsBody.IndexOf(space) + defaultValue + 1;
-                string processedSMS = smsBody.Substring(smsIndexToProcess);
+                int smsIndexToProcess = messageBody.IndexOf(space) + defaultValue + 1;
+                string processedSMS = messageBody.Substring(smsIndexToProcess);
                 int nextIndex = processedSMS.IndexOf(space) + defaultValue + 1;
 
                 string finalSms = processedSMS.Substring(nextIndex);
