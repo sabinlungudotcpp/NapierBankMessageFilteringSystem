@@ -4,10 +4,17 @@ using NapierBankMessageFilteringSystem.BusinessLayer;
 
 namespace NapierBankMessageFilteringSystemUnitTests
 {
+    // Author of Unit Test: Sabin Constantin Lungu
+    // Date of Creation: 04/11/2020
+    // Date of Last Modification: 04/11/2020
+    // Purpose of Unit Test: To test different featuers in the Tweet.cs class such as the Sender and Text
+    // Any Errors: N/A
+    // Tests Pass: Yes - Successfully.
+
     [TestClass]
     public class TweetTest
     {
-        Tweet tweets = new Tweet();
+        protected Tweet tweets = new Tweet(); // Tweet class instance
         [TestMethod]
         public void TestTweetSender()
         {
