@@ -9,11 +9,10 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string emailText; // E-mail Text
         private int defaultVal = 0;
 
-        public Email()
+        public Email() // Default e-mail constructor
         {
 
         }
-
         public string EmailSender
         {
             set
@@ -26,7 +25,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
 
                 else
                 {
-                    throw new Exception("E-mail address is not in the correct format. Please re-enter");
+                    throw new FormatException("E-mail address is not in the correct format. Please re-enter");
                 }
             }
           
@@ -44,6 +43,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
               if(value.Length > defaultVal && value.Length <= 20) {
                
                 this.subject = value;
+
                }
 
                 else {
@@ -85,6 +85,15 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             return base.ToString();
         }
 
+        public override bool Equals(Object emailObject)
+        {
+            return this.Equals(emailObject as Email);
+           
+        }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

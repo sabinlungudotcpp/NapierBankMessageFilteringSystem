@@ -64,5 +64,15 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             return base.ToString();
         }
+
+        public override bool Equals(Object tweetObject)
+        {
+            return this.Equals(tweetObject as Tweet);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
