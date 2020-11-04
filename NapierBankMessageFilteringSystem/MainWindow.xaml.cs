@@ -24,11 +24,12 @@ namespace NapierBankMessageFilteringSystem
 
         private Abbreviations abbreviations = new Abbreviations();
         private Message message = new Message(); // New message instance
-        private Sms sms = new Sms();
+        private Sms sms = new Sms(); // SMS instance to store SMS messages
 
         private Email email = new Email(); // E-mail message instance
         private Tweet tweets = new Tweet();
 
+        private SaveFile file = new SaveFile(); // Creates a Save File instance to save the message to the file
         private List<Message> outputMessages = new List<Message>();
 
         private List<string> incidentList = new List<string>();
@@ -38,8 +39,7 @@ namespace NapierBankMessageFilteringSystem
         private Dictionary<string, string> incidentReports = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
         
-        public MainWindow() // Main Window Constructor
-        {
+        public MainWindow() {
             Resources["TweetHashtags"] = this.tweetHashtags;
             Resources["Mentions"] = this.mentionsList;
             InitializeComponent();
@@ -96,14 +96,13 @@ namespace NapierBankMessageFilteringSystem
             }
         }
 
-        private void readFileBtn_Click(object sender, RoutedEventArgs e)
+        private void readFileBtn_Click(object sender, RoutedEventArgs e) // Method that processes the read file button
         {
             try
             {
-
-                var filePath = string.Empty;
+                var filePath = string.Empty; // The file path is stored here
                 var fileContent = string.Empty;
-                bool isFileValid = false;
+                bool isFileValid = false; // Determines if the file is valid or not
 
                 OpenFileDialog fileDialog = new OpenFileDialog(); // A new open file dialog instance
                 fileDialog.RestoreDirectory = true;
@@ -198,7 +197,7 @@ namespace NapierBankMessageFilteringSystem
 
                 string smsBody = sms.MessageBody;
                 string messageBody = message.MessageBody;
-                sms.MessageBody = messageBody;
+                sms.MessageBody = messageBody; // The SMS message body is the message body text
 
                 string smsCountryCode = messageBody.Split(splitToken)[defaultValue]; // Split the country code.
                 sms.CountryCode = smsCountryCode;
@@ -220,7 +219,7 @@ namespace NapierBankMessageFilteringSystem
                 sms.SmsText = newSentence;
 
                 outputMessages.Add(sms);
-                SaveFile file = new SaveFile();
+                
 
                 if (file != null) { // If there is a file
                     file.saveToJSON(outputMessages);
@@ -310,10 +309,10 @@ namespace NapierBankMessageFilteringSystem
                 {
                     SaveFile emailFile = new SaveFile();
 
-                    if (emailFile != null)
+                    if (emailFile != null && outputMessages != null) // If there is an email file
                     {
                         outputMessages.Add(email);
-                        emailFile.saveToJSON(outputMessages);
+                        emailFile.saveToJSON(outputMessages); // Write it to the JSON file
                     }
 
                     messageID.Text = "Message ID : " + emailID.ToString();
@@ -387,7 +386,7 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
-                string[] splitTweetMsg = tweetSentence.Split(delimiters[2]);
+                string[] splitTweetMsg = tweetSentence.Split(delimiters[2]); // Splits the tweet sentence by a space
                 string atSymbol = "@";
                 bool mentionFound = false;
 
@@ -418,7 +417,7 @@ namespace NapierBankMessageFilteringSystem
 
                             SaveFile tweetsFile = new SaveFile();
 
-                            if (tweetsFile != null) // If there is an existing tweets file
+                            if (tweetsFile != null && outputMessages != null) // If there is an existing tweets file
                             {
                                 outputMessages.Add(tweets);
                                 tweetsFile.saveToJSON(outputMessages);

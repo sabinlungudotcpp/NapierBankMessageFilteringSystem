@@ -20,7 +20,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
 
         }
-        public string Sender
+        public string Sender // The SMS sender attribute
         {
             set
             {
@@ -62,7 +62,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             }
         }
 
-        public string SmsText
+        public string SmsText // The SMS Text
         {
             set
             {
