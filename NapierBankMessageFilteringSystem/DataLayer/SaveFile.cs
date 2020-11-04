@@ -18,7 +18,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
     {
         private bool serialized = false;
 
-        public void saveToJSON(List<Message> inputMessages) // Method that saves a type of message to a JSON file by serializing it
+        public bool saveToJSON(List<Message> inputMessages) // Method that saves a type of message to a JSON file by serializing it
         {
             try
             {
@@ -39,6 +39,8 @@ namespace NapierBankMessageFilteringSystem.DataLayer
             {
                 MessageBox.Show(exc.ToString());
             }
+
+            return true;
         }
     }
 }

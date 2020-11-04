@@ -36,7 +36,7 @@ namespace NapierBankMessageFilteringSystemUnitTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestTweetSenderFailTwo()
+        public void TestTweetSenderFailTwo() // Unit Test to test an invalid Tweet Sender.
         {
             tweets.TweetSender = "Jamie Brown";
         }

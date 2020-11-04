@@ -35,7 +35,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
 
         public string replaceMessage(string sentence) // Replaces the definition with the actual word
         {
-           char splitToken = ' ';
+           char splitToken = ' '; // Space token
             
            try
             {
@@ -64,7 +64,7 @@ namespace NapierBankMessageFilteringSystem.DataLayer
                 throw new Exception("Error processing abbreviations");
             }
 
-            return sentence;
+            return sentence; // Return the processed sentence
         }
     }
 }
