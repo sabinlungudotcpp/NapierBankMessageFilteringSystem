@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NapierBankMessageFilteringSystem.DataLayer
 {
@@ -17,18 +18,26 @@ namespace NapierBankMessageFilteringSystem.DataLayer
     {
         private bool serialized = false;
 
-        public void saveToJSON(List<Message> inputMessages)
+        public void saveToJSON(List<Message> inputMessages) // Method that saves a type of message to a JSON file by serializing it
         {
-            File.WriteAllText("C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/messagesFile.json", JsonConvert.SerializeObject(inputMessages));
-
-            using(StreamWriter messageFile = File.CreateText("C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/messagesFile.json"))
+            try
             {
-                if(messageFile != null && inputMessages != null)
+                File.WriteAllText("C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/messagesFile.json", JsonConvert.SerializeObject(inputMessages));
+
+                using (StreamWriter messageFile = File.CreateText("C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/messagesFile.json"))
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(messageFile, inputMessages); // Serialize the messaegs to the file
-                    serialized = true;
+                    if (messageFile != null && inputMessages != null)
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.Serialize(messageFile, inputMessages); // Serialize the messaegs to the file
+                        serialized = true;
+                    }
                 }
+            } 
+            
+            catch(Exception exc)
+            {
+                MessageBox.Show(exc.ToString());
             }
         }
     }

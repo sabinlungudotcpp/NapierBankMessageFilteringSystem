@@ -7,7 +7,7 @@ namespace NapierBankMessageFilteringSystemUnitTests
     [TestClass]
     public class MessageTest
     {
-        Message message = new Message();
+        protected Message message = new Message();
 
         [TestMethod]
         public void MessageIDPass()
