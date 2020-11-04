@@ -64,7 +64,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
             set
             {
 
-                if(value.Length >= defaultVal && value.Length <= 1028) { 
+                if(value.Length >= defaultVal && value.Length <= 1028) {  // If the e-mail text is between 0 and 1028
                     
                      this.emailText = value;
                    }
@@ -72,12 +72,14 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
                   else { 
                     
                    throw new ArgumentException("E-mail text is not valid. Please re-enter");
+
                     }
                 } 
 
             get {
             
-             return this.emailText;
+             return this.emailText; // Return the e-mail text property
+
             }
         }
 

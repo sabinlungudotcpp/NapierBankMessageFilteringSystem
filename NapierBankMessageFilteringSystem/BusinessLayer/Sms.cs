@@ -16,7 +16,6 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string code = "+";
         private int defaultValue = 0;
 
-
         public Sms()
         {
 
@@ -67,7 +66,7 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         {
             set
             {
-                if(value.Length > 0 && value.Length <= 140)
+                if(value.Length > defaultValue && value.Length <= 140)
                 {
                     this.smsText = value;
                 }
@@ -87,6 +86,16 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
         }
     }
 }

@@ -36,15 +36,16 @@ namespace NapierBankMessageFilteringSystem.DataLayer
         public string replaceMessage(string sentence) // Replaces the definition with the actual word
         {
            char splitToken = ' '; // Space token
+           string[] splitSentence = sentence.Split(splitToken);
             
            try
             {
-                foreach (string definitionWord in sentence.Split(splitToken)) // For every definition word in the sentence
+                foreach (string definitionWord in splitSentence) // For every definition word in the sentence
                 {
                    
                  foreach(string abbreviation in abbreviationsList) // And for every abbreviation in the list
                    {
-                        if(definitionWord.Equals(abbreviation) && listOfDefinitions.Count > defaultValue && abbreviationsList.Count > defaultValue)
+                        if(definitionWord.Equals(abbreviation) && listOfDefinitions.Count > defaultValue && abbreviationsList.Count > defaultValue && abbreviationsList != null)
                         {
                             int indexOfDefinition = abbreviationsList.IndexOf(abbreviation);
                             string allDefinitions = listOfDefinitions[indexOfDefinition]; // Store the list of all the definitions in the string array
