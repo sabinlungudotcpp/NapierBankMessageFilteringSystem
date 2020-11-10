@@ -123,11 +123,11 @@ namespace NapierBankMessageFilteringSystem
 
                         string[] fileLines = File.ReadAllLines(fileDialog.FileName);
 
-                        foreach (string messageLines in fileLines)
+                        foreach (string messageLines in fileLines) // For every line in the text
                         {
                             if (messageLines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
                             {
-                                messageListBox.Items.Add(messageLines.ToString());
+                                messageListBox.Items.Add(messageLines.ToString()); // Add it to the message list box
                             }
                         }
                     }
