@@ -203,7 +203,7 @@ namespace NapierBankMessageFilteringSystem
                 sms.CountryCode = smsCountryCode;
                 string smsSender = messageBody.Split(splitToken)[defaultValue + 1];
 
-                sms.Sender = smsSender;
+                sms.Sender = smsSender; // The SMS sender is the message sms sender
                 sms.MessageID = message.MessageID;
                 sms.MessageBody = message.MessageBody;
 
@@ -214,7 +214,7 @@ namespace NapierBankMessageFilteringSystem
                 string finalSms = processedSMS.Substring(nextIndex);
                 sms.SmsText = finalSms;
 
-                abbreviations.readFile();
+                abbreviations.readFile(); // Read the abbreviations file
                 string newSentence = abbreviations.replaceMessage(sms.SmsText);
                 sms.SmsText = newSentence;
 
@@ -496,7 +496,6 @@ namespace NapierBankMessageFilteringSystem
                 {
                     if (fileLine.Length > defaultValue)
                     {
-
                         incidentList.Add(fileLine);
                     }
                 }

@@ -13,11 +13,10 @@ namespace NapierBankMessageFilteringSystem.BusinessLayer
         private string tweetText;
         private string atSymbol = "@";
 
-        public Tweet()
+        public Tweet() // Tweet default constructor
         {
 
         }
-
         public string TweetSender
         {
             set
