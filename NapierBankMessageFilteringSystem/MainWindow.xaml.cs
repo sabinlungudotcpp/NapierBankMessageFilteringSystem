@@ -185,7 +185,6 @@ namespace NapierBankMessageFilteringSystem
                 MessageBox.Show(exc.ToString());
             }
         }
-
         private bool sanitiseSms(Message message) // Routine to sanitise SMS messages
         {
             try
@@ -510,7 +509,6 @@ namespace NapierBankMessageFilteringSystem
                 string emailText = email.EmailText; // The Email Text
                 string emailMsgID = message.MessageID;
                 emailSirSentence = message.MessageBody; // The SIR email sentence
-
                 
                 string emailSender = emailSirSentence.Split(',')[defaultValue].Trim();
                 string emailSubject = emailSirSentence.Split(',')[defaultValue + 1].Trim();
@@ -545,12 +543,10 @@ namespace NapierBankMessageFilteringSystem
                 messageText.Text = "Message Text : " + emailBody.ToString();
             }
 
-
             catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }
-
 
             return true;
         }
@@ -570,6 +566,7 @@ namespace NapierBankMessageFilteringSystem
                         messageID.Text = string.Empty;
                         messageSender.Text = string.Empty;
                         messageText.Text = string.Empty;
+                        sirListBox = string.Empty;
 
                         for (int x = defaultValue; x < mentionsListBox.Items.Count; x++)
                         {
