@@ -528,14 +528,15 @@ namespace NapierBankMessageFilteringSystem
                     }
                 }
 
-                if (emailSubject.Contains("SIR") && foundSIR)
+                if (emailSubject.Contains("SIR") && foundSIR && sirListBox.Items.Count == defaultValue)
                 {
                     sirListBox.Items.Add(sortCode + ' ' + incident); // Adds the sort code and nature of incident to the SIR list
                 }
 
                 if (!emailSubject.Contains("SIR") || !foundSIR)
                 {
-                    MessageBox.Show("Incident Not Found");
+                    MessageBox.Show("Incident Not Found In The File");
+                    foundSIR = false; // SIR not found so is false
                 }
 
                 messageID.Text = "Message ID : " + emailMsgID.ToString();
@@ -566,8 +567,7 @@ namespace NapierBankMessageFilteringSystem
                         messageID.Text = string.Empty;
                         messageSender.Text = string.Empty;
                         messageText.Text = string.Empty;
-                        sirListBox = string.Empty;
-
+                       
                         for (int x = defaultValue; x < mentionsListBox.Items.Count; x++)
                         {
                             if (mentionsListBox.Items.Count > defaultValue || mentionsListBox != null)
@@ -602,6 +602,11 @@ namespace NapierBankMessageFilteringSystem
                                 trendingListBox.ItemsSource = string.Empty;
                                 tweets = null; // Tweet instance is empty now
                             }
+                        }
+
+                        for(int index = defaultValue; index < sirListBox.Items.Count; index++)
+                        {
+                            sirListBox.ItemsSource = string.Empty;
                         }
 
                         msgHeaderTxtBox.Text = string.Empty;
