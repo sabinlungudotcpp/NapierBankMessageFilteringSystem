@@ -28,26 +28,24 @@ namespace NapierBankMessageFilteringSystem
 
         private Email email = new Email(); // E-mail message instance
         private Tweet tweets = new Tweet();
-
         private SaveFile file = new SaveFile(); // Creates a Save File instance to save the message to the file
-        private List<Message> outputMessages = new List<Message>();
 
+        private List<Message> outputMessages = new List<Message>();
         private List<string> incidentList = new List<string>();
         private List<string> quarantineList = new List<string>(); // Declares a new list to store the URLs that are quarantined
         private List<string> mentionsList = new List<string>(); // List to store twitter mentions
 
-        private Dictionary<string, string> incidentReports = new Dictionary<string, string>();
         private Dictionary<string, int> tweetHashtags = new Dictionary<string, int>();
         
         public MainWindow() {
             Resources["TweetHashtags"] = this.tweetHashtags;
             Resources["Mentions"] = this.mentionsList;
+            Resources["SIR"] = this.incidentList;
             InitializeComponent();
         }
 
         private void processMsgButton_Click(object sender, RoutedEventArgs e) // Process Message ID & Body manually
         {
-
             string[] messageTypes = { "S", "E", "T" };
             int startIndex = 0;
 
@@ -275,8 +273,6 @@ namespace NapierBankMessageFilteringSystem
                 string emailSubject = emailBody.Split(',')[defaultValue + 1];
                 string emailText = emailBody.Split(',')[defaultValue + 2];
                 
-                
-
                 email.EmailSender = emailSender;
                 email.Subject = emailSubject;
                 email.EmailText = emailText;
@@ -489,6 +485,8 @@ namespace NapierBankMessageFilteringSystem
         {
             try
             {
+                bool foundSIR = false;
+                string replaceRegex = "@/s+"; // This represents the dash (-) to split the SIR body
                 string fileLine = string.Empty;
                 string sirFilePath = "C:/Users/const/Desktop/NapierBankMessageFilteringSystem-main/NapierBankMessageFilteringSystem/SIRList.csv";
 
@@ -503,18 +501,15 @@ namespace NapierBankMessageFilteringSystem
                     }
                 }
 
-                bool foundSIR = false;
-                string replaceRegex = "@/s+"; // This represents the dash (-) to split the SIR body
-
                 string emailText = email.EmailText; // The Email Text
                 string emailMsgID = message.MessageID;
                 emailSirSentence = message.MessageBody; // The SIR email sentence
                 
                 string emailSender = emailSirSentence.Split(',')[defaultValue].Trim();
                 string emailSubject = emailSirSentence.Split(',')[defaultValue + 1].Trim();
-                string sortCode = emailSirSentence.Split(',')[defaultValue + 2].Trim();
-                string incident = emailSirSentence.Split(',')[defaultValue + 3].Trim();
-                string emailBody = emailSirSentence.Split(',')[defaultValue + 4].Trim();
+                string sortCode = emailSirSentence.Split(',')[defaultValue + 2].Trim(); // Sort code is split at index 2
+                string incident = emailSirSentence.Split(',')[defaultValue + 3].Trim(); // The incident type is split
+                string emailBody = emailSirSentence.Split(',')[defaultValue + 4].Trim(); // The e-mail body split
                 string replacedSIR = Regex.Replace(sortCode, replaceRegex, "");
 
                 foreach (string natureOfIncident in incidentList) // For every incident in the incident list
@@ -602,11 +597,6 @@ namespace NapierBankMessageFilteringSystem
                                 trendingListBox.ItemsSource = string.Empty;
                                 tweets = null; // Tweet instance is empty now
                             }
-                        }
-
-                        for(int index = defaultValue; index < sirListBox.Items.Count; index++)
-                        {
-                            sirListBox.ItemsSource = string.Empty;
                         }
 
                         msgHeaderTxtBox.Text = string.Empty;
