@@ -53,7 +53,7 @@ namespace NapierBankMessageFilteringSystem
 
             try
             {
-                string messageHeader = msgHeaderTxtBox.Text.ToUpper();
+                string messageHeader = msgHeaderTxtBox.Text.ToUpper(); // The message header text to upper case
                 string messageBody = msgTextBox.Text;
                 bool isEmpty = false;
 
@@ -118,9 +118,12 @@ namespace NapierBankMessageFilteringSystem
                         if (isFileValid)
                         {
                             string fileData = File.ReadAllText(fileDialog.FileName); // Read all the text from the file
+                            
                         }
 
-                        foreach (string messageLines in File.ReadAllLines(fileDialog.FileName))
+                        string[] fileLines = File.ReadAllLines(fileDialog.FileName);
+
+                        foreach (string messageLines in fileLines)
                         {
                             if (messageLines.Length > defaultValue || messageListBox.Items.Count == defaultValue)
                             {
@@ -251,8 +254,12 @@ namespace NapierBankMessageFilteringSystem
                 bool isEmailSanitised = false; // Determines if the E-mail is sanitised
                 string quarantineText = "<URL Quarantined>";
 
-                processSIREmails(email.EmailText);
-
+                if(message.MessageBody.Contains("SIR"))
+                {
+                    processSIREmails(email.EmailText);
+                    return true;
+                }
+                
                 string emailMessage = email.MessageID;
                 string emailMsgBody = email.MessageBody;
 
@@ -265,9 +272,11 @@ namespace NapierBankMessageFilteringSystem
                 emailMessage = emailID;
                 emailMsgBody = emailBody;
 
-                string emailSender = emailBody.Split(delimiters[1])[defaultValue];
-                string emailSubject = emailBody.Split(delimiters[1])[defaultValue + 1];
-                string emailText = emailMsgBody.Split(delimiters[1])[defaultValue + 2];
+                string emailSender = emailBody.Split(',')[defaultValue];
+                string emailSubject = emailBody.Split(',')[defaultValue + 1];
+                string emailText = emailBody.Split(',')[defaultValue + 2];
+                
+                
 
                 email.EmailSender = emailSender;
                 email.Subject = emailSubject;
@@ -277,23 +286,27 @@ namespace NapierBankMessageFilteringSystem
 
                     if (emailWord.Trim().Contains("http://") || emailWord.Trim().Contains("https://") || emailWord.Trim().EndsWith(".com"))
                     {
+                        int urlIndexToProcess = emailText.IndexOf("http");
+                        string processedURL = emailText.Substring(urlIndexToProcess);
+                        int nextIndexURL = processedURL.IndexOf(" ") + 1;
+
                         string newSentence = emailText.Replace(emailWord, quarantineText);
                         emailText = newSentence;
 
                         if (quarantineListBox.Items.Count == defaultValue) {
 
-                            int smsIndexToProcess = emailBody.IndexOf(" ") + defaultValue + 1;
-                            string processedSMS = emailBody.Substring(smsIndexToProcess);
-                            int nextIndex = processedSMS.IndexOf(" ") + defaultValue + 1;
+                            int emailIndexToProcess = emailText.IndexOf(" ") + defaultValue + 1;
+                            string processedEmail = emailText.Substring(emailIndexToProcess);
+                            int nextIndex = processedEmail.IndexOf(" ") + defaultValue + 1;
 
-                            string finalEmailTxt = processedSMS.Substring(nextIndex);
+                            string finalEmailTxt = processedEmail.Substring(nextIndex);
                             email.EmailText = finalEmailTxt;
 
                             abbreviations.readFile();
                             string replacedEmailTxt = abbreviations.replaceMessage(email.EmailText);
                             email.EmailText = replacedEmailTxt;
 
-                            quarantineListBox.Items.Add(email.EmailText);
+                            quarantineListBox.Items.Add(processedURL);
                         }
 
                         if (quarantineList != null) // If there is a quarantine list
@@ -484,36 +497,54 @@ namespace NapierBankMessageFilteringSystem
                 StreamReader sirFile = new StreamReader(sirFilePath);
                 while ((fileLine = sirFile.ReadLine()) != null && incidentList != null)
                 {
-                    if (fileLine.Length < defaultValue)
+                    if (fileLine.Length > defaultValue)
                     {
-                        string[] sirData = fileLine.Split(delimiters[defaultValue + 1]);
-                        incidentList.Add(sirData[defaultValue]);
-                        break;
+
+                        incidentList.Add(fileLine);
                     }
                 }
 
                 bool foundSIR = false;
-                string replaceRegex = "@/s+";
+                string replaceRegex = "@/s+"; // This represents the dash (-) to split the SIR body
 
                 string emailText = email.EmailText; // The Email Text
                 string emailMsgID = message.MessageID;
                 emailSirSentence = message.MessageBody; // The SIR email sentence
 
-                string emailSender = emailSirSentence.Split(' ')[defaultValue];
-                string emailSubject = emailSirSentence.Split(' ')[defaultValue + 1];
+                
+                string emailSender = emailSirSentence.Split(',')[defaultValue].Trim();
+                string emailSubject = emailSirSentence.Split(',')[defaultValue + 1].Trim();
+                string sortCode = emailSirSentence.Split(',')[defaultValue + 2].Trim();
+                string incident = emailSirSentence.Split(',')[defaultValue + 3].Trim();
+                string emailBody = emailSirSentence.Split(',')[defaultValue + 4].Trim();
+                string replacedSIR = Regex.Replace(sortCode, replaceRegex, "");
 
-                for(int i = 0; i < emailSirSentence.Length; i++) // Loop over the SIR Sentence
+                foreach (string natureOfIncident in incidentList) // For every incident in the incident list
                 {
-                    foreach (string natureOfIncident in incidentList) // For every incident in the incident list
+                    if (natureOfIncident.Length > defaultValue)
                     {
-                        if (natureOfIncident.Length > defaultValue || emailSirSentence.Contains(natureOfIncident))
+                        if (natureOfIncident.Equals(incident))
                         {
-                            string replacedSIR = Regex.Replace(emailText, replaceRegex, "");
-                            // Process SIR e-mails
+                            foundSIR = true;
                         }
                     }
                 }
+
+                if (emailSubject.Contains("SIR") && foundSIR)
+                {
+                    sirListBox.Items.Add(sortCode + ' ' + incident); // Adds the sort code and nature of incident to the SIR list
+                }
+
+                if (!emailSubject.Contains("SIR") || !foundSIR)
+                {
+                    MessageBox.Show("Incident Not Found");
+                }
+
+                messageID.Text = "Message ID : " + emailMsgID.ToString();
+                messageSender.Text = "Message Sender : " + '\n' + emailSender.ToString() + '\n' + "Message Subject : " + emailSubject.ToString() + '\n' + "Sort Code" + sortCode;
+                messageText.Text = "Message Text : " + emailBody.ToString();
             }
+
 
             catch (Exception exc)
             {
